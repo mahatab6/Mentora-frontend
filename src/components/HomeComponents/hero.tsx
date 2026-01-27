@@ -1,0 +1,70 @@
+import { ArrowUpRight } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Field } from "../ui/field";
+import { Input } from "../ui/input";
+
+
+interface Hero47Props {
+  heading?: string;
+  subheading?: string;
+  description?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  buttons?: {
+    primary?: {
+      text: string;
+      url: string;
+    };
+    secondary?: {
+      text: string;
+      url: string;
+    };
+  };
+  className?: string;
+}
+
+const Hero = ({
+  heading = "Epic Blocks",
+  subheading = " built with shadcn/ui & Tailwind",
+  description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
+  className,
+}: Hero47Props) => {
+  return (
+    <section className={cn(" py-20 lg:py-32 px-4", className)}>
+      <div className="container flex flex-col items-center gap-10 lg:my-0 lg:flex-row mx-auto">
+        <div className="flex flex-col gap-7 lg:w-2/3 ">
+          <h2 className="text-5xl font-semibold text-foreground md:text-5xl lg:text-8xl">
+            <span>{heading}</span>
+            <span className="text-muted-foreground">{subheading}</span>
+          </h2>
+          <p className="text-base text-muted-foreground md:text-lg lg:text-xl">
+            {description}
+          </p>
+          <div className="flex flex-wrap items-start gap-5 lg:w-2/4 lg:gap-7">
+            <Field orientation="horizontal">
+              <Input type="search" placeholder="Search..." />
+              <Button>Search</Button>
+            </Field>
+          </div>
+        </div>
+        <div className="relative z-10">
+          <Image
+            className="relative z-10 rounded-2xl"
+            width={950}
+            height={500}
+            src="https://i.ibb.co.com/39B9rp4T/hero-img.jpg"
+            alt="iphone"
+          />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export { Hero };
