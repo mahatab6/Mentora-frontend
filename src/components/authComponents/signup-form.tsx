@@ -20,38 +20,57 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
-  fullName: z.string().min(3, "Full name must be at least 3 characters"),
+  name: z.string().min(3, "Full name must be at least 3 characters"),
 
   email: z.email("Please enter a valid email address"),
 
   password: z.string().min(6, "Password must be at least 6 characters"),
-
-  educationLevel: z.string().min(2, "Education level is required"),
-
-  learningGoals: z
-    .string()
-    .min(10, "Learning goals must be at least 10 characters"),
 });
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const form = useForm({
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
-      educationLevel: "",
-      learningGoals: "",
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      toast.success("Form submitted successfully");
-    },
-  });
+  const toastId = toast.loading("Creating your account...");
+
+  try {
+    const { data, error } = await authClient.signUp.email(value);
+
+    if (error) {
+      // Known auth errors
+      toast.error(
+        error.message || "Unable to create account. Please try again.",
+        { id: toastId }
+      );
+      return;
+    }
+
+    // Success
+    toast.success(
+      "Account created successfully! Please log in to continue.",
+      { id: toastId }
+    );
+
+    console.log("Signup success:", data);
+  } catch (err) {
+    // Unexpected error
+    toast.error(
+      "Something went wrong. Check your internet connection and try again.",
+      { id: toastId }
+    );
+    console.error(err);
+  }
+}});
 
   return (
     <Card {...props}>
@@ -67,7 +86,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           }}
         >
           <FieldGroup>
-            <form.Field name="fullName">
+            <form.Field name="name">
               {(field) => {
                 const isInvalid =
                   field.state.meta.isTouched && !field.state.meta.isValid;
@@ -82,7 +101,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={isInvalid}
-                      placeholder="John Doe"
+                      placeholder="Enter your name"
                       autoComplete="name"
                     />
                     {isInvalid && (
@@ -147,66 +166,15 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               }}
             </form.Field>
 
-            <form.Field name="educationLevel">
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel>Education Level</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="Bachelor / Diploma / HSC"
-                      autoComplete="off"
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            </form.Field>
-
-            <form.Field name="learningGoals">
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel>Learning Goals</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="I want to become a full-stack developer"
-                      autoComplete="off"
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            </form.Field>
           </FieldGroup>
         </form>
         
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        <Button form="sign-up-form" type="submit" className="w-full">
+        <Button form="sign-up-form" type="submit" className="w-full hover:cursor-pointer">
           Submit
         </Button>
-        <Button variant="outline" type="button" className="w-full">
+        <Button variant="outline" type="button" className="w-full hover:cursor-pointer">
           Sign up with Google
         </Button>
         <FieldDescription className="px-6 text-center">
