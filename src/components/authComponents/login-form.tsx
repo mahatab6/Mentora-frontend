@@ -21,13 +21,12 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
-
   email: z.email("Please enter a valid email address"),
 
   password: z.string().min(6, "Password must be at least 6 characters"),
-
 });
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
@@ -35,21 +34,34 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
     defaultValues: {
       email: "",
       password: "",
-      
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      toast.success("Form submitted successfully");
+      const toastId = toast.loading("Student login..............");
+      try {
+        const { data, error } = await authClient.signIn.email(value);
+
+        if (error) {
+          toast.error(error.message || "Please try again", { id: toastId });
+          return;
+        }
+
+        toast.success("Account Login successfully", { id: toastId });
+      } catch (error) {
+        toast.error(
+          "Something went wrong. Check your internet connection and try again.",
+          { id: toastId },
+        );
+      }
     },
   });
 
   return (
     <Card {...props}>
       <CardHeader className="text-center">
-        <CardTitle >Welcome Back</CardTitle>
+        <CardTitle>Welcome Back</CardTitle>
         <CardDescription>Login to continue learning</CardDescription>
       </CardHeader>
       <CardContent>
@@ -114,16 +126,22 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
                 );
               }}
             </form.Field>
-
           </FieldGroup>
         </form>
-        
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        <Button form="sign-up-form" type="submit" className="w-full">
+        <Button
+          form="sign-up-form"
+          type="submit"
+          className="w-full hover:cursor-pointer"
+        >
           Submit
         </Button>
-        <Button variant="outline" type="button" className="w-full">
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full hover:cursor-pointer"
+        >
           Sign up with Google
         </Button>
         <FieldDescription className="px-6 text-center">
