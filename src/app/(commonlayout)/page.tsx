@@ -13,6 +13,7 @@ export default async function Home() {
       <Hero/>
       <CountPage/>
       {session?.user?.name}
+      {session?.user?.role}
       <Button>Click me</Button>
     </div>
   );

@@ -4,11 +4,11 @@ import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { userServices } from "@/services/users.services";
 import React from "react";
 
-import data from "./data.json";
 
-export default function Dashboardlayout({
+export default async function Dashboardlayout({
   children,
   student,
   tutor,
@@ -19,6 +19,9 @@ export default function Dashboardlayout({
   admin: React.ReactNode,
   student: React.ReactNode,
 }) {
+
+  const session = await userServices.getSession()
+
   return (
     <SidebarProvider
       style={
@@ -28,7 +31,7 @@ export default function Dashboardlayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" /> 
+      <AppSidebar role={session?.user?.role} variant="inset" /> 
       <SidebarInset>
         <SiteHeader />
         {student}

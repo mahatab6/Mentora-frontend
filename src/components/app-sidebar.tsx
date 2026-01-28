@@ -1,156 +1,101 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
   IconFolder,
-  IconHelp,
   IconInnerShadowTop,
   IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
   IconUsers,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { Role } from "@/type";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: IconDashboard,
+      roles:["STUDENT"]
     },
     {
-      title: "Lifecycle",
-      url: "#",
+      title: "My Bookings",
+      url: "/dashboard/bookings",
       icon: IconListDetails,
+      roles:["STUDENT"]
     },
     {
-      title: "Analytics",
-      url: "#",
+      title: "Profile",
+      url: "/dashboard/profile",
       icon: IconChartBar,
+      roles:["STUDENT"]
     },
     {
-      title: "Projects",
-      url: "#",
+      title: "Dashboard",
+      url: "/tutor/dashboard",
       icon: IconFolder,
+      roles:["TUTOR"]
     },
     {
-      title: "Team",
-      url: "#",
+      title: "Availability",
+      url: "/tutor/availability",
       icon: IconUsers,
+      roles:["TUTOR"]
+    },
+    {
+      title: "Profile",
+      url: "/tutor/profile",
+      icon: IconUsers,
+      roles:["TUTOR"]
+    },
+    {
+      title: "Dashboard",
+      url: "/admin",
+      icon: IconUsers,
+      roles:["ADMIN"]
+    },
+    {
+      title: "Users",
+      url: "/admin/users",
+      icon: IconUsers,
+      roles:["ADMIN"]
+    },
+    {
+      title: "Bookings",
+      url: "/admin/bookings",
+      icon: IconUsers,
+      roles:["ADMIN"]
+    },
+    {
+      title: "Categories",
+      url: "/admin/categories",
+      icon: IconUsers,
+      roles:["ADMIN"]
     },
   ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
-}
+};
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = {
+  role: Role;
+} & React.ComponentProps<typeof Sidebar>;
+
+
+export function AppSidebar({role, ...props }: AppSidebarProps) {
+
+  const filterMenu = data.navMain.filter(item => item.roles.includes(role))
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -169,13 +114,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={filterMenu} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
