@@ -34,9 +34,12 @@ export default async function Dashboardlayout({
       <AppSidebar role={session?.user?.role} variant="inset" /> 
       <SidebarInset>
         <SiteHeader />
-        {student}
-        {tutor}
-        {admin}
+        {
+          session?.user?.role === "ADMIN" ? admin : session?.user?.role === "TUTOR" ? tutor : student
+        }
+
+        
+        
       </SidebarInset>
     </SidebarProvider>
   );

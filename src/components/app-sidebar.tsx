@@ -21,6 +21,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Role } from "@/type";
+import Link from "next/link";
 
 const data = {
   navMain: [
@@ -44,43 +45,49 @@ const data = {
     },
     {
       title: "Dashboard",
-      url: "/tutor/dashboard",
+      url: "/dashboard",
       icon: IconFolder,
       roles:["TUTOR"]
     },
     {
       title: "Availability",
-      url: "/tutor/availability",
+      url: "/dashboard/availability",
       icon: IconUsers,
       roles:["TUTOR"]
     },
     {
       title: "Profile",
-      url: "/tutor/profile",
+      url: "/dashboard/profile",
+      icon: IconUsers,
+      roles:["TUTOR"]
+    },
+    {
+      title: "Courses",
+      url: "/dashboard/courses",
       icon: IconUsers,
       roles:["TUTOR"]
     },
     {
       title: "Dashboard",
-      url: "/admin",
+      url: "/dashboard",
       icon: IconUsers,
       roles:["ADMIN"]
     },
     {
       title: "Users",
-      url: "/admin/users",
+      url: "/dashboard/users",
       icon: IconUsers,
       roles:["ADMIN"]
     },
     {
       title: "Bookings",
-      url: "/admin/bookings",
+      url: "/dashboard/bookings",
       icon: IconUsers,
       roles:["ADMIN"]
     },
     {
       title: "Categories",
-      url: "/admin/categories",
+      url: "/dashboard/categories",
       icon: IconUsers,
       roles:["ADMIN"]
     },
@@ -105,10 +112,10 @@ export function AppSidebar({role, ...props }: AppSidebarProps) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link href="/">
+                
+                <span className="text-base font-semibold">Home</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

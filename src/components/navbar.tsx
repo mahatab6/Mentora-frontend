@@ -58,6 +58,18 @@ interface Navbar1Props {
   };
 }
 
+type Session = {
+  user: {
+    id: string;
+    email: string;
+    role: "ADMIN" | "TUTOR" | "USER";
+  };
+};
+
+type NavbarProps = Navbar1Props & {
+  session: Session | null;
+};
+
 const Navbar = ({
   logo = {
     url: "/",
@@ -81,7 +93,8 @@ const Navbar = ({
     signup: { title: "Sign up", url: "/sign-up" },
   },
   className,
-}: Navbar1Props) => {
+  session,
+}: NavbarProps) => {
   return (
     <section className={cn("py-4 bg-orange-400 px-4", className)}>
       <div className="container mx-auto">
@@ -101,19 +114,29 @@ const Navbar = ({
             </Link>
           </div>
           <div className="flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {menu.map((item) => renderMenuItem(item))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </div>
+            <NavigationMenu>
+              <NavigationMenuList>
+                {menu.map((item) => renderMenuItem(item))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
           <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+            {!session?.user ? (
+              <>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={auth.login.url}>{auth.login.title}</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button size="sm" >
+                  <Link href={"/dashboard"}>Dashboard</Link>
+                </Button>
+              </>
+            )}
           </div>
         </nav>
 
@@ -156,12 +179,24 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
+                    {!session?.user ? (
+                      <>
+                        <Button asChild variant="outline">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+                        <Button asChild>
+                          <Link href={auth.signup.url}>
+                            {auth.signup.title}
+                          </Link>
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        
+                      >
+                        Logout
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SheetContent>
@@ -212,6 +247,5 @@ const renderMobileMenuItem = (item: MenuItem) => {
     </Link>
   );
 };
-
 
 export { Navbar };
