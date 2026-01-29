@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { userServices } from "@/services/users.services";
 import React from "react";
+import { Toaster } from "sonner";
 
 
 export default async function Dashboardlayout({
@@ -37,10 +38,9 @@ export default async function Dashboardlayout({
         {
           session?.user?.role === "ADMIN" ? admin : session?.user?.role === "TUTOR" ? tutor : student
         }
-
-        
-        
+      
       </SidebarInset>
+      <Toaster />
     </SidebarProvider>
   );
 }
