@@ -1,4 +1,5 @@
 
+import CategoriesSection from "@/components/HomeComponents/CategoriesSection";
 import CountPage from "@/components/HomeComponents/count";
 import FeaturedTutorsSection from "@/components/HomeComponents/FeaturedTutorsSection";
 import { Hero } from "@/components/HomeComponents/hero";
@@ -14,6 +15,7 @@ export default async function Home() {
       <Hero/>
       <CountPage/>
       <FeaturedTutorsSection/>
+      <CategoriesSection/>
       {session?.user?.name}
       {session?.user?.role}
       <Button>Click me</Button>

@@ -53,7 +53,7 @@ export default function FeaturedTutorsSection() {
   ];
 
   return (
-    <section className={cn("py-16 sm:py-20 lg:py-32 px-4 bg-[#F0F6FF]")}>
+    <section className={cn("py-16 sm:py-20 lg:py-32 px-4")}>
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
