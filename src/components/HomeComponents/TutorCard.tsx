@@ -1,73 +1,57 @@
-import { BadgeCheck, Star, ArrowRight } from "lucide-react";
+import { BadgeCheck, Heart } from "lucide-react";
 import { Button } from "../ui/button";
+import { TutorType } from "@/type";
+import { TutorHoverPreview } from "./TutorHoverPreview";
 
-export type TutorType = {
-  id: number;
-  name: string;
-  subject: string;
-  rating: number;
-  reviews: number;
-  price: number;
-  image: string;
-  verified?: boolean;
-  sessions?: number;
-};
 
 export const TutorCard = ({ tutor }: { tutor: TutorType }) => {
   return (
-    <div className="group bg-white rounded-2xl p-6 border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-300">
-      {/* Header */}
-      <div className="flex items-start gap-4">
-        <img
-          src={tutor.image}
-          alt={`${tutor.name} - ${tutor.subject} tutor`}
-          className="w-16 h-16 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-blue-500 transition"
-        />
+    <TutorHoverPreview tutor={tutor}>
+    <div className="relative bg-white border-4 rounded-xl p-5 flex gap-4 hover:border-black transition cursor-pointer h-72">
+      {/* Image */}
+      <img
+        src={tutor.photoUrl}
+        alt={tutor.fullName}
+        className="w-20 h-20 rounded-lg object-cover"
+      />
 
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-lg text-gray-900">
-              {tutor.name}
-            </h3>
-            {tutor.verified && (
-              <BadgeCheck className="h-5 w-5 text-blue-600" />
-            )}
-          </div>
-          <p className="text-sm text-gray-600">{tutor.subject}</p>
+      {/* Info */}
+      <div className="flex-1">
+        <div className="flex items-center gap-2">
+          <h3 className="font-semibold text-lg">{tutor.fullName}</h3>
+          <BadgeCheck className="w-5 h-5 text-blue-600" />
         </div>
+
+        <p className="text-sm text-gray-600">{tutor.subjects.join(", ")}</p>
+
+        <p className="text-sm mt-1">
+          Speaks:{" "}
+          <span className="text-gray-600">{tutor.languages.join(", ")}</span>
+        </p>
+
+        <p className="text-sm mt-2 line-clamp-2">{tutor.shortBio}</p>
+
+        <p className="text-sm text-gray-500 mt-1">
+          📈 Popular · Booked recently
+        </p>
       </div>
 
-      {/* Rating + Price */}
-      <div className="mt-5 flex items-center justify-between">
-        <div className="flex items-center gap-1 text-sm">
-          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="font-semibold text-gray-900">
-            {tutor.rating.toFixed(1)}
-          </span>
-          <span className="text-gray-500">({tutor.reviews})</span>
-        </div>
+      {/* Right */}
+      <div className="flex flex-col items-end justify-between">
+        <Heart className="w-5 h-5 text-gray-400 hover:text-pink-500" />
 
         <div className="text-right">
-          <p className="text-xl font-bold text-blue-600">${tutor.price}</p>
-          <p className="text-xs text-gray-500">per hour</p>
+          <p className="text-xl font-bold">${tutor.hourlyRate}</p>
+          <p className="text-xs text-gray-500">
+            {tutor.lessonDuration}-min lesson
+          </p>
         </div>
+
+        <Button className="bg-pink-500 hover:bg-pink-600">
+          Book trial lesson
+        </Button>
       </div>
-
-      {/* Sessions */}
-      {tutor.sessions && (
-        <p className="mt-2 text-sm text-gray-600">
-          🎓 {tutor.sessions}+ sessions completed
-        </p>
-      )}
-
-      {/* CTA */}
-      <Button
-        variant="outline"
-        className="w-full mt-5 flex items-center justify-center gap-2 group-hover:bg-blue-600 group-hover:text-white transition-all"
-      >
-        View Profile
-        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-      </Button>
     </div>
+    </TutorHoverPreview>
   );
 };

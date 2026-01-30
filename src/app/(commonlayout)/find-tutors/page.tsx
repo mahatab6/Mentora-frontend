@@ -14,78 +14,89 @@ export default function FindTutorspage() {
   const [selectedPrice, setSelectedPrice] = useState('all');
   const [selectedRating, setSelectedRating] = useState('all');
 
+
  const tutors = [
-    {
-      id: 1,
-      name: 'Sarah Johnson',
-      subject: 'Web Development',
-      rating: 5.0,
-      reviews: 127,
-      price: 45,
-      image: 'https://images.unsplash.com/photo-1701229404076-5629809b331d',
-      verified: true,
-      sessions: 234
-    },
-    {
-      id: 2,
-      name: 'Michael Chen',
-      subject: 'Data Science',
-      rating: 4.9,
-      reviews: 98,
-      price: 55,
-      image: 'https://images.unsplash.com/photo-1686488594144-65fb516275e1',
-      verified: true,
-      sessions: 189
-    },
-    {
-      id: 3,
-      name: 'Emily Rodriguez',
-      subject: 'Mathematics',
-      rating: 4.8,
-      reviews: 156,
-      price: 40,
-      image: 'https://images.unsplash.com/photo-1561089489-f13d5e730d72',
-      verified: true,
-      sessions: 312
-    },
-    {
-      id: 4,
-      name: 'David Kim',
-      subject: 'Design',
-      rating: 5.0,
-      reviews: 84,
-      price: 50,
-      image: 'https://images.unsplash.com/photo-1701229404076-5629809b331d',
-      verified: true,
-      sessions: 156
-    },
-    {
-      id: 5,
-      name: 'Lisa Anderson',
-      subject: 'Language',
-      rating: 4.9,
-      reviews: 203,
-      price: 35,
-      image: 'https://images.unsplash.com/photo-1686488594144-65fb516275e1',
-      verified: true,
-      sessions: 421
-    },
-    {
-      id: 6,
-      name: 'James Wilson',
-      subject: 'Business',
-      rating: 4.8,
-      reviews: 112,
-      price: 60,
-      image: 'https://images.unsplash.com/photo-1561089489-f13d5e730d72',
-      verified: true,
-      sessions: 267
-    }
-  ];
+  {
+    id: 1,
+    tutor_id: "tutor_001",
+    fullName: "Sarah Johnson",
+    country: "United States",
+    timezone: "GMT-5",
+    languages: ["English"],
+    subjects: ["Mathematics", "Algebra"],
+    photoUrl: "https://i.pravatar.cc/150?img=1",
+    introVideoUrl: "https://example.com/videos/sarah.mp4",
+    shortBio: "Friendly math tutor with 5+ years of experience.",
+    aboutMe:
+      "I specialize in helping students build strong foundations in math. I focus on clear explanations and practical examples.",
+    hourlyRate: 25,
+    lessonDuration: "60 minutes",
+    totalLessons: 320,
+    averageRating: 4.8,
+    totalReviews: 120,
+  },
+  {
+    id: 2,
+    tutor_id: "tutor_002",
+    fullName: "Ahmed Rahman",
+    country: "Bangladesh",
+    timezone: "GMT+6",
+    languages: ["Bangla", "English"],
+    subjects: ["JavaScript", "React", "Web Development"],
+    photoUrl: "https://i.pravatar.cc/150?img=2",
+    introVideoUrl: "https://example.com/videos/ahmed.mp4",
+    shortBio: "Full-stack web developer and JavaScript instructor.",
+    aboutMe:
+      "I teach modern web development with real-world projects. My goal is to make coding simple and enjoyable.",
+    hourlyRate: 18,
+    lessonDuration: "60 minutes",
+    totalLessons: 210,
+    averageRating: 4.7,
+    totalReviews: 95,
+  },
+  {
+    id: 3,
+    tutor_id: "tutor_003",
+    fullName: "Maria Gomez",
+    country: "Spain",
+    timezone: "GMT+1",
+    languages: ["Spanish", "English"],
+    subjects: ["English", "IELTS Preparation"],
+    photoUrl: "https://i.pravatar.cc/150?img=3",
+    shortBio: "Certified English tutor for beginners to advanced learners.",
+    aboutMe:
+      "I help students improve speaking, writing, and exam preparation with structured lessons and practice.",
+    hourlyRate: 22,
+    lessonDuration: "45 minutes",
+    totalLessons: 410,
+    averageRating: 4.9,
+    totalReviews: 180,
+  },
+  {
+    id: 4,
+    tutor_id: "tutor_004",
+    fullName: "Daniel Kim",
+    country: "South Korea",
+    timezone: "GMT+9",
+    languages: ["Korean", "English"],
+    subjects: ["Physics", "Science"],
+    photoUrl: "https://i.pravatar.cc/150?img=4",
+    introVideoUrl: "https://example.com/videos/daniel.mp4",
+    shortBio: "Physics tutor with a passion for problem-solving.",
+    aboutMe:
+      "I simplify complex physics concepts using visuals, examples, and step-by-step explanations.",
+    hourlyRate: 30,
+    lessonDuration: "60 minutes",
+    totalLessons: 150,
+    averageRating: 4.6,
+    totalReviews: 60,
+  },
+];
+
 
   return (
     <section className="py-20 lg:py-32 px-4 bg-linear-to-br from-blue-50 to-indigo-50">
-      <div className="container mx-auto">
+      <div className="container mx-auto ">
 
          <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Find Your Perfect Tutor</h2>
@@ -147,8 +158,8 @@ export default function FindTutorspage() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tutors.map((tutor, index) => (
+        <div className=" space-y-4 lg:w-3/4">
+          {tutors.map((tutor) => (
             <TutorCard key={tutor.id} tutor={tutor} />
           ))}
         </div>
