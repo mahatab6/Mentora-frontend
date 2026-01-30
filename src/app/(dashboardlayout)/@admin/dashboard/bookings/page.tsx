@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Download, MoreHorizontal, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { StatusBookingBadge } from "@/components/adminComponents/bookingPage/StatusBookinBadge";
 import { generateBookings } from "@/components/adminComponents/bookingPage/generateBookings";
 
