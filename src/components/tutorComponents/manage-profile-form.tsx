@@ -19,8 +19,7 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
-const Backend_Url = process.env.Backend_Url;
-
+const url = process.env.Backend_Url
 const tutorProfileSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   country: z.string().min(2, "Country is required"),
@@ -60,7 +59,7 @@ export function ManageProfileForm({
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Updating profile...");
 
-      // Transform data to match Prisma / backend expectations
+   
       const payload = {
         fullName: value.fullName.trim(),
         country: value.country.trim(),
@@ -88,7 +87,7 @@ export function ManageProfileForm({
 
 
       try {
-        const res = await fetch(`${Backend_Url}/api/tutor/manage-profile`, {
+        const res = await fetch("http://localhost:5000/api/tutor/manage-profile", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -97,10 +96,9 @@ export function ManageProfileForm({
           body: JSON.stringify(payload),
         });
 
-        const responseData = await res.json().catch(() => ({}));
 
         if (!res.ok) {
-          throw new Error(responseData.message || "Failed to update profile");
+          toast.error("Failed to update profile", { id: toastId });
         }
 
         toast.success("Profile updated successfully!", { id: toastId });
@@ -140,7 +138,7 @@ export function ManageProfileForm({
                     value={field.state.value ?? ""}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="Enter your Full Name"
                   />
                   <FieldError errors={field.state.meta.errors} />
                 </Field>

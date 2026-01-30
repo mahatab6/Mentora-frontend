@@ -1,5 +1,6 @@
 
 import CountPage from "@/components/HomeComponents/count";
+import FeaturedTutorsSection from "@/components/HomeComponents/FeaturedTutorsSection";
 import { Hero } from "@/components/HomeComponents/hero";
 import { Button } from "@/components/ui/button";
 import { userServices } from "@/services/users.services";
@@ -12,6 +13,7 @@ export default async function Home() {
     <div>
       <Hero/>
       <CountPage/>
+      <FeaturedTutorsSection/>
       {session?.user?.name}
       {session?.user?.role}
       <Button>Click me</Button>
