@@ -2,74 +2,7 @@
 
 
 
-export const mockEarningsData = Array.from({ length: 30 }, (_, i) => ({
-  day: i + 1,
-  amount: Math.floor(Math.random() * (85 - 45 + 1)) + 45
-}));
 
-export const mockSubjectEarnings = [
-  { subject: 'Mathematics', earnings: 850 },
-  { subject: 'Physics', earnings: 720 },
-  { subject: 'Chemistry', earnings: 580 },
-  { subject: 'Biology', earnings: 300 }
-];
-
-export const mockUpcomingSessions = [
-  {
-    id: 1,
-    studentName: 'Alex Johnson',
-    studentImage: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop',
-    subject: 'Calculus I',
-    date: 'Today, 2:00 PM',
-    duration: '1 hour',
-    status: 'Confirmed'
-  },
-  {
-    id: 2,
-    studentName: 'Sarah Williams',
-    studentImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-    subject: 'Physics Lab',
-    date: 'Tomorrow, 10:00 AM',
-    duration: '1.5 hours',
-    status: 'Pending'
-  },
-  {
-    id: 3,
-    studentName: 'Michael Brown',
-    studentImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-    subject: 'Linear Algebra',
-    date: 'Jan 25, 4:00 PM',
-    duration: '1 hour',
-    status: 'Confirmed'
-  }
-];
-
-export const mockReviews = [
-  {
-    id: 1,
-    studentName: 'Emily Davis',
-    rating: 5,
-    text: 'Excellent explanation of complex concepts! Really helped me understand derivatives.',
-    date: '2 days ago',
-    studentImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop'
-  },
-  {
-    id: 2,
-    studentName: 'David Wilson',
-    rating: 4,
-    text: 'Great session, very patient tutor. Would recommend for physics help.',
-    date: '1 week ago',
-    studentImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
-  },
-  {
-    id: 3,
-    studentName: 'Jessica Taylor',
-    rating: 5,
-    text: 'Helped me ace my midterm! Best math tutor on the platform.',
-    date: '2 weeks ago',
-    studentImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop'
-  }
-];
 
 export const mockActivityLog = [
   { id: 1, action: 'Session confirmed with Alex', time: '2 hours ago', type: 'success' },
