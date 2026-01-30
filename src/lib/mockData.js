@@ -1,14 +1,6 @@
 // Comprehensive mock data for dashboards
 
-export const mockTutorStats = {
-  totalEarnings: 2450,
-  averageRating: 4.8,
-  totalSessions: 156,
-  responseRate: 98,
-  responseTime: '2.3 hours',
-  cancellationRate: '2%',
-  completionRate: 98
-};
+
 
 export const mockEarningsData = Array.from({ length: 30 }, (_, i) => ({
   day: i + 1,
