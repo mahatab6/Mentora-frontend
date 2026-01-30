@@ -3,6 +3,7 @@ import CategoriesSection from "@/components/HomeComponents/CategoriesSection";
 import CountPage from "@/components/HomeComponents/count";
 import FeaturedTutorsSection from "@/components/HomeComponents/FeaturedTutorsSection";
 import { Hero } from "@/components/HomeComponents/hero";
+import HowItWorksSection from "@/components/HomeComponents/HowItWorksSection";
 import { Button } from "@/components/ui/button";
 import { userServices } from "@/services/users.services";
 
@@ -16,6 +17,7 @@ export default async function Home() {
       <CountPage/>
       <FeaturedTutorsSection/>
       <CategoriesSection/>
+      <HowItWorksSection/>
       {session?.user?.name}
       {session?.user?.role}
       <Button>Click me</Button>
