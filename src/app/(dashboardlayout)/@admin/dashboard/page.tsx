@@ -1,5 +1,9 @@
 import { StatsCard } from "@/components/adminComponents/adminDashboard";
 import Chart from "@/components/adminComponents/chart";
+import RecentBookings from "@/components/adminComponents/recentBookings";
+import SystemHealth from "@/components/adminComponents/systemHealth";
+import TopTutors from "@/components/adminComponents/topTutors";
+
 import { Button } from "@/components/ui/button";
 import { mockAdminStats } from "@/lib/mockData";
 import { Activity, Calendar, DollarSign, Users } from "lucide-react";
@@ -58,10 +62,14 @@ export default function AdminDashboard() {
         />
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="hidden lg:grid grid-cols-3 gap-8">
         <Chart/>
+        <SystemHealth/>
+      </div>
 
-
+      <div className="hidden lg:grid grid-cols-2 gap-8">
+        <RecentBookings/>
+        <TopTutors/>
       </div>
 
     </div>
