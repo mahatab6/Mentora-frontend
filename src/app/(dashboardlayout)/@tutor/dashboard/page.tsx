@@ -1,7 +1,10 @@
+import TutorHeader from '@/components/tutorComponents/tutorHeader'
 import React from 'react'
 
 export default function tutorDashboardPage() {
   return (
-    <div>Tutor Dashboard Page</div>
+    <div className='p-4 space-y-8 animate-in fade-in duration-500'>
+      <TutorHeader/>
+    </div>
   )
 }
