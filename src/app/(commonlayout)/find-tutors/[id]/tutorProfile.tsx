@@ -2,9 +2,9 @@ import { Button } from '@/components/ui/button'
 
 
 import { BadgeCheck, Clock, Globe, MapPin, MessageSquare, Star } from 'lucide-react'
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
-export default function TutorProfile({tutor} : {tutor: any}) {
+export default function TutorProfile({tutor, setOpen} : {tutor: any, setOpen: Dispatch<SetStateAction<boolean>>}) {
   return (
     <div className="bg-white border-b border-gray-200">
          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -52,7 +52,7 @@ export default function TutorProfile({tutor} : {tutor: any}) {
                   </div>
 
                   <div className="flex gap-4">
-                     <Button  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto">
+                     <Button onClick={() => setOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto">
                         Book Now
                      </Button>
                      <Button variant="outline" className="px-8 py-6 text-lg h-auto gap-2">

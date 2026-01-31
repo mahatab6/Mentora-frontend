@@ -26,18 +26,18 @@ export default function TutorSinglePage({
 
   return (
     <div className="container mx-auto py-20 px-4">
-      <TutorProfile tutor={tutor} />
+      <TutorProfile tutor={tutor} setOpen={setOpen} />
 
-      <Button onClick={() => setOpen(true)}>Book Now</Button>
 
       <div className="grid lg:grid-cols-3 gap-12 py-4">
         <LeftColumn tutor={tutor} />
-        <RightColumn id={id}/>
+        <RightColumn id={id} setOpen={setOpen}/>
       </div>
       <BookingWizard
         isOpen={open}
         onClose={() => setOpen(false)}
         tutor={tutor}
+        id={id}
       />
     </div>
   );
