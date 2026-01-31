@@ -5,7 +5,7 @@ import { TutorType } from '@/type'
 import { Clock, GraduationCap, Star } from 'lucide-react'
 
 
-export default function LeftColumn({tutor} : {tutor: TutorType}) {
+export default function LeftColumn({tutor} : {tutor: any}) {
 
     const mockReviews = [
     {

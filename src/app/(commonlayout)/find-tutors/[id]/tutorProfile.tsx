@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { TutorType } from '@/type'
+
+
 import { BadgeCheck, Clock, Globe, MapPin, MessageSquare, Star } from 'lucide-react'
 import React from 'react'
 
-export default function TutorProfile({tutor} : {tutor: TutorType}) {
+export default function TutorProfile({tutor} : {tutor: any}) {
   return (
     <div className="bg-white border-b border-gray-200">
          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

@@ -19,13 +19,7 @@ import { toast } from 'sonner';
 type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
-  tutor: {
-    id: string;
-    name: string;
-    image: string;
-    subjects: string[];
-    hourlyRate: number;
-  };
+  tutor: any
 };
 
 const steps = [
@@ -45,7 +39,7 @@ const timeSlots = [
   '05:00 PM',
 ];
 
-export default function BookingWizard({ isOpen, onClose, tutor }: BookingWizardProps) {
+export default function BookingWizard({ isOpen, onClose, tutor }: BookingWizardProps,) {
   
 
   const [currentStep, setCurrentStep] = useState(1);

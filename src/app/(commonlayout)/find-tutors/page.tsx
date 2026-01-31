@@ -3,7 +3,6 @@
 import { TutorCard } from "@/components/HomeComponents/TutorCard";
 import { useAllTutor } from "@/hooks/useAllTutor";
 import { Search } from "lucide-react";
-import { useState } from "react";
 import Loading from "../loading";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
@@ -41,7 +40,6 @@ export default function FindTutorspage() {
   const totalPages = tutor?.data?.meta?.totalPages || 1;
   const currentPage = Number(searchParams.get("page") || "1");
 
-  console.log(tutor?.data?.tutors)
 
   if (loading) return <Loading />;
 

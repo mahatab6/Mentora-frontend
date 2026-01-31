@@ -1,41 +1,44 @@
-import { findTutor } from "@/services/findTutor.services";
-import { notFound } from "next/navigation";
+"use client";
+
+import { useSingleTutor } from "@/hooks/useSingleTuor";
+import { use, useState } from "react";
 import TutorProfile from "./tutorProfile";
 import LeftColumn from "./leftColumn";
 import RightColumn from "./rightColumn";
+import { Button } from "@/components/ui/button";
+import Loading from "../../loading";
+import BookingWizard from "./bookingWizard";
 
-
-interface Props {
+export default function TutorSinglePage({
+  params,
+}: {
   params: Promise<{ id: string }>;
-}
+}) {
+  const { id } = use(params);
+  const [open, setOpen] = useState(false);
 
-export default async function TutorSinglePage({ params }: Props) {
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
+  const { singleTutor, loading } = useSingleTutor(id);
 
-  const response = await findTutor.getUniqueTutor(id);
+  if (loading) return <Loading />;
 
-  // const [open, setOpen] = useState(false);
-
-  if (!response || !response.data) {
-    return notFound();
-  }
-
-  const tutor = response.data;
+  
+  const tutor = singleTutor?.data;
 
   return (
     <div className="container mx-auto py-20 px-4">
       <TutorProfile tutor={tutor} />
 
+      <Button onClick={() => setOpen(true)}>Book Now</Button>
+
       <div className="grid lg:grid-cols-3 gap-12 py-4">
         <LeftColumn tutor={tutor} />
-        <RightColumn />
+        <RightColumn id={id}/>
       </div>
-      {/* <BookingWizard
+      <BookingWizard
         isOpen={open}
         onClose={() => setOpen(false)}
         tutor={tutor}
-      /> */}
+      />
     </div>
   );
 }

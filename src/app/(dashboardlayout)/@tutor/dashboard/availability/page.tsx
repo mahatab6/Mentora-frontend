@@ -7,7 +7,6 @@ import CalendarSection from "@/components/tutorComponents/calendarSection";
 import TimeSlotsSection from "@/components/tutorComponents/timeSlots";
 import { toast } from "sonner";
 
-
 type Availability = Record<string, number[]>; // "2025-01-31": [8,9,10,14,...]
 
 export default function TutorAvailabilityPage() {
@@ -17,40 +16,52 @@ export default function TutorAvailabilityPage() {
   const formatDateKey = (d: Date) => format(d, "yyyy-MM-dd");
 
   const handleSave = async () => {
-    try {
-      // তোমার backend API call এখানে
-      // const res = await fetch("/api/tutor/availability", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(availability),
-      // });
-      // if (!res.ok) throw new Error();
-      toast.success("Availability updated successfully.")
-     
-    } catch (err) {
-      toast.error("Failed to save availability.")
+    const [date, hours] = Object.entries(availability)[0];
 
+    const payload = {
+      date,
+      hours,
+    };
+    const toastId = toast.loading("Saving availability...");
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/tutor/manage-availability",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
+
+      if (!res.ok) {
+        toast.error("Failed to save availability", { id: toastId });
+        return;
+      }
+
+      toast.success("Availability saved successfully!", { id: toastId });
+    } catch (error) {
+      console.error("Availability error:", error);
+      toast.error("Something went wrong while saving availability", {
+        id: toastId,
+      });
     }
   };
-
-  // Optional: backend থেকে initial data লোড
-  // useEffect(() => { fetch... }, []);
-
   return (
     <div className="container  mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-500">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Manage Availability</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Manage Availability
+          </h1>
           <p className="text-muted-foreground mt-1">
             Set when you are available for tutoring sessions
           </p>
         </div>
-        <Button
-          onClick={handleSave}
-          size="lg"
-          className="min-w-[140px]"
-        >
+        <Button onClick={handleSave} size="lg" className="min-w-[140px]">
           Save Changes
         </Button>
       </div>
