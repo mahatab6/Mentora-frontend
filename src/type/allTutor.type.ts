@@ -21,7 +21,18 @@ export type Tutor = {
   updatedAt: string;
 };
 
+export type PaginationMeta = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+
 export type AllTutorResponse = {
   success: boolean;
-  data: Tutor[];
+  data: {
+    meta: PaginationMeta;
+    tutors: Tutor[];
+  };
 };

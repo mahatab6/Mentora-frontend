@@ -3,7 +3,7 @@ import { AllTutorResponse } from "@/type";
 import { useEffect, useState } from "react";
 
 export const useAllTutor = (queryString: string) => {
-  const [tutors, setTutors] = useState<AllTutorResponse | null>(null);
+  const [tutor, setTutors] = useState<AllTutorResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,5 +27,5 @@ export const useAllTutor = (queryString: string) => {
     getTutorData();
   }, [queryString]);
 
-  return { tutors, loading, error };
+  return { tutor, loading, error };
 };

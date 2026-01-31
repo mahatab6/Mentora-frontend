@@ -6,6 +6,7 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import Loading from "../loading";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export default function FindTutorspage() {
 
@@ -17,6 +18,7 @@ export default function FindTutorspage() {
   const selectedSubject = searchParams.get("subject") || "all";
   const selectedPrice = searchParams.get("price") || "all";
   const selectedRating = searchParams.get("rating") || "all";
+  
 
 
   const handleFilterChange = (key: string, value: string) => {
@@ -26,11 +28,20 @@ export default function FindTutorspage() {
     } else {
       params.delete(key);
     }
+
+    if (key !== "page") {
+    params.set("page", "1");
+  }
     
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const { tutors, loading } = useAllTutor(searchParams.toString());
+  const { tutor, loading } = useAllTutor(searchParams.toString());
+
+  const totalPages = tutor?.data?.meta?.totalPages || 1;
+  const currentPage = Number(searchParams.get("page") || "1");
+
+  console.log(tutor?.data?.tutors)
 
   if (loading) return <Loading />;
 
@@ -102,10 +113,57 @@ export default function FindTutorspage() {
         </div>
 
         <div className=" space-y-4 lg:w-3/4">
-          {tutors?.data?.map((tutor) => (
+          {tutor?.data?.tutors?.map((tutor) => (
             <TutorCard key={tutor.id} tutor={tutor} />
           ))}
         </div>
+
+        <div className="mt-12 lg:w-3/4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious 
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) handleFilterChange("page", (currentPage - 1).toString());
+                }}
+                className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+
+            {[...Array(totalPages)].map((_, index) => {
+              const pageNumber = index + 1;
+              return (
+                <PaginationItem key={pageNumber}>
+                  <PaginationLink
+                    href="#"
+                    isActive={pageNumber === currentPage}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleFilterChange("page", pageNumber.toString());
+                    }}
+                  >
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+
+            <PaginationItem>
+              <PaginationNext 
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) handleFilterChange("page", (currentPage + 1).toString());
+                }}
+                className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+
       </div>
     </section>
   );
