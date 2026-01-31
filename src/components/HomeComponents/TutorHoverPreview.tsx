@@ -8,6 +8,7 @@ import { Play } from "lucide-react";
 
 import { useIsDesktop } from "./isDesktop";
 import { TutorType } from "@/type";
+import Link from "next/link";
 
 
 export function TutorHoverPreview({
@@ -47,7 +48,7 @@ export function TutorHoverPreview({
         <Button variant="outline" className="w-full mb-2">
           View full schedule
         </Button>
-        <Button className="w-full">See profile</Button>
+        <Link href={`/find-tutors/${tutor.tutor_id}`}><Button className="w-full hover:cursor-pointer">See profile</Button></Link>
       </HoverCardContent>
     </HoverCard>
   );

@@ -2,12 +2,13 @@ import { BadgeCheck, Heart } from "lucide-react";
 import { Button } from "../ui/button";
 import { TutorType } from "@/type";
 import { TutorHoverPreview } from "./TutorHoverPreview";
+import Link from "next/link";
 
 
 export const TutorCard = ({ tutor }: { tutor: TutorType }) => {
   return (
     <TutorHoverPreview tutor={tutor}>
-    <div className="relative bg-white border-4 rounded-xl p-5 flex gap-4 hover:border-black transition cursor-pointer h-72">
+    <Link href={`/find-tutors/${tutor.tutor_id}`} className="relative bg-white border-4 rounded-xl p-5 flex gap-4 hover:border-black transition cursor-pointer h-72">
       {/* Image */}
       <img
         src={tutor.photoUrl}
@@ -51,7 +52,7 @@ export const TutorCard = ({ tutor }: { tutor: TutorType }) => {
           Book trial lesson
         </Button>
       </div>
-    </div>
+    </Link>
     </TutorHoverPreview>
   );
 };
