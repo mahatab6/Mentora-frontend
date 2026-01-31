@@ -12,8 +12,6 @@ import { userServices } from "@/services/users.services";
 
 export default async function Home() {
   const session = await userServices.getSession()
-
-  console.log(session)
   return (
     <div>
       <Hero/>
