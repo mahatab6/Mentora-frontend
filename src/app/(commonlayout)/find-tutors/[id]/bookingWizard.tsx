@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Check,
   ChevronLeft,
   ChevronRight,
   Calendar as CalendarIcon,
   Clock,
-} from 'lucide-react';
-import { format } from 'date-fns';
-import { useAvailability } from '@/hooks/useAvailability';
+} from "lucide-react";
+import { format } from "date-fns";
+import { useAvailability } from "@/hooks/useAvailability";
+import { toast } from "sonner";
 
 interface Tutor {
   id: string;
   name: string;
   subjects: string[];
   hourlyRate: number;
- 
 }
 
 interface Availability {
-  id: number;          
-  date: string;         
+  id: number;
+  date: string;
   hour: number;
   status: string;
   tutor_id: string;
@@ -46,17 +46,17 @@ type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
   tutor: Tutor | null;
-  id: string;           
+  id: string;
 };
 
 const steps = [
-  { id: 1, title: 'Select Topic' },
-  { id: 2, title: 'Date & Time' },
-  { id: 3, title: 'Review & Confirm' },
+  { id: 1, title: "Select Topic" },
+  { id: 2, title: "Date & Time" },
+  { id: 3, title: "Review & Confirm" },
 ] as const;
 
 const formatHour = (hour: number): string => {
-  const period = hour >= 12 ? 'PM' : 'AM';
+  const period = hour >= 12 ? "PM" : "AM";
   const h = hour % 12 === 0 ? 12 : hour % 12;
   return `${h}:00 ${period}`;
 };
@@ -69,20 +69,18 @@ export default function BookingWizard({
 }: BookingWizardProps) {
   const { tutoravailability } = useAvailability(id);
 
- 
-  const availableSlots = tutoravailability?.filter(
-    (item) => item.status === 'available'
-  ) ?? [];
+  const availableSlots =
+    tutoravailability?.filter((item) => item.status === "available") ?? [];
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+
 
   const [bookingData, setBookingData] = useState<BookingData>({
-    subject: tutor?.subjects?.[0] ?? '',
+    subject: tutor?.subjects?.[0] ?? "",
     date: new Date(),
-    timeSlot: '',
+    timeSlot: "",
     duration: 60,
-    selectedSlotId: tutor?.id
+    selectedSlotId: tutor?.id,
   });
 
   const totalPrice = (bookingData.duration / 60) * (tutor?.hourlyRate ?? 0);
@@ -93,7 +91,7 @@ export default function BookingWizard({
   const handleConfirm = async () => {
     if (!tutor) return;
 
-    setLoading(true);
+     const toastId = toast.loading("BOOKING...");
 
     const payload = {
       tutorId: id,
@@ -101,26 +99,43 @@ export default function BookingWizard({
       startTime: bookingData.timeSlot,
       durationMinutes: bookingData.duration,
       price: totalPrice,
-      id:bookingData.selectedSlotId
+      id: bookingData.selectedSlotId,
     };
 
-    console.log('✅ FINAL BOOKING PAYLOAD:', payload);
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/bookings",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
 
-    
+      
 
-   
-    setTimeout(() => {
-      setLoading(false);
+      if (res.ok === false) {
+        toast.error("Failed to BOOKING", { id: toastId });
+        onClose();
+        return
+      }
+  
+      toast.success("FINAL BOOKING successfully!", { id: toastId });
       onClose();
-    
-    }, 1200);
+    } catch (error) {
+      console.error("Update error:", error);
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   if (!tutor) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[650px] p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-650px p-0 overflow-hidden">
         <div className="bg-gray-50 p-6 border-b">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
@@ -142,12 +157,14 @@ export default function BookingWizard({
                   onClick={() => setBookingData((p) => ({ ...p, subject }))}
                   className={`p-4 rounded-xl border-2 flex justify-between w-full transition-colors ${
                     bookingData.subject === subject
-                      ? 'border-blue-600 bg-blue-50 text-blue-700'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? "border-blue-600 bg-blue-50 text-blue-700"
+                      : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
                   <span>{subject}</span>
-                  {bookingData.subject === subject && <Check className="h-5 w-5" />}
+                  {bookingData.subject === subject && (
+                    <Check className="h-5 w-5" />
+                  )}
                 </button>
               ))}
             </div>
@@ -173,14 +190,14 @@ export default function BookingWizard({
                           setBookingData((p) => ({
                             ...p,
                             timeSlot: label,
-                            selectedSlotId: slot.id,         
+                            selectedSlotId: slot.id,
                             date: new Date(slot.date),
                           }))
                         }
                         className={`py-3 rounded-lg border text-center font-medium transition-all ${
                           isSelected
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                            : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50'
+                            ? "bg-blue-600 text-white border-blue-600 shadow-sm"
+                            : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
                         }`}
                       >
                         {label}
@@ -195,7 +212,9 @@ export default function BookingWizard({
               )}
 
               <div className="mt-8">
-                <label className="text-sm font-medium mb-2 block">Duration</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Duration
+                </label>
                 <select
                   value={bookingData.duration}
                   onChange={(e) =>
@@ -226,7 +245,7 @@ export default function BookingWizard({
                   <dt className="font-medium text-gray-700">Date</dt>
                   <dd className="flex items-center gap-2">
                     <CalendarIcon className="h-4 w-4" />
-                    {format(bookingData.date, 'PPP')}
+                    {format(bookingData.date, "PPP")}
                   </dd>
 
                   <dt className="font-medium text-gray-700">Time</dt>
@@ -270,10 +289,10 @@ export default function BookingWizard({
           ) : (
             <Button
               onClick={handleConfirm}
-              disabled={loading || !bookingData.selectedSlotId}
+              disabled={!bookingData.selectedSlotId}
               className="bg-green-600 hover:bg-green-700"
             >
-              {loading ? 'Confirming...' : 'Confirm & Pay'}
+              {"Confirm & Pay"}
             </Button>
           )}
         </div>
