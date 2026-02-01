@@ -13,6 +13,15 @@ export const tutorDashboard = {
     return data;
   },
 
+  getBooking: async function (id: string) {
+    const result = await fetch(`${BACKEND_URL}/api/tutor/booking/${id}`, {
+      cache: "no-store",
+    });
+
+    const data = await result.json();
+    return data;
+  },
+
   getMetricsGrid: async function (id: string) {
     const cookieStore = await cookies();
 

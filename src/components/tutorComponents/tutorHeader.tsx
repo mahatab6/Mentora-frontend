@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
-import { BadgeCheck, CheckCircle, Star } from "lucide-react";
+import { BadgeCheck, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { userServices } from "@/services/users.services";
 import { tutorDashboard } from "@/services/tutorDashboard.services";
