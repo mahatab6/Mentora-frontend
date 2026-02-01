@@ -28,6 +28,8 @@ export const tutorDashboard = {
       },
     );
     const data = await result.json();
-    return data;
+    return data
+    ;
   },
+  
 };
