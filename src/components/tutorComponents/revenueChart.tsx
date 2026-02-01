@@ -1,38 +1,18 @@
-"use client";
+"use client"
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 
 const generateEarningsData = () => {
   return Array.from({ length: 30 }, (_, i) => ({
     day: `Day ${i + 1}`,
-    earnings: Math.floor(Math.random() * (85 - 45 + 1)) + 45, // $45 - $85
+    earnings: Math.floor(Math.random() * (85 - 45 + 1)) + 45,
   }));
 };
 
 const mockEarningsData = generateEarningsData();
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-white p-3 rounded-lg shadow-md border border-gray-100">
-        <p className="text-gray-500 text-sm">{label}</p>
-        <p className="text-blue-600 font-bold text-lg">
-          ${payload[0].value}
-        </p>
-      </div>
-    );
-  }
-  return null;
-};
+console.log(mockEarningsData)
 
 
 export default function RevenueChart() {
@@ -46,7 +26,11 @@ export default function RevenueChart() {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={mockEarningsData}>
             {/* Grid */}
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="#E5E7EB"
+            />
 
             {/* Axes */}
             <XAxis
@@ -61,8 +45,8 @@ export default function RevenueChart() {
               tickFormatter={(value) => `$${value}`}
             />
 
-            {/* Tooltip */}
-            <Tooltip content={<CustomTooltip />} />
+            Tooltip
+            <Tooltip  />
 
             {/* Line */}
             <Line

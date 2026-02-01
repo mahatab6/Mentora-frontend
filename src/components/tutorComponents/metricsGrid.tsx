@@ -1,10 +1,7 @@
-"use client";
-
-import React, { useState } from "react";
-import { Calendar, DollarSign, MessageSquare, Star } from "lucide-react";
-import { ArrowDownRight, ArrowUpRight, LucideIcon } from "lucide-react";
-
-
+import { tutorDashboard } from "@/services/tutorDashboard.services";
+import { userServices } from "@/services/users.services";
+import { Calendar, DollarSign, Star } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 type Trend = "up" | "down";
 
@@ -21,8 +18,6 @@ const StatsCard = ({
   title,
   value,
   icon: Icon,
-  trend,
-  trendValue,
   color = "blue",
 }: StatsCardProps) => {
   const colorStyles: Record<string, string> = {
@@ -44,49 +39,25 @@ const StatsCard = ({
           {Icon && <Icon className="h-5 w-5" />}
         </div>
       </div>
-
-      {trend && trendValue && (
-        <div className="flex items-center text-sm">
-          {trend === "up" ? (
-            <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
-          ) : (
-            <ArrowDownRight className="h-4 w-4 text-red-500 mr-1" />
-          )}
-          <span
-            className={
-              trend === "up"
-                ? "text-green-600 font-medium"
-                : "text-red-600 font-medium"
-            }
-          >
-            {trendValue}
-          </span>
-          <span className="text-gray-400 ml-1">vs last month</span>
-        </div>
-      )}
     </div>
   );
 };
 
+export default async function MetricsGrid() {
 
-export default function MetricsGrid() {
- 
-  const [mockTutorStats, setMockTutorStats] = useState({
-    totalEarnings: 2450,
-    averageRating: 4.8,
-    totalSessions: 156,
-    responseRate: 98,
-    responseTime: "2.3 hours",
-    cancellationRate: "2%",
-    completionRate: 98,
-  });
+  const session = await userServices.getSession();
+
+  const id = session?.user?.id;
+  const data = await tutorDashboard.getMetricsGrid(id)
+  const metrics = data?.data;
+
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <StatsCard
           title="Total Earnings"
-          value={`$${mockTutorStats.totalEarnings}`}
+          value={metrics?.earnings}
           icon={DollarSign}
           trend="up"
           trendValue="12%"
@@ -94,7 +65,7 @@ export default function MetricsGrid() {
         />
         <StatsCard
           title="Average Rating"
-          value={mockTutorStats.averageRating}
+          value={metrics?.averageRating}
           icon={Star}
           trend="up"
           trendValue="0.2"
@@ -102,19 +73,11 @@ export default function MetricsGrid() {
         />
         <StatsCard
           title="Total Sessions"
-          value={mockTutorStats.totalSessions}
+          value={metrics?.completedSessions}
           icon={Calendar}
           trend="up"
           trendValue="8"
           color="blue"
-        />
-        <StatsCard
-          title="Response Rate"
-          value={`${mockTutorStats.responseRate}%`}
-          icon={MessageSquare}
-          trend="down"
-          trendValue="1%"
-          color="purple"
         />
       </div>
     </div>

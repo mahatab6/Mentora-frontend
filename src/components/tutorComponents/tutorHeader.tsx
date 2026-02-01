@@ -2,14 +2,11 @@ import React from "react";
 import { Button } from "../ui/button";
 import { BadgeCheck, CheckCircle, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { userServices } from "@/services/users.services";
+import { tutorDashboard } from "@/services/tutorDashboard.services";
 
-const mockTutor = {
-  fullName: "Sarah Johnson",
-  title: "Senior Mathematics Tutor",
-  experience: "5+ Years Experience",
-  avatar:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&h=128&fit=crop",
-};
+
+
 
 const mockTutorStats = {
   averageRating: 4.8,
@@ -17,16 +14,24 @@ const mockTutorStats = {
   completionRate: 98,
 };
 
-export default function TutorHeader() {
+export default async function TutorHeader() {
+
+  const session = await userServices.getSession()
+
+  const id = session?.user?.id
+  const data = await tutorDashboard.tutorBio(id)
+  const tutor = data?.data
+  
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-center gap-6">
       
       {/* Avatar */}
       <div className="relative">
         <Avatar className="h-24 w-24 border-4 border-blue-50">
-          <AvatarImage src={mockTutor.avatar} alt={mockTutor.fullName} />
+          <AvatarImage src={tutor.photoUrl} alt={tutor.fullName} />
           <AvatarFallback>
-            {mockTutor.fullName.charAt(0)}
+            {tutor.fullName.charAt(0)}
           </AvatarFallback>
         </Avatar>
 
@@ -39,7 +44,7 @@ export default function TutorHeader() {
       <div className="flex-1 text-center md:text-left">
         <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
           <h1 className="text-2xl font-bold text-gray-900">
-            {mockTutor.fullName}
+            {tutor.fullName}
           </h1>
           <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-medium">
             Verified Tutor
@@ -47,8 +52,7 @@ export default function TutorHeader() {
         </div>
 
         <p className="text-gray-500 mb-4">
-          {mockTutor.title} • {mockTutor.experience}
-        </p>
+          {tutor.shortBio}</p>
 
         <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
           <div className="flex items-center gap-1 text-gray-600">
@@ -57,14 +61,6 @@ export default function TutorHeader() {
               {mockTutorStats.averageRating}
             </span>
             ({mockTutorStats.totalReviews} reviews)
-          </div>
-
-          <div className="flex items-center gap-1 text-gray-600">
-            <CheckCircle className="h-4 w-4 text-green-500" />
-            <span className="font-bold text-gray-900">
-              {mockTutorStats.completionRate}%
-            </span>
-            Completion
           </div>
         </div>
       </div>
