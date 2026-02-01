@@ -39,14 +39,14 @@ interface BookingData {
   date: Date;
   timeSlot: string;
   duration: number;
-  selectedSlotId: number | null;   
+  selectedSlotId: string | number | undefined;
 }
 
 type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
   tutor: Tutor | null;
-  id: string;           // tutor id
+  id: string;           
 };
 
 const steps = [
@@ -82,7 +82,7 @@ export default function BookingWizard({
     date: new Date(),
     timeSlot: '',
     duration: 60,
-    selectedSlotId: null,
+    selectedSlotId: tutor?.id
   });
 
   const totalPrice = (bookingData.duration / 60) * (tutor?.hourlyRate ?? 0);
@@ -96,13 +96,12 @@ export default function BookingWizard({
     setLoading(true);
 
     const payload = {
-      tutorId: tutor.id,
+      tutorId: id,
       subject: bookingData.subject,
-      date: bookingData.date.toISOString(),
-      time: bookingData.timeSlot,
-      duration: bookingData.duration,
+      startTime: bookingData.timeSlot,
+      durationMinutes: bookingData.duration,
       price: totalPrice,
-      slotId: bookingData.selectedSlotId,  
+      id:bookingData.selectedSlotId
     };
 
     console.log('✅ FINAL BOOKING PAYLOAD:', payload);
