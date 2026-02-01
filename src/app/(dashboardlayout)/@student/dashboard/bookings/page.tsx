@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/(dashboardlayout)/loading";
 import {
   Table,
   TableBody,
@@ -9,18 +10,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetBooking } from "@/hooks/useGetBooking";
-import { BookingSlot } from "@/type";
+import { BookingResponse } from "@/type";
 import { Calendar } from "lucide-react";
 import { useState } from "react";
 
 export default function BookingsPage() {
   const [filter, setFilter] = useState<string>("all");
 
-  const { bookings } = useGetBooking()
-  const bookingInfo: BookingSlot[] | null = bookings
+  const { bookings, loading } = useGetBooking()
+
+  if(loading) {
+    return <Loading/>
+  }
+
+  const bookingInfo:BookingResponse | null = bookings
 
 
-  const filerBooking = bookingInfo?.filter((S) => {
+  const filerBooking = bookingInfo?.data?.result?.filter((S) => {
     if(filter === "all") return true;
     return S.status === filter;
   }) || [];

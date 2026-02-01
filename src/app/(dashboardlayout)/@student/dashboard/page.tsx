@@ -1,65 +1,30 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { useGetBooking } from "@/hooks/useGetBooking";
+import { findTutor } from "@/services/findTutor.services";
+
 import { BookOpen, Calendar, Clock, DollarSign } from "lucide-react";
 import Link from "next/link";
+import Loading from "../../loading";
+import { BookingResponse } from "@/type";
 
-export default function dashboardPage() {
-  const bookings = [
-    {
-      id: 1,
-      subject: "Web Development",
-      category: "Programming",
-      other_party_name: "John Doe",
-      date: "2026-02-02T10:00:00Z",
-      status: "upcoming",
-    },
-    {
-      id: 2,
-      subject: "English Speaking",
-      category: "Language",
-      other_party_name: "Max Smith",
-      date: "2026-01-28T14:30:00Z",
-      status: "completed",
-    },
-    {
-      id: 3,
-      subject: "UI/UX Design",
-      category: "Design",
-      other_party_name: "Sophia Lee",
-      date: "2026-01-25T09:00:00Z",
-      status: "completed",
-    },
-    {
-      id: 4,
-      subject: "Data Science",
-      category: "Data",
-      other_party_name: "Alex Johnson",
-      date: "2026-02-05T16:00:00Z",
-      status: "upcoming",
-    },
-    {
-      id: 5,
-      subject: "Business Strategy",
-      category: "Business",
-      other_party_name: "Emma Wilson",
-      date: "2026-01-20T11:00:00Z",
-      status: "cancelled",
-    },
-    {
-      id: 6,
-      subject: "Mathematics",
-      category: "Math",
-      other_party_name: "Daniel Brown",
-      date: "2026-02-10T08:00:00Z",
-      status: "upcoming",
-    },
-  ];
+export default function DashboardPage() {
+  const { bookings, loading } = useGetBooking();
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const bookingInfo: BookingResponse | null = bookings;
+
+  const filter = bookingInfo?.data.result ?? [];
 
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">
         Welcome back, Mike Smith
       </h1>
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
@@ -68,7 +33,9 @@ export default function dashboardPage() {
           </div>
           <div>
             <p className="text-sm text-gray-500">Upcoming Sessions</p>
-            <p className="text-2xl font-bold text-gray-900">1</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {bookings?.data.upcomingSessions}
+            </p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
@@ -77,7 +44,9 @@ export default function dashboardPage() {
           </div>
           <div>
             <p className="text-sm text-gray-500">Completed Lessons</p>
-            <p className="text-2xl font-bold text-gray-900">3</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {bookings?.data.totalSessions}
+            </p>
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
@@ -86,12 +55,13 @@ export default function dashboardPage() {
           </div>
           <div>
             <p className="text-sm text-gray-500">Total Spent</p>
-            <p className="text-2xl font-bold text-gray-900">$50</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {bookings?.data.totalSpend}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Recent Activity */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-900">Recent Bookings</h2>
@@ -102,9 +72,9 @@ export default function dashboardPage() {
           </Link>
         </div>
 
-        {bookings.length > 0 ? (
+        {filter?.length > 0 ? (
           <div className="space-y-4">
-            {bookings.slice(0, 5).map((booking) => (
+            {filter?.slice(0, 5)?.map((booking) => (
               <div
                 key={booking.id}
                 className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors"
@@ -115,16 +85,16 @@ export default function dashboardPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">
-                      {booking.subject || booking.category}
+                      {booking.subject}
                     </h3>
                     <p className="text-sm text-gray-500">
-                      with {booking.other_party_name}
+                      with {booking.tutor.fullName}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium text-gray-900">
-                    {new Date(booking.date).toLocaleDateString()}
+                    {new Date(booking.createdAt).toLocaleDateString()}
                   </p>
                   <span
                     className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
