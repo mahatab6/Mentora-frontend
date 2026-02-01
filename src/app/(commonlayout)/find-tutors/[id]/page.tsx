@@ -5,9 +5,11 @@ import { use, useState } from "react";
 import TutorProfile from "./tutorProfile";
 import LeftColumn from "./leftColumn";
 import RightColumn from "./rightColumn";
-import { Button } from "@/components/ui/button";
+
 import Loading from "../../loading";
 import BookingWizard from "./bookingWizard";
+import { Tutor } from "@/type";
+
 
 export default function TutorSinglePage({
   params,
@@ -22,7 +24,7 @@ export default function TutorSinglePage({
   if (loading) return <Loading />;
 
   
-  const tutor = singleTutor?.data;
+  const tutor: Tutor | undefined = singleTutor;
 
   return (
     <div className="container mx-auto py-20 px-4">

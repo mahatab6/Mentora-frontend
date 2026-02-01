@@ -18,13 +18,14 @@ import {
 import { format } from "date-fns";
 import { useAvailability } from "@/hooks/useAvailability";
 import { toast } from "sonner";
+import { Tutor } from "@/type";
 
-interface Tutor {
-  id: string;
-  name: string;
-  subjects: string[];
-  hourlyRate: number;
-}
+// interface Tutor {
+//   id: string;
+//   name: string;
+//   subjects: string[];
+//   hourlyRate: number;
+// }
 
 interface Availability {
   id: number;
@@ -45,7 +46,7 @@ interface BookingData {
 type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
-  tutor: Tutor | null;
+  tutor: Tutor| undefined ;
   id: string;
 };
 
@@ -139,7 +140,7 @@ export default function BookingWizard({
         <div className="bg-gray-50 p-6 border-b">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
-              Book Session with {tutor.name}
+              Book Session with {tutor.fullName}
             </DialogTitle>
             <p className="text-sm text-gray-500 mt-1">
               Step {currentStep} of 3 — {steps[currentStep - 1].title}

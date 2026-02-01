@@ -1,10 +1,11 @@
 import { findTutor } from "@/services/findTutor.services";
-import { AllTutorResponse } from "@/type";
+import { Tutor } from "@/type";
+
 import { useEffect, useState } from "react";
 
 
 export const useSingleTutor = (id: string) => {
-  const [singleTutor, setTutors] = useState<AllTutorResponse | null>(null);
+  const [singleTutor, setTutors] = useState<Tutor>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -13,7 +14,7 @@ export const useSingleTutor = (id: string) => {
         setLoading(true);
       try {
         const data = await findTutor.getUniqueTutor(id)
-        setTutors(data);
+        setTutors(data?.data);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
