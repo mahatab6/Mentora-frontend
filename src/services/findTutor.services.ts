@@ -131,4 +131,14 @@ export const findTutor = {
 
     return result.json();
   },
+
+  getCategory: async function () {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/category`, {
+      cache: "no-store"
+    })
+    
+    const data = await result.json();
+    return data;
+  }
+
 };

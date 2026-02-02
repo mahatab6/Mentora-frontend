@@ -9,69 +9,65 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit2, GripVertical, Plus, Trash2 } from "lucide-react";
+import { env } from "@/env";
+import { useGetCategory } from "@/hooks/useGetCategory";
+import { Edit2, GripVertical, Trash2 } from "lucide-react";
+
+import { toast } from "sonner";
+import { AddCategory } from "./addCategory";
+import { UpdateCategory } from "./updateCategory";
+
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
 type Category = {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  tutors: number;
-  bookings: number;
 };
 
 export default function CategoriesPage() {
-  const handleDelete = (id: string) => {
-    console.log("Delete category:", id);
+  const { category, loading, error, refresh } = useGetCategory();
+
+  const categories = category ?? [];
+
+  const handleDelete = async (id: number) => {
+    const toastID = toast.loading("Deleting category...");
+
+    try {
+      const response = await fetch(
+        `${NEXT_PUBLIC_BASE_API}/api/admin/delete-category`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ id }),
+        },
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.message || "Failed to delete category", {
+          id: toastID,
+        });
+        return;
+      }
+
+      toast.success("Category deleted successfully", { id: toastID });
+      refresh();
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Something went wrong while deleting", { id: toastID });
+    }
   };
 
-  const categories: Category[] = [
-    {
-      id: "1",
-      name: "Mathematics",
-      description: "Algebra, Calculus, Geometry",
-      tutors: 45,
-      bookings: 1200,
-    },
-    {
-      id: "2",
-      name: "Physics",
-      description: "Mechanics, Thermodynamics",
-      tutors: 32,
-      bookings: 850,
-    },
-    {
-      id: "3",
-      name: "Computer Science",
-      description: "Programming, Algorithms",
-      tutors: 58,
-      bookings: 1500,
-    },
-    {
-      id: "4",
-      name: "English",
-      description: "Literature, Writing, ESL",
-      tutors: 28,
-      bookings: 600,
-    },
-    {
-      id: "5",
-      name: "Chemistry",
-      description: "Organic, Inorganic",
-      tutors: 25,
-      bookings: 540,
-    },
-    {
-      id: "6",
-      name: "Biology",
-      description: "Botany, Zoology, Genetics",
-      tutors: 22,
-      bookings: 480,
-    },
-  ];
+
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 p-4">
-      {/* Header */}
+
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Categories</h1>
@@ -79,9 +75,9 @@ export default function CategoriesPage() {
             Manage subject categories available on the platform.
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" /> Add Category
-        </Button>
+
+
+        <AddCategory refresh= {refresh}/>
       </div>
 
       {/* Card */}
@@ -90,10 +86,9 @@ export default function CategoriesPage() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-10"></TableHead>
+              <TableHead>Id</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead className="text-center">Tutors</TableHead>
-              <TableHead className="text-center">Bookings</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -108,27 +103,15 @@ export default function CategoriesPage() {
                   <GripVertical className="h-4 w-4 opacity-0 group-hover:opacity-100" />
                 </TableCell>
 
+                <TableCell className="font-medium">{cat.id}</TableCell>
                 <TableCell className="font-medium">{cat.name}</TableCell>
 
                 <TableCell className="text-muted-foreground">
                   {cat.description}
                 </TableCell>
-
-                <TableCell className="text-center font-medium">
-                  {cat.tutors}
-                </TableCell>
-
-                <TableCell className="text-center">{cat.bookings}</TableCell>
-
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-muted-foreground hover:text-blue-600"
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
+                    <UpdateCategory category={cat} refresh={refresh} />
                     <Button
                       variant="ghost"
                       size="icon"

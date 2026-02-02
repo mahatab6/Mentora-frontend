@@ -1,7 +1,6 @@
 import Chart from "@/components/adminComponents/chart";
 import DashboardCard from "@/components/adminComponents/dashboardCard";
 import RecentBookings from "@/components/adminComponents/recentBookings";
-import TopTutors from "@/components/adminComponents/topTutors";
 
 export default function AdminDashboard() {
   return (
@@ -21,7 +20,6 @@ export default function AdminDashboard() {
       <DashboardCard />
       <Chart />
       <RecentBookings />
-      <TopTutors />
     </div>
   );
 }
