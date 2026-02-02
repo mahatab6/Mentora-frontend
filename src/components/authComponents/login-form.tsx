@@ -22,6 +22,8 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+
 
 const formSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -30,6 +32,7 @@ const formSchema = z.object({
 });
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const router = useRouter()
   const form = useForm({
     defaultValues: {
       email: "",
@@ -49,6 +52,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         }
 
         toast.success("Account Login successfully", { id: toastId });
+        router.push("/")
       } catch (error) {
         toast.error(
           "Something went wrong. Check your internet connection and try again.",

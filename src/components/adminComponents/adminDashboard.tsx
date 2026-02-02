@@ -1,8 +1,19 @@
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { LucideProps } from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
+type AllowedColors = "blue" | "green" | "orange" | "purple";
 
-export const StatsCard = ({ title, value, icon: Icon, trend, trendValue, color = "blue" }) => {
-  const colorStyles = {
+type Card = {
+    title: string;
+    value: number;
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
+    color?: AllowedColors;
+}
+
+type ColorStyles = Record<AllowedColors, string>;
+
+export const StatsCard = ({ title, value, icon: Icon, color = "blue" }: Card) => {
+  const colorStyles : ColorStyles = {
     blue: "bg-blue-50 text-blue-600",
     green: "bg-green-50 text-green-600",
     orange: "bg-orange-50 text-orange-600",
@@ -20,19 +31,7 @@ export const StatsCard = ({ title, value, icon: Icon, trend, trendValue, color =
           {Icon && <Icon className="h-5 w-5" />}
         </div>
       </div>
-      {trend && (
-        <div className="flex items-center text-sm">
-          {trend === 'up' ? (
-            <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
-          ) : (
-            <ArrowDownRight className="h-4 w-4 text-red-500 mr-1" />
-          )}
-          <span className={trend === 'up' ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-            {trendValue}
-          </span>
-          <span className="text-gray-400 ml-1">vs last month</span>
-        </div>
-      )}
+   
     </div>
   );
 };
