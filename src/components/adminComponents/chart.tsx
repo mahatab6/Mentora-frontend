@@ -2,6 +2,8 @@
 
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
+import { useAllEarning } from "@/hooks/useAllEarningChart";
+import { useMemo } from "react";
 
 const revenueChartConfig = {
   amount: {
@@ -10,18 +12,71 @@ const revenueChartConfig = {
   },
 } satisfies ChartConfig;
 
+type Earnig = {
+  price: number;
+  createdAt: string;
+};
 
 export default function Chart() {
 
- const mockPlatformRevenue = [
-  { day: "Mon", amount: 120 },
-  { day: "Tue", amount: 210 },
-  { day: "Wed", amount: 180 },
-  { day: "Thu", amount: 260 },
-  { day: "Fri", amount: 300 },
-  { day: "Sat", amount: 280 },
-  { day: "Sun", amount: 340 },
-];
+  const { allEarning, loading, error } = useAllEarning();
+console.log(allEarning)
+ const chartData = useMemo(() => {
+  const safeData: Earnig[] = allEarning ?? [];
+
+  const earningsMap = safeData.reduce(
+    (acc: Record<string, number>, item) => {
+      const date = new Date(item.createdAt);
+      const day = date.toLocaleDateString("en-US", {
+        weekday: "short",
+      });
+
+      acc[day] = (acc[day] || 0) + item.price;
+      return acc;
+    },
+    {}
+  );
+
+
+  return Object.entries(earningsMap).map(([day, total]) => ({
+    day,
+    amount: total, 
+  }));
+}, [allEarning]);
+
+    if ( loading) {
+    return (
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
+        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-gray-400">
+          Loading chart...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
+        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-red-500">
+          {error}
+        </div>
+      </div>
+    );
+  }
+
+  if (!chartData.length) {
+    return (
+      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
+        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-gray-400">
+          No revenue data found
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -32,7 +87,7 @@ export default function Chart() {
       config={revenueChartConfig}
       className="h-full w-full"
     >
-      <AreaChart data={mockPlatformRevenue}>
+      <AreaChart data={chartData}>
         <defs>
           <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="var(--color-amount)" stopOpacity={0.2} />
