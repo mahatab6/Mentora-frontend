@@ -1,11 +1,7 @@
-
 import Chart from "@/components/adminComponents/chart";
 import DashboardCard from "@/components/adminComponents/dashboardCard";
 import RecentBookings from "@/components/adminComponents/recentBookings";
-import SystemHealth from "@/components/adminComponents/systemHealth";
 import TopTutors from "@/components/adminComponents/topTutors";
-
-
 
 export default function AdminDashboard() {
   return (
@@ -22,17 +18,10 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <DashboardCard/>
-
-      <div className="hidden lg:grid grid-cols-3 gap-8">
-        <Chart />
-        <SystemHealth />
-      </div>
-
-      <div className="hidden lg:grid grid-cols-2 gap-8">
-        <RecentBookings />
-        <TopTutors />
-      </div>
+      <DashboardCard />
+      <Chart />
+      <RecentBookings />
+      <TopTutors />
     </div>
   );
 }

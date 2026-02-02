@@ -78,7 +78,7 @@ export default function BookingsPage() {
         {/* Filters */}
         <div className="p-4 border-b flex flex-wrap gap-4 items-center">
           <form
-            className="relative flex-1 min-w-[220px]"
+            className="relative flex-1 min-w-220px"
             onSubmit={handleSearchSubmit}
           >
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -106,7 +106,7 @@ export default function BookingsPage() {
         </div>
 
         {/* Table area */}
-        <div className="relative min-h-[300px]">
+        <div className="relative min-h-300px">
           {(loading || isPending) && (
             <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />

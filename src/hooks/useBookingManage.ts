@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from "react";
-import { BookingFilters, BookingManageResponse } from "@/type";
+import { BookingManageResponse, UserFilters } from "@/type";
 import { findTutor } from "@/services/findTutor.services";
 
 
-export const useBookingManage = (filters: BookingFilters = {}) => {
+export const useBookingManage = (filters: UserFilters = {}) => {
   const [response, setResponse] = useState<BookingManageResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

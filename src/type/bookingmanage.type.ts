@@ -40,9 +40,12 @@ export interface BookingManageResponse {
   };
 }
 
-export interface BookingFilters {
+export interface UserFilters {
   search?: string;
-  status?: string;     
+  status?: string;
   page?: number;
   limit?: number;
+  email?: string;
+  role?: string;
+  
 }

@@ -7,6 +7,8 @@ interface BookingFilters {
   status?: string;
   page?: number;
   limit?: number;
+  email?: string;
+  role?: string;
 }
 
 export const findTutor = {
@@ -103,5 +105,30 @@ export const findTutor = {
     );
     const data = await result.json();
     return data;
+  },
+
+  getManageUsers: async function (filters: BookingFilters = {}) {
+    const params = new URLSearchParams();
+
+    if (filters.email?.trim()) {
+      params.set("email", filters.email.trim());
+    }
+
+    if(filters?.role?.trim()){
+      params.set("role", filters.role.trim())
+    }
+
+    params.set("page", String(filters.page ?? 1));
+    params.set("limit", String(filters.limit ?? 10));
+
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/manage-users?${params.toString()}`, {
+      cache: "no-store",
+    });
+
+    if (!result.ok) {
+      throw new Error(`Failed to fetch bookings: ${result.statusText}`);
+    }
+
+    return result.json();
   },
 };
