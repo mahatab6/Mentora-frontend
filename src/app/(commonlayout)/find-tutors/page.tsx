@@ -160,7 +160,7 @@ export default function FindTutorspage() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      </div>
+        </div>
 
       </div>
     </section>

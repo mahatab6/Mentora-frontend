@@ -2,6 +2,13 @@ import { env } from "@/env";
 
 const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
+interface BookingFilters {
+  search?: string;
+  status?: string;
+  page?: number;
+  limit?: number;
+}
+
 export const findTutor = {
   getAllTutor: async function (queryString = "") {
     const result = await fetch(
@@ -60,5 +67,32 @@ export const findTutor = {
     return data;
   },
   
+  getBookingManagement: async function (filters: BookingFilters = {}) {
+  const params = new URLSearchParams();
+
+  if (filters.search?.trim()) {
+    params.set("search", filters.search.trim());
+  }
+
+  if (filters.status && filters.status !== "All") {
+    params.set("status", filters.status);
+  }
+
+  // Always include page and limit (with defaults)
+  params.set("page", String(filters.page ?? 1));
+  params.set("limit", String(filters.limit ?? 10));
+
+  const url = `${NEXT_PUBLIC_BASE_API}/api/admin/booking-management?${params.toString()}`;
+
+  const result = await fetch(url, {
+    cache: "no-store",
+  });
+
+  if (!result.ok) {
+    throw new Error(`Failed to fetch bookings: ${result.statusText}`);
+  }
+
+  return result.json();
+},
 };
 

@@ -3,9 +3,16 @@ import { env } from "@/env";
 const BACKEND_URL = env.BACKEND_URL;
 
 
-export const adminDashboard = {
+interface BookingFilters {
+  search?: string;
+  status?: string;
+  page?: number;
+  limit?: number;
+}
 
-    getDashboardCard: async function () {
+
+export const adminDashboard = {
+  getDashboardCard: async function () {
     const result = await fetch(`${BACKEND_URL}/api/admin/dashboard-card`, {
       cache: "no-store",
     });
@@ -13,4 +20,6 @@ export const adminDashboard = {
     const data = await result.json();
     return data;
   },
-}
+
+
+};

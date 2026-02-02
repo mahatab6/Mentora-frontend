@@ -29,9 +29,9 @@ export default async function TutorHeader() {
       {/* Avatar */}
       <div className="relative">
         <Avatar className="h-24 w-24 border-4 border-blue-50">
-          <AvatarImage src={tutor.photoUrl} alt={tutor.fullName} />
+          <AvatarImage src={tutor?.photoUrl} alt={tutor?.fullName} />
           <AvatarFallback>
-            {tutor.fullName.charAt(0)}
+            {tutor?.fullName.charAt(0)}
           </AvatarFallback>
         </Avatar>
 
@@ -44,7 +44,7 @@ export default async function TutorHeader() {
       <div className="flex-1 text-center md:text-left">
         <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
           <h1 className="text-2xl font-bold text-gray-900">
-            {tutor.fullName}
+            {tutor?.fullName}
           </h1>
           <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-medium">
             Verified Tutor
@@ -52,7 +52,7 @@ export default async function TutorHeader() {
         </div>
 
         <p className="text-gray-500 mb-4">
-          {tutor.shortBio}</p>
+          {tutor?.shortBio}</p>
 
         <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm">
           <div className="flex items-center gap-1 text-gray-600">
