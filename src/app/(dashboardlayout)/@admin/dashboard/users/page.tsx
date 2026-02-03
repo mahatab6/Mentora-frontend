@@ -61,7 +61,7 @@ export default function ManageUsersPage() {
     limit: PAGE_LIMIT,
   };
 
-  const { data, loading, error } = useManageUsers(filters);
+  const { data, loading, error, refresh } = useManageUsers(filters);
 
   const users = data?.users ?? [];
   const totalPages = data?.meta?.totalPages ?? 1;
@@ -88,6 +88,7 @@ export default function ManageUsersPage() {
         toast.error("New Role Creting filed", {id: toastID})
       }
       toast.success("Role update done", {id: toastID});
+      refresh()
       setOpen(false);
     } catch (error) {
       console.error("Update error:", error);

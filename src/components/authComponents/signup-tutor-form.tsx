@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(3, "Full name must be at least 3 characters"),
@@ -33,6 +34,9 @@ const formSchema = z.object({
 export function SignupTutorForm({
   ...props
 }: React.ComponentProps<typeof Card>) {
+
+  const router = useRouter()
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -58,6 +62,7 @@ export function SignupTutorForm({
         }
 
         toast.success("Account created successfully!", { id: toastId });
+        router.push('/dashboard')
       } catch (err) {
         toast.error(
           "Something went wrong. Check your internet connection and try again.",

@@ -4,6 +4,7 @@ import { BadgeCheck, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { userServices } from "@/services/users.services";
 import { tutorDashboard } from "@/services/tutorDashboard.services";
+import Link from "next/link";
 
 
 
@@ -58,9 +59,9 @@ export default async function TutorHeader() {
           <div className="flex items-center gap-1 text-gray-600">
             <Star className="h-4 w-4 text-yellow-400 fill-current" />
             <span className="font-bold text-gray-900">
-              {mockTutorStats.averageRating}
+              {tutor?.averageRating}
             </span>
-            ({mockTutorStats.totalReviews} reviews)
+            ({tutor?.totalReviews} reviews)
           </div>
         </div>
       </div>
@@ -68,9 +69,11 @@ export default async function TutorHeader() {
       {/* Actions */}
       <div className="flex gap-3">
         <Button variant="outline">Edit Profile</Button>
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        <Link href={`/find-tutors/${tutor?.tutor_id}`}>
+        <Button className="bg-blue-600 hover:bg-blue-700 hover:cursor-pointer">
           View Public Profile
         </Button>
+        </Link>
       </div>
     </div>
   );

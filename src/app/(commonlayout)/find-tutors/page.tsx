@@ -5,20 +5,30 @@ import { useAllTutor } from "@/hooks/useAllTutor";
 import { Search } from "lucide-react";
 import Loading from "../loading";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { useState } from "react";
+import { useGetCategory } from "@/hooks/useGetCategory";
 
 export default function FindTutorspage() {
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+
+  const { category } = useGetCategory();
 
   const searchTerm = searchParams.get("search") || "";
   const selectedSubject = searchParams.get("subject") || "all";
   const selectedPrice = searchParams.get("price") || "all";
   const selectedRating = searchParams.get("rating") || "all";
-  
 
+  const [localSearch, setLocalSearch] = useState(searchTerm);
 
   const handleFilterChange = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -29,9 +39,9 @@ export default function FindTutorspage() {
     }
 
     if (key !== "page") {
-    params.set("page", "1");
-  }
-    
+      params.set("page", "1");
+    }
+
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -39,12 +49,8 @@ export default function FindTutorspage() {
 
   const totalPages = tutor?.data?.meta?.totalPages || 1;
   const currentPage = Number(searchParams.get("page") || "1");
+  const categories = category ?? [];
 
-
-  if (loading) return <Loading />;
-
-  
-  
   return (
     <section className="py-20 lg:py-32 px-4 bg-linear-to-br from-blue-50 to-indigo-50">
       <div className="container mx-auto ">
@@ -59,17 +65,24 @@ export default function FindTutorspage() {
 
         <div className="bg-white rounded-xl shadow-lg p-6 mb-12">
           <div className="grid md:grid-cols-4 gap-4">
-            <div className="md:col-span-1">
+            <div className=" flex md:col-span-1 gap-2">
               <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Search tutors..."
-                defaultValue={searchTerm}
-                onChange={(e) => handleFilterChange("search", e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900"
-              />
-            </div>
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+
+                <input
+                  type="text"
+                  placeholder="Search tutors..."
+                  value={localSearch}
+                  onChange={(e) => setLocalSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900"
+                />
+              </div>
+              <button
+                onClick={() => handleFilterChange("search", localSearch)}
+                className=" px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+              >
+                Search
+              </button>
             </div>
 
             <select
@@ -77,13 +90,12 @@ export default function FindTutorspage() {
               onChange={(e) => handleFilterChange("subject", e.target.value)}
               className="px-4 py-3 border border-gray-300 rounded-lg text-gray-900"
             >
-              <option value="all">All Subjects</option>
-              <option value="web">Web Development</option>
-              <option value="data">Data Science</option>
-              <option value="math">Mathematics</option>
-              <option value="design">Design</option>
-              <option value="language">Language</option>
-              <option value="business">Business</option>
+              <option value="all">All Categories</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
 
             <select
@@ -110,58 +122,73 @@ export default function FindTutorspage() {
           </div>
         </div>
 
-        <div className=" space-y-4 lg:w-3/4">
-          {tutor?.data?.tutors?.map((tutor) => (
-            <TutorCard key={tutor.id} tutor={tutor} />
-          ))}
+        <div className="space-y-4 lg:w-3/4">
+          {loading ? (
+            <Loading />
+          ) : tutor?.data?.tutors?.length ? (
+            tutor.data.tutors.map((tutor) => (
+              <TutorCard key={tutor.id} tutor={tutor} />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 py-10">No tutors found</p>
+          )}
         </div>
 
         <div className="mt-12 lg:w-3/4">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious 
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (currentPage > 1) handleFilterChange("page", (currentPage - 1).toString());
-                }}
-                className={currentPage <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-              />
-            </PaginationItem>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1)
+                      handleFilterChange("page", (currentPage - 1).toString());
+                  }}
+                  className={
+                    currentPage <= 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
 
-            {[...Array(totalPages)].map((_, index) => {
-              const pageNumber = index + 1;
-              return (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    href="#"
-                    isActive={pageNumber === currentPage}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleFilterChange("page", pageNumber.toString());
-                    }}
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
+              {[...Array(totalPages)].map((_, index) => {
+                const pageNumber = index + 1;
+                return (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      href="#"
+                      isActive={pageNumber === currentPage}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleFilterChange("page", pageNumber.toString());
+                      }}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
 
-            <PaginationItem>
-              <PaginationNext 
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (currentPage < totalPages) handleFilterChange("page", (currentPage + 1).toString());
-                }}
-                className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages)
+                      handleFilterChange("page", (currentPage + 1).toString());
+                  }}
+                  className={
+                    currentPage >= totalPages
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
-
       </div>
     </section>
   );

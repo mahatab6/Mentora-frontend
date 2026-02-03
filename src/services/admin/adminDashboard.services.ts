@@ -24,5 +24,14 @@ export const adminDashboard = {
     return data;
   },
 
+  getTutorById: async function (id: string) {
+    const result = await fetch(`http://localhost:5000/api/tutor/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!result.ok) return null;
+    return await result.json();
+  },
+
 
 };

@@ -59,8 +59,9 @@ export function UpdateCategory({ category, refresh }: UpdateProps) {
       } else {
         toast.error(result.message || "Failed to update", { id: toastId });
       }
-    } catch (error) {
-      toast.error("Something went wrong", { id: toastId });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Internal Server Error";
+      toast.error(message, { id: toastId });
     } finally {
       setIsSubmitting(false);
     }

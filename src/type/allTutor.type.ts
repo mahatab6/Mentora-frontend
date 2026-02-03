@@ -19,6 +19,7 @@ export type Tutor = {
   isProfileActive: boolean;
   createdAt: string;
   updatedAt: string;
+  category: string;
 };
 
 export type PaginationMeta = {

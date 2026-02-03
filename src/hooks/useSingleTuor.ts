@@ -9,7 +9,7 @@ export const useSingleTutor = (id: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+
     const getTutorData = async () => {
         setLoading(true);
       try {
@@ -26,8 +26,9 @@ export const useSingleTutor = (id: string) => {
       }
     };
 
+  useEffect(() => {
     getTutorData();
   }, [id]);
 
-  return { singleTutor, loading, error };
+  return { singleTutor, loading, error, refresh: getTutorData };
 };
