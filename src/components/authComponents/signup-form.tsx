@@ -41,10 +41,16 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      const signupData = {
+        name: value.name,
+        email: value.email,
+        password: value.password,
+        image: "https://i.ibb.co.com/wZBN3SbM/Dr-Ayesha-Rahman.jpg"
+      }
   const toastId = toast.loading("Creating your account...");
 
   try {
-    const { data, error } = await authClient.signUp.email(value);
+    const { data, error } = await authClient.signUp.email(signupData);
 
     if (error) {
       
