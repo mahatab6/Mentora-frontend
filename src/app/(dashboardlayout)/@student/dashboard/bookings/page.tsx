@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/app/(dashboardlayout)/loading";
+import StudentFeedback from "@/components/studentComponents/studentFeedback";
 import {
   Table,
   TableBody,
@@ -25,12 +26,16 @@ export default function BookingsPage() {
 
   const bookingInfo:BookingResponse | null = bookings
 
-
   const filerBooking = bookingInfo?.data?.result?.filter((S) => {
     if(filter === "all") return true;
     return S.status === filter;
   }) || [];
 
+  status
+: 
+"completed"
+
+console.log(filerBooking)
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">My Bookings</h1>
@@ -40,7 +45,7 @@ export default function BookingsPage() {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:cursor-pointer ${
               filter === f
                 ? "bg-blue-600 text-white"
                 : "bg-white text-gray-600 hover:bg-gray-100"
@@ -70,6 +75,7 @@ export default function BookingsPage() {
               <TableHead className="px-6 py-4 text-xs font-medium text-gray-500 uppercase">
                 Price
               </TableHead>
+              
             </TableRow>
           </TableHeader>
 

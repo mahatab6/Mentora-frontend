@@ -8,6 +8,7 @@ import { BookOpen, Calendar, Clock, DollarSign } from "lucide-react";
 import Link from "next/link";
 import Loading from "../../loading";
 import { BookingResponse } from "@/type";
+import StudentFeedback from "@/components/studentComponents/studentFeedback";
 
 export default function DashboardPage() {
   const { bookings, loading } = useGetBooking();
@@ -92,22 +93,25 @@ export default function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">
-                    {new Date(booking.createdAt).toLocaleDateString()}
-                  </p>
-                  <span
-                    className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
-                      booking.status === "upcoming"
-                        ? "bg-blue-100 text-blue-700"
-                        : booking.status === "completed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {booking.status.charAt(0).toUpperCase() +
-                      booking.status.slice(1)}
-                  </span>
+                <div className="flex items-center gap-10 text-right">
+                  <StudentFeedback studentId={booking.studentId} tutorId={booking.tutorId} />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {new Date(booking.createdAt).toLocaleDateString()}
+                    </p>
+                    <span
+                      className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
+                        booking.status === "upcoming"
+                          ? "bg-blue-100 text-blue-700"
+                          : booking.status === "completed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {booking.status.charAt(0).toUpperCase() +
+                        booking.status.slice(1)}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
