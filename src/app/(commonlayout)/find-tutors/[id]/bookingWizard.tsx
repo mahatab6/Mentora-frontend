@@ -46,9 +46,9 @@ interface BookingData {
 type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
-  tutor: Tutor| null ;
+  tutor: Tutor | null;
   id: string;
-  setRefresh: () => void
+  setRefresh: () => void;
 };
 
 const steps = [
@@ -68,15 +68,25 @@ export default function BookingWizard({
   onClose,
   tutor,
   id,
-  setRefresh
+  setRefresh,
 }: BookingWizardProps) {
-  const { tutoravailability } = useAvailability(id);
+  const { tutoravailability, refresh } = useAvailability(id);
 
   const availableSlots =
     tutoravailability?.filter((item) => item.status === "available") ?? [];
 
   const [currentStep, setCurrentStep] = useState(1);
 
+  const resetWizard = () => {
+    setCurrentStep(1);
+    setBookingData({
+      subject: tutor?.subjects?.[0] ?? "",
+      date: new Date(),
+      timeSlot: "",
+      duration: 60,
+      selectedSlotId: undefined,
+    });
+  };
 
   const [bookingData, setBookingData] = useState<BookingData>({
     subject: tutor?.subjects?.[0] ?? "",
@@ -94,7 +104,7 @@ export default function BookingWizard({
   const handleConfirm = async () => {
     if (!tutor) return;
 
-     const toastId = toast.loading("BOOKING...");
+    const toastId = toast.loading("BOOKING...");
 
     const payload = {
       tutorId: id,
@@ -106,29 +116,26 @@ export default function BookingWizard({
     };
 
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/bookings",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+      const res = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
-
-      
+        body: JSON.stringify(payload),
+      });
 
       if (res.ok === false) {
         toast.error("Failed to BOOKING", { id: toastId });
         onClose();
-        return
+        return;
       }
-  
+
       toast.success("FINAL BOOKING successfully!", { id: toastId });
-      setRefresh()
+      setRefresh();
       onClose();
+      resetWizard();
+      refresh()
     } catch (error) {
       console.error("Update error:", error);
       toast.error("Something went wrong", { id: toastId });
@@ -276,12 +283,14 @@ export default function BookingWizard({
             variant="outline"
             onClick={handleBack}
             disabled={currentStep === 1}
+            className="hover:cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4 mr-2" /> Back
           </Button>
 
           {currentStep < 3 ? (
             <Button
+            className="hover:cursor-pointer"
               onClick={handleNext}
               disabled={
                 (currentStep === 1 && !bookingData.subject) ||
@@ -292,9 +301,10 @@ export default function BookingWizard({
             </Button>
           ) : (
             <Button
+            
               onClick={handleConfirm}
               disabled={!bookingData.selectedSlotId}
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-green-600 hover:bg-green-700 hover:cursor-pointer"
             >
               {"Confirm & Pay"}
             </Button>

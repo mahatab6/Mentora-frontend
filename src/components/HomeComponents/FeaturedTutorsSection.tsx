@@ -1,130 +1,94 @@
-
-
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { Award, BadgeCheck, Star } from "lucide-react";
+import { Award, Star, Globe } from "lucide-react";
+import { findTutor } from "@/services/findTutor.services";
+import Image from "next/image";
+import Link from "next/link";
+import { Tutor } from "@/type"; 
 
-export default function FeaturedTutorsSection() {
-  const featuredTutors = [
-    {
-      id: 1,
-      name: "Dr. Amanda Foster",
-      subject: "Advanced Mathematics",
-      rating: 5.0,
-      reviews: 342,
-      sessions: 567,
-      image: "https://images.unsplash.com/photo-1701229404076-5629809b331d",
-      badges: ["Verified", "Top Mentor"],
-      price: 75,
-    },
-    {
-      id: 2,
-      name: "Prof. Robert Martinez",
-      subject: "Computer Science",
-      rating: 5.0,
-      reviews: 289,
-      sessions: 432,
-      image: "https://images.unsplash.com/photo-1686488594144-65fb516275e1",
-      badges: ["Verified", "Top Mentor"],
-      price: 70,
-    },
-    {
-      id: 3,
-      name: "Jessica Thompson",
-      subject: "Business Strategy",
-      rating: 4.9,
-      reviews: 256,
-      sessions: 398,
-      image: "https://images.unsplash.com/photo-1561089489-f13d5e730d72",
-      badges: ["Verified", "Top Mentor"],
-      price: 65,
-    },
-    {
-      id: 4,
-      name: "Mahatab",
-      subject: "Business Strategy",
-      rating: 4.9,
-      reviews: 256,
-      sessions: 398,
-      image: "https://images.unsplash.com/photo-1561089489-f13d5e730d72",
-      badges: ["Verified", "Top Mentor"],
-      price: 65,
-    },
-  ];
+export default async function FeaturedTutorsSection() {
+
+  const data = await findTutor.getAllTutor();
+  const tutors: Tutor[] = data?.data?.tutors ?? [];
 
   return (
-    <section className={cn("py-16 sm:py-20 lg:py-32 px-4")}>
+    <section className={cn("py-16 sm:py-20 lg:py-32 px-4 bg-white")}>
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
             Featured Tutors
           </h2>
-          <p className="text-xl text-gray-600">
-            Learn from our top-rated experts
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Learn from our top-rated experts and accelerate your learning journey.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {featuredTutors.map((tutor) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {tutors.slice(0,4).map((tutor) => (
             <div
               key={tutor.id}
-              className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300"
+              className="group bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full overflow-hidden"
             >
-              <div className="text-center">
-                <div className="relative inline-block mb-4">
-                  <img
-                    src={tutor.image}
-                    alt={`${tutor.name} - ${tutor.subject} expert tutor`}
-                    className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg"
+              {/* Card Header & Image */}
+              <div className="relative p-6 pb-0 flex flex-col items-center">
+                <div className="relative w-28 h-28 mb-4">
+                  <Image
+                    src={(tutor.photoUrl as string) || "/placeholder-avatar.png"}
+                    alt={tutor.fullName || "Tutor"}
+                    fill
+                    className="rounded-full object-cover border-4 border-blue-50 group-hover:border-blue-100 transition-colors"
                   />
-                  <div className="absolute -top-2 -right-2 bg-yellow-400 rounded-full p-2">
-                    <Award className="h-5 w-5 text-white" />
-                  </div>
+                  {tutor.averageRating >= 4.8 && (
+                    <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1.5 shadow-md">
+                      <Award className="h-4 w-4 text-white" />
+                    </div>
+                  )}
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-1">
-                  {tutor.name}
+                <h3 className="text-lg font-bold text-gray-900 text-center line-clamp-1">
+                  {tutor.fullName}
                 </h3>
-                <p className="text-gray-600 mb-3">{tutor.subject}</p>
+                <p className="text-sm font-medium text-blue-600 mb-2">
+                  {tutor.category || tutor.subjects[0]}
+                </p>
+              </div>
 
-                <div className="flex justify-center gap-2 mb-3">
-                  {tutor.badges.map((badge, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full"
-                    >
-                      {badge === "Verified" && (
-                        <BadgeCheck className="h-3 w-3" />
-                      )}
-                      {badge}
+              {/* Card Body */}
+              <div className="px-6 py-2 flex-grow text-center">
+                <div className="flex items-center justify-center gap-1 mb-3">
+                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  <span className="font-bold text-gray-900">{tutor.averageRating}</span>
+                  <span className="text-xs text-gray-500">({tutor.totalReviews} reviews)</span>
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-1.5 mb-4">
+                  {tutor.languages.slice(0, 2).map((lang, i) => (
+                    <span key={i} className="text-[10px] uppercase tracking-wider bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md flex items-center gap-1">
+                      <Globe className="w-3 h-3" /> {lang}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-center gap-1 mb-3">
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-bold text-gray-900">
-                    {tutor.rating}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    ({tutor.reviews} reviews)
-                  </span>
-                </div>
-
-                <p className="text-sm text-gray-600 mb-4">
-                  {tutor.sessions} sessions completed
+                <p className="text-sm text-gray-600 line-clamp-2 italic mb-4">
+                  {tutor.shortBio}
                 </p>
+              </div>
 
-                <div className="mb-4">
-                  <span className="text-3xl font-bold text-blue-600">
-                    ${tutor.price}
-                  </span>
-                  <span className="text-gray-500">/hour</span>
+              {/* Card Footer */}
+              <div className="p-6 pt-0 mt-auto border-t border-gray-50">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-left">
+                    <p className="text-xs text-gray-500 uppercase font-semibold">Hourly Rate</p>
+                    <p className="text-xl font-bold text-gray-900">${tutor.hourlyRate}</p>
+                  </div>
+                  
                 </div>
 
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all">
-                  View Profile
-                </Button>
+                <Link href={`/find-tutors/${tutor.tutor_id}`}>
+                  <Button className="w-full hover:cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-6 shadow-md shadow-blue-100 transition-all hover:scale-[1.02] active:scale-95">
+                    View Profile
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
