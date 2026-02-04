@@ -1,12 +1,10 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Field } from "../ui/field";
-import { Input } from "../ui/input";
-
+import Link from "next/link";
 
 interface Hero47Props {
   heading?: string;
@@ -30,9 +28,9 @@ interface Hero47Props {
 }
 
 const Hero = ({
-  heading = "Epic Blocks",
-  subheading = " built with shadcn/ui & Tailwind",
-  description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
+  heading = "Find the right tutor",
+  subheading = " and learn smarter, faster",
+  description = "Discover qualified tutors for any subject. Book sessions that fit your schedule.",
   className,
 }: Hero47Props) => {
   return (
@@ -47,10 +45,12 @@ const Hero = ({
             {description}
           </p>
           <div className="flex flex-wrap items-start gap-5 lg:w-2/4 lg:gap-7">
-            <Field orientation="horizontal">
-              <Input type="search" placeholder="Search..." />
-              <Button>Search</Button>
-            </Field>
+            <Link href={"/find-tutors"}>
+              <Button className="bg-black hover:bg-black-700 hover:cursor-pointer text-white px-8 py-6 text-lg rounded-xl shadow-lg transition-all hover:scale-105">
+                Find a Tutor
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="relative z-10">

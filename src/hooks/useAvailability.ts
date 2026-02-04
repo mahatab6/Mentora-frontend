@@ -1,6 +1,7 @@
 import { findTutor } from "@/services/findTutor.services";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
+// Types
 type Availability = {
   id: number;
   date: string;
@@ -14,36 +15,41 @@ type AvailabilityResponse = {
   data: Availability[];
 };
 
-
 export const useAvailability = (id: string) => {
-  const [tutoravailability, setTutors] =
-    useState<Availability[]>([]);
-
+  const [tutoravailability, setTutors] = useState<Availability[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getTutorData = async () => {
-      setLoading(true);
-      try {
-        const res: AvailabilityResponse =
-          await findTutor.getavailability(id);
+  const getTutorData = useCallback(async () => {
+    if (!id) return; 
 
+    setLoading(true);
+    setError(null); 
+
+    try {
+      const res: AvailabilityResponse = await findTutor.getavailability(id);
+      
+      if (res.success) {
         setTutors(res.data);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
-      } finally {
-        setLoading(false);
+      } else {
+        throw new Error("Failed to fetch availability");
       }
-    };
-
-    getTutorData();
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Something went wrong";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  return { tutoravailability, loading, error };
-};
+  useEffect(() => {
+    getTutorData();
+  }, [getTutorData]);
 
+  return { 
+    tutoravailability, 
+    loading, 
+    error, 
+    refresh: getTutorData 
+  };
+};

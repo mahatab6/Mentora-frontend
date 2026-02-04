@@ -1,6 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { useAvailability } from "@/hooks/useAvailability";
-import { Dispatch, SetStateAction } from "react";
+import { authClient } from "@/lib/auth-client";
+
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 const formatHour = (hour: number) => {
   const period = hour >= 12 ? "PM" : "AM";
@@ -15,11 +19,24 @@ const formatDate = (date: string) => {
 export default function RightColumn({
   id,
   setOpen,
+  refreshs,
 }: {
   id: string;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  refreshs: boolean;
 }) {
-  const { tutoravailability, loading } = useAvailability(id);
+  const { data: session } = authClient.useSession();
+  const { tutoravailability, loading, refresh } = useAvailability(id);
+
+  useEffect(() => {
+    if (refreshs) {
+      refresh();
+    }
+  }, [refreshs, refresh]);
+
+  if (loading) {
+    return <p className="text-sm text-gray-500">Loading availability...</p>;
+  }
 
   const availableSlots = tutoravailability.filter(
     (item) => item.status === "available",
@@ -27,10 +44,6 @@ export default function RightColumn({
 
   const displayDate =
     availableSlots.length > 0 ? formatDate(availableSlots[0].date) : null;
-
-  if (loading) {
-    return <p className="text-sm text-gray-500">Loading availability...</p>;
-  }
 
   return (
     <div className="space-y-6">
@@ -61,8 +74,9 @@ export default function RightColumn({
         </div>
 
         <Button
+          disabled={!session}
           onClick={() => setOpen(true)}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+          className="w-full bg-blue-600 hover:bg-blue-700 hover:cursor-pointer text-white"
         >
           Check Schedule
         </Button>

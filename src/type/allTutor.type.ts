@@ -1,7 +1,9 @@
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
 export type Tutor = {
   id: number;
   tutor_id: string;
-  fullName: string;
+  fullName: string | undefined;
   shortBio: string;
   aboutMe: string;
   education: string;
@@ -14,7 +16,7 @@ export type Tutor = {
   totalLessons: number;
   totalReviews: number;
   averageRating: number;
-  photoUrl: string;
+  photoUrl: string | StaticImport | undefined;
   introVideoUrl: string;
   isProfileActive: boolean;
   createdAt: string;

@@ -46,8 +46,9 @@ interface BookingData {
 type BookingWizardProps = {
   isOpen: boolean;
   onClose: () => void;
-  tutor: Tutor| undefined ;
+  tutor: Tutor| null ;
   id: string;
+  setRefresh: () => void
 };
 
 const steps = [
@@ -67,6 +68,7 @@ export default function BookingWizard({
   onClose,
   tutor,
   id,
+  setRefresh
 }: BookingWizardProps) {
   const { tutoravailability } = useAvailability(id);
 
@@ -125,6 +127,7 @@ export default function BookingWizard({
       }
   
       toast.success("FINAL BOOKING successfully!", { id: toastId });
+      setRefresh()
       onClose();
     } catch (error) {
       console.error("Update error:", error);

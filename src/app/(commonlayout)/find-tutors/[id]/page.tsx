@@ -18,13 +18,14 @@ export default function TutorSinglePage({
 }) {
   const { id } = use(params);
   const [open, setOpen] = useState(false);
+  const [refreshs, setRefresh] = useState(false)
 
   const { singleTutor, loading } = useSingleTutor(id);
 
   if (loading) return <Loading />;
 
   
-  const tutor: Tutor | undefined = singleTutor;
+  const tutor: Tutor | null = singleTutor;
 
   return (
     <div className="container mx-auto py-20 px-4">
@@ -33,13 +34,14 @@ export default function TutorSinglePage({
 
       <div className="grid lg:grid-cols-3 gap-12 py-4">
         <LeftColumn tutor={tutor} />
-        <RightColumn id={id} setOpen={setOpen}/>
+        <RightColumn id={id} setOpen={setOpen} refreshs={refreshs}/>
       </div>
       <BookingWizard
         isOpen={open}
         onClose={() => setOpen(false)}
         tutor={tutor}
         id={id}
+        setRefresh= {() => setRefresh(true)}
       />
     </div>
   );

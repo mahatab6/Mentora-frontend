@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 export const useSingleTutor = (id: string) => {
-  const [singleTutor, setTutors] = useState<Tutor>();
+  const [singleTutor, setTutors] = useState<Tutor | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

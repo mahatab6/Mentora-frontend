@@ -1,59 +1,32 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+
 import { useGetReview } from "@/hooks/useGetReview";
-import { TutorType } from "@/type";
+import { Tutor } from "@/type";
+
 import { Clock, GraduationCap, Star } from "lucide-react";
 
-export default function LeftColumn({ tutor }: { tutor: any }) {
+export default function LeftColumn({ tutor }: { tutor: Tutor | null }) {
   const id = tutor?.tutor_id;
   const { review } = useGetReview(id as string);
 
   const mockReview = review?.data ?? [];
 
-  console.log(review?.data);
-
-  const mockReviews = [
-    {
-      id: 1,
-      studentName: "Emily Davis",
-      rating: 5,
-      text: "Excellent explanation of complex concepts! Really helped me understand derivatives.",
-      date: "2 days ago",
-      studentImage:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    },
-    {
-      id: 2,
-      studentName: "David Wilson",
-      rating: 4,
-      text: "Great session, very patient tutor. Would recommend for physics help.",
-      date: "1 week ago",
-      studentImage:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
-    },
-    {
-      id: 3,
-      studentName: "Jessica Taylor",
-      rating: 5,
-      text: "Helped me ace my midterm! Best math tutor on the platform.",
-      date: "2 weeks ago",
-      studentImage:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop",
-    },
-  ];
+  const paragraphs = tutor?.aboutMe.split(".  ") ?? []
 
   return (
     <div className="lg:col-span-2 space-y-12">
       {/* About */}
       <section>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          About {tutor?.fullName.split(" ")[0]}
+          About {tutor?.fullName}
         </h2>
-        <p className="text-gray-600 leading-relaxed text-lg mb-6">
-          {tutor?.aboutMe}
-        </p>
+        <div className="space-y-6 text-lg leading-relaxed mb-4">
+          {paragraphs.map((para, i) => (
+            <p key={i}>{para.trim()}.</p>
+          ))}
+        </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div className="bg-white p-4 rounded-lg border border-gray-100 flex items-start gap-3">
@@ -62,7 +35,7 @@ export default function LeftColumn({ tutor }: { tutor: any }) {
             </div>
             <div>
               <p className="font-semibold text-gray-900">Education</p>
-              <p className="text-sm text-gray-600">Masters Degree</p>
+              <p className="text-sm text-gray-600">{tutor?.education}</p>
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg border border-gray-100 flex items-start gap-3">
@@ -98,7 +71,7 @@ export default function LeftColumn({ tutor }: { tutor: any }) {
           Student Reviews
         </h2>
         <div className="grid gap-6">
-          {mockReview.slice(0,5).map((review) => (
+          {mockReview.slice(0, 5).map((review) => (
             <div
               key={review.id}
               className="p-4 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-shadow flex flex-col justify-between"

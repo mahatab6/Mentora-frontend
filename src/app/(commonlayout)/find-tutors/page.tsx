@@ -24,7 +24,7 @@ export default function FindTutorspage() {
   const { category } = useGetCategory();
 
   const searchTerm = searchParams.get("search") || "";
-  const selectedSubject = searchParams.get("subject") || "all";
+  const selectedcategory = searchParams.get("category") || "all";
   const selectedPrice = searchParams.get("price") || "all";
   const selectedRating = searchParams.get("rating") || "all";
 
@@ -74,20 +74,24 @@ export default function FindTutorspage() {
                   placeholder="Search tutors..."
                   value={localSearch}
                   onChange={(e) => setLocalSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900"
+                  onKeyDown={(e) =>
+                    e.key === "Enter" &&
+                    handleFilterChange("search", localSearch)
+                  }
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
               <button
                 onClick={() => handleFilterChange("search", localSearch)}
-                className=" px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                className=" px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition hover:cursor-pointer"
               >
                 Search
               </button>
             </div>
 
             <select
-              value={selectedSubject}
-              onChange={(e) => handleFilterChange("subject", e.target.value)}
+              value={selectedcategory}
+              onChange={(e) => handleFilterChange("category", e.target.value)}
               className="px-4 py-3 border border-gray-300 rounded-lg text-gray-900"
             >
               <option value="all">All Categories</option>
