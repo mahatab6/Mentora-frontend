@@ -29,7 +29,7 @@ export interface DashboardResponse {
   data: DashboardData;
 }
 
-export interface UserFilters{
+export interface UserFilter{
   email?: string;
   role?: string;
   page?: number;

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import TodaySlot from "@/app/(dashboardlayout)/@tutor/dashboard/availability/todaySlot";
 
 interface CalendarSectionProps {
   date: Date;
@@ -21,7 +22,8 @@ export default function CalendarSection({
   const slotCount = availability[selectedKey]?.length || 0;
 
   return (
-    <Card className="lg:col-span-5 h-fit">
+    <div className="lg:col-span-5 h-fit space-y-4">
+      <Card >
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-xl">
           <CalendarIcon className="h-5 w-5 text-primary" />
@@ -59,5 +61,8 @@ export default function CalendarSection({
         </div>
       </CardContent>
     </Card>
+
+    <TodaySlot/>
+    </div>
   );
 }

@@ -173,9 +173,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         <Button form="sign-up-form" type="submit" className="w-full hover:cursor-pointer">
           Submit
         </Button>
-        <Button variant="outline" type="button" className="w-full hover:cursor-pointer">
-          Sign up with Google
-        </Button>
         <FieldDescription className="px-6 text-center">
           Already have an account? <Link href="/login">Login</Link>
         </FieldDescription>

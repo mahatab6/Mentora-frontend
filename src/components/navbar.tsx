@@ -27,6 +27,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 interface MenuItem {
   title: string;
@@ -73,9 +75,9 @@ type NavbarProps = Navbar1Props & {
 const Navbar = ({
   logo = {
     url: "/",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    src: "https://i.ibb.co.com/QF8TdfMS/mentora.png",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "Mentora",
   },
   menu = [
     { title: "Home", url: "/" },
@@ -95,6 +97,18 @@ const Navbar = ({
   className,
   session,
 }: NavbarProps) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <section className={cn("py-4 bg-orange-400 px-4", className)}>
       <div className="container mx-auto">
@@ -132,8 +146,16 @@ const Navbar = ({
               </>
             ) : (
               <>
-                <Button size="sm" >
+                <Button size="sm">
                   <Link href={"/dashboard"}>Dashboard</Link>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hidden sm:flex text-red-600 hover:text-red-700 hover:bg-red-50"
+                  onClick={handleLogout}
+                >
+                  Logout
                 </Button>
               </>
             )}
@@ -191,11 +213,19 @@ const Navbar = ({
                         </Button>
                       </>
                     ) : (
-                      <Button
-                        
-                      >
-                        Logout
-                      </Button>
+                      <>
+                        <Button size="sm">
+                          <Link href={"/dashboard"}>Dashboard</Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="hidden sm:flex text-red-600 hover:text-red-700 hover:bg-red-50"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </Button>
+                      </>
                     )}
                   </div>
                 </div>

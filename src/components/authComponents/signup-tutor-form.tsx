@@ -176,13 +176,6 @@ export function SignupTutorForm({
         >
           Submit
         </Button>
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full hover:cursor-pointer"
-        >
-          Sign up with Google
-        </Button>
         <FieldDescription className="px-6 text-center">
           Already have an account? <Link href="/login">Login</Link>
         </FieldDescription>

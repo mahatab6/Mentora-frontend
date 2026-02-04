@@ -7,7 +7,7 @@ import CalendarSection from "@/components/tutorComponents/calendarSection";
 import TimeSlotsSection from "@/components/tutorComponents/timeSlots";
 import { toast } from "sonner";
 
-type Availability = Record<string, number[]>; // "2025-01-31": [8,9,10,14,...]
+type Availability = Record<string, number[]>;
 
 export default function TutorAvailabilityPage() {
   const [date, setDate] = useState<Date>(new Date());
@@ -42,6 +42,7 @@ export default function TutorAvailabilityPage() {
       }
 
       toast.success("Availability saved successfully!", { id: toastId });
+      
     } catch (error) {
       console.error("Availability error:", error);
       toast.error("Something went wrong while saving availability", {

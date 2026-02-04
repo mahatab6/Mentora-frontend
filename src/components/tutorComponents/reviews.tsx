@@ -45,7 +45,6 @@ export default function Reviews() {
             key={review.id}
             className="p-4 bg-gray-50 rounded-xl border border-gray-100 hover:shadow-md transition-shadow flex flex-col justify-between"
           >
-            {/* Star Rating + Date */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (

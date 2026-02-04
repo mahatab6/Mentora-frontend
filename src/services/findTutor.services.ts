@@ -32,6 +32,15 @@ export const findTutor = {
     return await result.json();
   },
 
+  getReview: async function (id:string) {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/reviews/${id}`, {
+      cache: "no-cache"
+    });
+
+    if(!result.ok) return null;
+    return await result.json();
+  },
+
   getavailability: async function (id: string) {
     const result = await fetch(
       `http://localhost:5000/api/tutor/availability/${id}`,

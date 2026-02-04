@@ -8,13 +8,15 @@ interface TimeSlotsSectionProps {
   availability: Record<string, number[]>;
   setAvailability: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
   formatDateKey: (d: Date) => string;
+
 }
 
 export default function TimeSlotsSection({
   date,
   availability,
   setAvailability,
-  formatDateKey,
+  formatDateKey
+  
 }: TimeSlotsSectionProps) {
   // 0 to 23 → 24 hours
   const timeSlots = Array.from({ length: 24 }, (_, i) => i);
@@ -46,7 +48,7 @@ export default function TimeSlotsSection({
     }));
   };
 
-  const clearDay = () => {
+  const clearDay= () => {
     setAvailability((prev) => {
       const copy = { ...prev };
       delete copy[selectedKey];

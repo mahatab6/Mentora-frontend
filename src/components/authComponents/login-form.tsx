@@ -25,6 +25,8 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 
+
+
 const formSchema = z.object({
   email: z.email("Please enter a valid email address"),
 
@@ -32,6 +34,7 @@ const formSchema = z.object({
 });
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
+  
   const router = useRouter()
   const form = useForm({
     defaultValues: {
@@ -140,13 +143,6 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
           className="w-full hover:cursor-pointer"
         >
           Submit
-        </Button>
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full hover:cursor-pointer"
-        >
-          Sign up with Google
         </Button>
         <FieldDescription className="px-6 text-center">
           Do not have an account? <Link href="/sign-up">Sign up</Link>
