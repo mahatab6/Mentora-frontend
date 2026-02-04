@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { useAvailability } from "@/hooks/useAvailability";
 import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
 
 const formatHour = (hour: number) => {
   const period = hour >= 12 ? "PM" : "AM";
@@ -13,12 +14,21 @@ const formatDate = (date: string) => {
   return date.split("T")[0];
 };
 
-export default function TodaySlot() {
+export default function TodaySlot({ datarefresh, setRefresh }: { datarefresh: boolean, setRefresh:(value: boolean) => void; }) {
   const { data: session, isPending } = authClient.useSession();
 
   const userId = session?.user?.id ?? "";
 
-  const { tutoravailability, } = useAvailability(userId);
+  const { tutoravailability, refresh } = useAvailability(userId);
+
+
+ useEffect(() => {
+  if (datarefresh) {
+    refresh().finally(() => {
+      setRefresh(false);
+    });
+  }
+}, [datarefresh, refresh]);
 
   if (isPending) {
     return <p className="text-sm text-gray-500">Loading availability...</p>;
@@ -27,7 +37,6 @@ export default function TodaySlot() {
   const availableSlots = tutoravailability?.filter(
     (item) => item.status === "available",
   );
-
 
   const displayDate =
     availableSlots.length > 0 ? formatDate(availableSlots[0]?.date) : null;

@@ -57,7 +57,7 @@ export default async function FeaturedTutorsSection() {
               <div className="px-6 py-2 flex-grow text-center">
                 <div className="flex items-center justify-center gap-1 mb-3">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-bold text-gray-900">{tutor.averageRating}</span>
+                  <span className="font-bold text-gray-900">{Number(tutor.averageRating).toFixed(1)}</span>
                   <span className="text-xs text-gray-500">({tutor.totalReviews} reviews)</span>
                 </div>
 

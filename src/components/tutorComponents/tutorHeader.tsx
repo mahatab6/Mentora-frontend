@@ -68,7 +68,7 @@ export default async function TutorHeader() {
 
       {/* Actions */}
       <div className="flex gap-3">
-        <Button variant="outline">Edit Profile</Button>
+        <Link href={'/dashboard/profile'}><Button variant="outline" className="hover:cursor-pointer">Edit Profile</Button></Link>
         <Link href={`/find-tutors/${tutor?.tutor_id}`}>
         <Button className="bg-blue-600 hover:bg-blue-700 hover:cursor-pointer">
           View Public Profile

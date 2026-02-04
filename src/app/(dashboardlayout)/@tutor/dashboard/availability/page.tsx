@@ -12,6 +12,8 @@ type Availability = Record<string, number[]>;
 export default function TutorAvailabilityPage() {
   const [date, setDate] = useState<Date>(new Date());
   const [availability, setAvailability] = useState<Availability>({});
+  const [datarefresh, setRefresh] = useState(false)
+  const [clear, setClear] = useState(false)
 
   const formatDateKey = (d: Date) => format(d, "yyyy-MM-dd");
 
@@ -42,7 +44,8 @@ export default function TutorAvailabilityPage() {
       }
 
       toast.success("Availability saved successfully!", { id: toastId });
-      
+      setClear(true)
+      setRefresh(true)
     } catch (error) {
       console.error("Availability error:", error);
       toast.error("Something went wrong while saving availability", {
@@ -62,7 +65,7 @@ export default function TutorAvailabilityPage() {
             Set when you are available for tutoring sessions
           </p>
         </div>
-        <Button onClick={handleSave} size="lg" className="min-w-[140px]">
+        <Button onClick={handleSave} size="lg" className="min-w-[140px] hover:cursor-pointer">
           Save Changes
         </Button>
       </div>
@@ -73,6 +76,8 @@ export default function TutorAvailabilityPage() {
           setDate={setDate}
           availability={availability}
           formatDateKey={formatDateKey}
+          datarefresh={datarefresh}
+          setRefresh={setRefresh}
         />
 
         <TimeSlotsSection
@@ -80,6 +85,8 @@ export default function TutorAvailabilityPage() {
           availability={availability}
           setAvailability={setAvailability}
           formatDateKey={formatDateKey}
+          clear={clear}
+          setClear= {setClear}
         />
       </div>
     </div>

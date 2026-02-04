@@ -10,6 +10,8 @@ interface CalendarSectionProps {
   setDate: (date: Date) => void;
   availability: Record<string, number[]>;
   formatDateKey: (d: Date) => string;
+  datarefresh: boolean
+  setRefresh: (value: boolean) => void;
 }
 
 export default function CalendarSection({
@@ -17,6 +19,8 @@ export default function CalendarSection({
   setDate,
   availability,
   formatDateKey,
+  datarefresh,
+  setRefresh
 }: CalendarSectionProps) {
   const selectedKey = formatDateKey(date);
   const slotCount = availability[selectedKey]?.length || 0;
@@ -62,7 +66,7 @@ export default function CalendarSection({
       </CardContent>
     </Card>
 
-    <TodaySlot/>
+    <TodaySlot datarefresh={datarefresh} setRefresh={setRefresh}/>
     </div>
   );
 }

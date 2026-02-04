@@ -2,23 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, Check, Trash2 } from "lucide-react";
 import { format } from "date-fns";
+import { useEffect } from "react";
 
 interface TimeSlotsSectionProps {
   date: Date;
   availability: Record<string, number[]>;
   setAvailability: React.Dispatch<React.SetStateAction<Record<string, number[]>>>;
   formatDateKey: (d: Date) => string;
-
+  clear: boolean,
+  setClear: (value: boolean) => void;
 }
 
 export default function TimeSlotsSection({
   date,
   availability,
   setAvailability,
-  formatDateKey
-  
+  formatDateKey,
+  clear,
+  setClear
 }: TimeSlotsSectionProps) {
-  // 0 to 23 → 24 hours
+ 
   const timeSlots = Array.from({ length: 24 }, (_, i) => i);
 
   const selectedKey = formatDateKey(date);
@@ -48,6 +51,7 @@ export default function TimeSlotsSection({
     }));
   };
 
+
   const clearDay= () => {
     setAvailability((prev) => {
       const copy = { ...prev };
@@ -55,6 +59,13 @@ export default function TimeSlotsSection({
       return copy;
     });
   };
+
+  useEffect(() => {
+  if (clear) {
+    clearDay();
+    setClear(false);
+  }
+}, [clear, setClear]);
 
   return (
     <Card className="lg:col-span-7">
@@ -66,11 +77,11 @@ export default function TimeSlotsSection({
           </CardTitle>
 
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={fillDay}>
+            <Button variant="outline" size="sm" className="hover:cursor-pointer" onClick={fillDay}>
               <Check className="mr-1.5 h-4 w-4" />
               Mark All
             </Button>
-            <Button variant="outline" size="sm" onClick={clearDay}>
+            <Button variant="outline" size="sm" className="hover:cursor-pointer" onClick={clearDay}>
               <Trash2 className="mr-1.5 h-4 w-4" />
               Clear
             </Button>
@@ -99,6 +110,7 @@ export default function TimeSlotsSection({
                   text-base sm:text-lg md:text-xl font-semibold
                   transition-all duration-200
                   shadow-sm hover:shadow
+                  hover:cursor-pointer
                   ${isAvailable
                     ? "bg-green-600 hover:bg-green-700 text-white border-green-700"
                     : "hover:border-primary hover:text-primary hover:bg-primary/5 border-gray-300"}

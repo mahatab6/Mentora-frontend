@@ -49,7 +49,7 @@ export default async function profilePage() {
 
       <div className="grid gap-6">
         <Card className="border-none shadow-xl overflow-hidden">
-          <div className="h-32 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500" />
+          <div  />
 
           <CardContent className="relative pt-0 pb-8 px-8">
             <div className="flex flex-col sm:flex-row items-end -mt-12 gap-6">

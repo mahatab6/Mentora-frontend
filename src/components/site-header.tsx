@@ -33,7 +33,7 @@ export function SiteHeader() {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="hidden sm:flex text-red-600 hover:text-red-700 hover:bg-red-50"
+            className="hidden sm:flex text-red-600 hover:text-red-700 hover:cursor-pointer hover:bg-red-50"
             onClick={handleLogout}
           >
             Logout
