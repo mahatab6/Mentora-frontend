@@ -7,10 +7,11 @@ import { ReactNode } from "react";
 export default async function Commonlayout({children}: {children:ReactNode} ) {
 
   const session = await userServices.getSession()
-
+  const id = session?.user?.id
+ 
   return (
     <div>
-        <Navbar session={session}/>
+        <Navbar id={id}/>
         {children}
         <Toaster />
         <Footer/>

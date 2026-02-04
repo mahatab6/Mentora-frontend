@@ -1,7 +1,7 @@
 export type * from "./roles.type"
-export type * from "./tutor.type"
 export type * from "./allTutor.type"
 export type * from "./booking.type"
 export type * from "./bookingmanage.type"
 export type * from "./manageUsers.type"
 export type * from "./review.type"
+export type * from "./testimonialsResponse.type"

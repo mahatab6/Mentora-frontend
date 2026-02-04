@@ -148,6 +148,15 @@ export const findTutor = {
     
     const data = await result.json();
     return data;
+  },
+
+  getAllReview: async function () {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/reviews/`, {
+      cache: "no-store"
+    })
+    
+    const data = await result.json();
+    return data;
   }
 
 };
