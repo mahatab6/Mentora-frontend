@@ -57,7 +57,7 @@ export default function TutorProfile({ tutor, setOpen }: TutorProfileProps) {
               <div className="flex items-center gap-1">
                 <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                 <span className="font-bold text-gray-900 text-base">
-                  {tutor?.averageRating}
+                  {Number(tutor?.averageRating).toFixed(1)}
                 </span>
                 <span>({tutor?.totalReviews} reviews)</span>
               </div>

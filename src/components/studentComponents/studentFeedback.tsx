@@ -70,7 +70,7 @@ export default function StudentFeedback({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="hover:text-blue-600 transition-colors">
+        <Button variant="ghost" size="icon" className="hover:text-blue-600 transition-colors hover:cursor-pointer">
           <MessageCircleMore className="w-5 h-5" />
         </Button>
       </DialogTrigger>

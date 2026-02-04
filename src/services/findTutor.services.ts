@@ -157,6 +157,5 @@ export const findTutor = {
     
     const data = await result.json();
     return data;
-  }
-
+  },
 };
