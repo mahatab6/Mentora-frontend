@@ -41,6 +41,7 @@ export function UpdateCategory({ category, refresh }: UpdateProps) {
         `${NEXT_PUBLIC_BASE_API}/api/admin/update-category`,
         {
           method: "PATCH",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: category.id,

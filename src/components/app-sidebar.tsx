@@ -25,74 +25,80 @@ import Link from "next/link";
 
 const data = {
   navMain: [
+    // --- STUDENT ROLES ---
     {
       title: "Dashboard",
       url: "/dashboard",
       icon: IconDashboard,
-      roles:["STUDENT"]
+      roles: ["STUDENT"]
     },
     {
       title: "My Bookings",
       url: "/dashboard/bookings",
       icon: IconListDetails,
-      roles:["STUDENT"]
+      roles: ["STUDENT"]
     },
     {
       title: "Profile",
       url: "/dashboard/profile",
-      icon: IconChartBar,
-      roles:["STUDENT"]
+      icon: IconUsers, 
+      roles: ["STUDENT"]
     },
+
+
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: IconFolder,
-      roles:["TUTOR"]
+      icon: IconDashboard,
+      roles: ["TUTOR"]
     },
     {
       title: "Availability",
       url: "/dashboard/availability",
-      icon: IconUsers,
-      roles:["TUTOR"]
+      icon: IconInnerShadowTop, 
+      roles: ["TUTOR"]
     },
     {
       title: "Booking",
       url: "/dashboard/booking",
-      icon: IconUsers,
-      roles:["TUTOR"]
+      icon: IconFolder,
+      roles: ["TUTOR"]
     },
     {
       title: "Profile",
       url: "/dashboard/profile",
       icon: IconUsers,
-      roles:["TUTOR"]
+      roles: ["TUTOR"]
     },
+
+    // --- ADMIN ROLES ---
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: IconUsers,
-      roles:["ADMIN"]
+      icon: IconDashboard,
+      roles: ["ADMIN"]
     },
     {
       title: "Users",
       url: "/dashboard/users",
       icon: IconUsers,
-      roles:["ADMIN"]
+      roles: ["ADMIN"]
     },
     {
       title: "Bookings",
       url: "/dashboard/bookings",
-      icon: IconUsers,
-      roles:["ADMIN"]
+      icon: IconListDetails,
+      roles: ["ADMIN"]
     },
     {
       title: "Categories",
       url: "/dashboard/categories",
-      icon: IconUsers,
-      roles:["ADMIN"]
+      icon: IconChartBar, 
+      roles: ["ADMIN"]
     },
   ],
 };
+
 
 type AppSidebarProps = {
   role: Role;

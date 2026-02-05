@@ -25,7 +25,7 @@ export const adminDashboard = {
   },
 
   getTutorById: async function (id: string) {
-    const result = await fetch(`http://localhost:5000/api/tutor/${id}`, {
+    const result = await fetch(`${BACKEND_URL}/api/tutor/${id}`, {
       cache: "no-store",
     });
 

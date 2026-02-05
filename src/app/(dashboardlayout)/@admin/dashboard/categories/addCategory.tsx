@@ -34,6 +34,7 @@ export function AddCategory({refresh} :{refresh:() => Promise<void>}) {
     try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/create-category`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, description }),
       });

@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import CalendarSection from "@/components/tutorComponents/calendarSection";
 import TimeSlotsSection from "@/components/tutorComponents/timeSlots";
 import { toast } from "sonner";
+import { env } from "@/env";
+
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
 
 type Availability = Record<string, number[]>;
 
@@ -27,7 +30,7 @@ export default function TutorAvailabilityPage() {
     const toastId = toast.loading("Saving availability...");
     try {
       const res = await fetch(
-        "http://localhost:5000/api/tutor/manage-availability",
+        `${NEXT_PUBLIC_BASE_API}/api/tutor/manage-availability`,
         {
           method: "POST",
           credentials: "include",

@@ -14,7 +14,7 @@ interface BookingFilters {
 export const findTutor = {
   getAllTutor: async function (queryString = "") {
     const result = await fetch(
-      `http://localhost:5000/api/tutor${queryString ? `?${queryString}` : ""}`,
+      `${NEXT_PUBLIC_BASE_API}/api/tutor${queryString ? `?${queryString}` : ""}`,
       {
         cache: "no-store",
       },
@@ -24,7 +24,7 @@ export const findTutor = {
   },
 
   getUniqueTutor: async function (id: string) {
-    const result = await fetch(`http://localhost:5000/api/tutor/${id}`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/tutor/${id}`, {
       cache: "no-store",
     });
 
@@ -54,7 +54,7 @@ export const findTutor = {
   },
 
   getBooking: async function () {
-    const result = await fetch("http://localhost:5000/api/bookings", {
+    const result = await fetch(`{NEXT_PUBLIC_BASE_API}/api/bookings`, {
       method: "GET",
       credentials: "include",
       cache: "no-cache",

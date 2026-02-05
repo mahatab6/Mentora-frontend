@@ -1,8 +1,8 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
-
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Footer7Props {
   logo?: {
@@ -14,18 +14,14 @@ interface Footer7Props {
   className?: string;
   sections?: Array<{
     title: string;
-    links: Array<{ name: string; href: string }>;
+    links?: Array<{ name: string; href: string }>;
+    details?: Array<string>; 
   }>;
   description?: string;
   socialLinks?: Array<{
     icon: React.ReactElement;
     href: string;
     label: string;
-  }>;
-  copyright?: string;
-  legalLinks?: Array<{
-    name: string;
-    href: string;
   }>;
 }
 
@@ -36,96 +32,89 @@ const defaultSections = [
       { name: "Become a tutor", href: "/become-a-tutor" },
       { name: "Pricing", href: "#" },
       { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
     ],
   },
   {
-    title: "Company",
+    title: "COMPANY",
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
+      { name: "Blog", href: "/blog" },
+      { name: "About Us", href: "#" },
       { name: "Careers", href: "#" },
     ],
   },
   {
-    title: "Resources",
-    links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
+    title: "CONTACT US",
+    details: [
+      "123 Education Lane, Learning City",
+      "Email: support@mentora.com",
+      "Phone: +1 (555) 000-1234",
+      "Mon - Fri: 9:00 AM - 6:00 PM",
     ],
   },
 ];
 
 const defaultSocialLinks = [
-  { icon: <FaInstagram className="size-5" />, href: "#", label: "Instagram" },
-  { icon: <FaFacebook className="size-5" />, href: "#", label: "Facebook" },
-  { icon: <FaTwitter className="size-5" />, href: "#", label: "Twitter" },
-  { icon: <FaLinkedin className="size-5" />, href: "#", label: "LinkedIn" },
-];
-
-const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "#" },
-  { name: "Privacy Policy", href: "#" },
+  { icon: <FaInstagram className="size-5" />, href: "https://www.instagram.com/", label: "Instagram" },
+  { icon: <FaFacebook className="size-5" />, href: "https://www.facebook.com/", label: "Facebook" },
+  { icon: <FaTwitter className="size-5" />, href: "https://x.com/", label: "Twitter" },
+  { icon: <FaLinkedin className="size-5" />, href: "https://www.linkedin.com/", label: "LinkedIn" },
 ];
 
 const Footer = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    url: "/",
+    src: "https://i.ibb.co.com/QF8TdfMS/mentora.png",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "Mentora",
   },
   sections = defaultSections,
-  description = "A collection of components for your startup business or side project.",
+  description = "Empowering students and tutors worldwide with a seamless learning experience and advanced tools.",
   socialLinks = defaultSocialLinks,
-  copyright = "© 2024 Shadcnblocks.com. All rights reserved.",
-  legalLinks = defaultLegalLinks,
   className,
 }: Footer7Props) => {
   return (
-    <section className={cn("py-32", className)}>
+    <footer className={cn("bg-background border-t py-20 px-4", className)}>
       <div className="container mx-auto">
-        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
-          <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
-            {/* Logo */}
-            <div className="flex items-center gap-2 lg:justify-start">
-              <a href={logo.url}>
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  title={logo.title}
-                  className="h-8"
-                />
-              </a>
-              <h2 className="text-xl font-semibold">{logo.title}</h2>
-            </div>
-            <p className="max-w-[70%] text-sm text-muted-foreground">
+        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+      
+          <div className="flex flex-col gap-6 lg:max-w-sm">
+            <Link href={logo.url} className="flex items-center gap-2">
+              <Image width={40} height={40} src={logo.src} alt={logo.alt} />
+              <h2 className="text-2xl font-bold tracking-tight">{logo.title}</h2>
+            </Link>
+            <p className="text-sm leading-relaxed text-muted-foreground">
               {description}
             </p>
-            <ul className="flex items-center space-x-6 text-muted-foreground">
+            <div className="flex items-center space-x-5 text-muted-foreground">
               {socialLinks.map((social, idx) => (
-                <li key={idx} className="font-medium hover:text-primary">
-                  <Link href={social.href} aria-label={social.label}>
-                    {social.icon}
-                  </Link>
-                </li>
+                <Link key={idx} href={social.href} aria-label={social.label} className="transition-colors hover:text-primary">
+                  {social.icon}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20">
-            {sections.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
+
+         
+          <div className="grid flex-1 grid-cols-1 gap-10 sm:grid-cols-3 lg:ml-20">
+            {sections.map((section, idx) => (
+              <div key={idx}>
+                <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-foreground">
+                  {section.title}
+                </h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
-                  {section.links.map((link, linkIdx) => (
-                    <li
-                      key={linkIdx}
-                      className="font-medium hover:text-primary"
-                    >
-                      <Link href={link.href}>{link.name}</Link>
+            
+                  {section.links?.map((link, lIdx) => (
+                    <li key={lIdx}>
+                      <Link href={link.href} className="transition-colors hover:text-primary">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                  
+                
+                  {section.details?.map((detail, dIdx) => (
+                    <li key={dIdx} className="leading-relaxed">
+                      {detail}
                     </li>
                   ))}
                 </ul>
@@ -133,18 +122,12 @@ const Footer = ({
             ))}
           </div>
         </div>
-        <div className="mt-8 flex flex-col justify-between gap-4 border-t py-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center md:text-left">
-          <p className="order-2 lg:order-1">{copyright}</p>
-          <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
-            {legalLinks.map((link, idx) => (
-              <li key={idx} className="hover:text-primary">
-                <Link href={link.href}> {link.name}</Link>
-              </li>
-            ))}
-          </ul>
+
+        <div className="mt-20 border-t pt-8 text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Mentora. All rights reserved.</p>
         </div>
       </div>
-    </section>
+    </footer>
   );
 };
 

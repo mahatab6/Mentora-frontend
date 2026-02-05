@@ -20,6 +20,7 @@ import { useAvailability } from "@/hooks/useAvailability";
 import { toast } from "sonner";
 import { Tutor } from "@/type";
 import { useRouter } from "next/navigation";
+import { env } from "@/env";
 
 // interface Tutor {
 //   id: string;
@@ -27,6 +28,8 @@ import { useRouter } from "next/navigation";
 //   subjects: string[];
 //   hourlyRate: number;
 // }
+
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
 
 interface Availability {
   id: number;
@@ -117,7 +120,7 @@ export default function BookingWizard({
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch(`${NEXT_PUBLIC_BASE_API}/api/bookings`, {
         method: "POST",
         credentials: "include",
         headers: {

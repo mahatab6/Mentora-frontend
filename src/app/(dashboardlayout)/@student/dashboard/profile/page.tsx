@@ -6,6 +6,9 @@ import { authClient } from "@/lib/auth-client";
 import { Mail, User, Camera, Loader2, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { env } from "@/env";
+
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
 
 export default function ProfilePage() {
   const { data: session, isPending: sessionLoading } = authClient.useSession();
@@ -32,7 +35,7 @@ export default function ProfilePage() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/student", {
+      const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/student`, {
         method: "PATCH",
         credentials: 'include',
         headers: {
