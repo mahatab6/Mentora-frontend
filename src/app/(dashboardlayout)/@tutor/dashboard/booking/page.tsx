@@ -1,8 +1,7 @@
 "use client";
 
 import Loading from "@/app/(dashboardlayout)/loading";
-import StudentFeedback from "@/components/studentComponents/studentFeedback";
-import StudentStatus from "@/components/studentComponents/studentStatus";
+import TutorBookingStatus from "@/components/tutorComponents/tutorBookingStatus";
 import {
   Table,
   TableBody,
@@ -16,7 +15,7 @@ import { BookingResponse } from "@/type";
 import { Calendar } from "lucide-react";
 import { useState } from "react";
 
-export default function BookingsPage() {
+export default function TurorBookingPage() {
   const [filter, setFilter] = useState<string>("all");
 
   const { bookings, loading, refresh } = useGetBooking();
@@ -27,6 +26,8 @@ export default function BookingsPage() {
 
   const bookingInfo: BookingResponse | null = bookings;
 
+  console.log(bookingInfo)
+
   const filerBooking =
     bookingInfo?.data?.result?.filter((S) => {
       if (filter === "all") return true;
@@ -35,7 +36,7 @@ export default function BookingsPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">My Bookings</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8">User Bookings</h1>
 
       <div className="mb-6 flex gap-2">
         {["all", "upcoming", "completed", "cancelled"].map((f) => (
@@ -58,7 +59,7 @@ export default function BookingsPage() {
           <TableHeader className="bg-gray-50">
             <TableRow>
               <TableHead className="px-6 py-4 text-xs font-medium text-gray-500 uppercase">
-                Tutor
+                Student Name
               </TableHead>
               <TableHead className="px-6 py-4 text-xs font-medium text-gray-500 uppercase">
                 Subject
@@ -81,7 +82,7 @@ export default function BookingsPage() {
               filerBooking?.map((booking) => (
                 <TableRow key={booking.id} className="hover:bg-gray-50">
                   <TableCell className="px-6 py-4 font-medium text-gray-900">
-                    {booking?.tutor?.fullName}
+                    {booking?.student?.name}
                   </TableCell>
 
                   <TableCell className="px-6 py-4 text-gray-500">
@@ -114,16 +115,9 @@ export default function BookingsPage() {
                   </TableCell>
 
                   <TableCell className="px-6 py-4 text-gray-500">
-                    {booking.status === "completed" ? (
-                      <StudentFeedback
-                        studentId={booking.studentId}
-                        tutorId={booking.tutorId}
-                      />
-                    ) : booking.status === "upcoming" ? (
-                      <StudentStatus id={booking.id} refresh={refresh}/>
-                    ) : (
-                      ""
-                    )}
+                    {booking.status === "upcoming" ? (
+                      <TutorBookingStatus id={booking.id} refresh={refresh}/>
+                    ) : "" }
                   </TableCell>
                 </TableRow>
               ))

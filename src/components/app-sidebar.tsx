@@ -56,6 +56,12 @@ const data = {
       roles:["TUTOR"]
     },
     {
+      title: "Booking",
+      url: "/dashboard/booking",
+      icon: IconUsers,
+      roles:["TUTOR"]
+    },
+    {
       title: "Profile",
       url: "/dashboard/profile",
       icon: IconUsers,

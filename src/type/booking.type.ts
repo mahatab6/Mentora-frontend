@@ -5,12 +5,15 @@ export type BookingSlot = {
   price: number;
   durationMinutes: number;
   startTime: string;
-  status: "upcoming" | "completed" | "canceled";
+  status: "upcoming" | "completed" | "cancelled";
   studentId: string;
   tutorId: string;
   createdAt: string | Date;
   tutor: {
     fullName: string;
+  };
+  student: {
+    name: string;
   };
 };
 
