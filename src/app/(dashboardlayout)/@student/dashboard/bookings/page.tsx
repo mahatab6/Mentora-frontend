@@ -18,24 +18,23 @@ import { useState } from "react";
 export default function BookingsPage() {
   const [filter, setFilter] = useState<string>("all");
 
-  const { bookings, loading } = useGetBooking()
+  const { bookings, loading } = useGetBooking();
 
-  if(loading) {
-    return <Loading/>
+  if (loading) {
+    return <Loading />;
   }
 
-  const bookingInfo:BookingResponse | null = bookings
+  const bookingInfo: BookingResponse | null = bookings;
 
-  const filerBooking = bookingInfo?.data?.result?.filter((S) => {
-    if(filter === "all") return true;
-    return S.status === filter;
-  }) || [];
+  const filerBooking =
+    bookingInfo?.data?.result?.filter((S) => {
+      if (filter === "all") return true;
+      return S.status === filter;
+    }) || [];
 
-  status
-: 
-"completed"
+  status: "completed";
 
-console.log(filerBooking)
+  console.log(filerBooking);
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">My Bookings</h1>
@@ -75,7 +74,9 @@ console.log(filerBooking)
               <TableHead className="px-6 py-4 text-xs font-medium text-gray-500 uppercase">
                 Price
               </TableHead>
-              
+              <TableHead className="px-6 py-4 text-xs font-medium text-gray-500 uppercase">
+             
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -114,6 +115,17 @@ console.log(filerBooking)
 
                   <TableCell className="px-6 py-4 text-gray-500">
                     ${booking.price}
+                  </TableCell>
+
+                  <TableCell className="px-6 py-4 text-gray-500">
+                    {booking.status === "completed" ? (
+                      <StudentFeedback
+                        studentId={booking.studentId}
+                        tutorId={booking.tutorId}
+                      />
+                    ) : (
+                      <h2>hello</h2>
+                    )}
                   </TableCell>
                 </TableRow>
               ))

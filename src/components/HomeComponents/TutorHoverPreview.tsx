@@ -58,7 +58,7 @@ export function TutorHoverPreview({
               <h4 className="font-bold text-lg leading-tight">{tutor?.fullName}</h4>
               <div className="flex items-center gap-1 bg-yellow-50 px-1.5 py-0.5 rounded">
                 <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
-                <span className="text-xs font-bold text-yellow-700">{tutor?.averageRating}</span>
+                <span className="text-xs font-bold text-yellow-700">{Number(tutor?.averageRating).toFixed(1)}</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">

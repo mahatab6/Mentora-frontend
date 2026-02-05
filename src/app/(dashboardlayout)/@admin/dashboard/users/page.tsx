@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/dialog";
 import { env } from "@/env";
 import { toast } from "sonner";
+import UpdateStatus from "@/components/adminComponents/updateStatus";
 
 const PAGE_LIMIT = 10;
 
@@ -153,6 +154,7 @@ export default function ManageUsersPage() {
                 <TableHead>Role</TableHead>
                 <TableHead>Email Verified</TableHead>
                 <TableHead>Joined</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -183,6 +185,9 @@ export default function ManageUsersPage() {
                     <TableCell className="text-gray-500 text-sm">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </TableCell>
+                    <TableCell className="text-gray-500 text-sm">
+                      <UpdateStatus email={user.email}/>
+                    </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Dialog open={open} onOpenChange={setOpen}>
@@ -201,7 +206,7 @@ export default function ManageUsersPage() {
                                 setNewRole(val);
                               }}
                             >
-                              <SelectTrigger className="w-[180px]">
+                              <SelectTrigger className="w-180px">
                                 <SelectValue placeholder="New role set" />
                               </SelectTrigger>
                               <SelectContent>

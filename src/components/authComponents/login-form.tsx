@@ -27,6 +27,7 @@ import { useRouter } from "next/navigation";
 
 
 
+
 const formSchema = z.object({
   email: z.email("Please enter a valid email address"),
 
@@ -55,7 +56,7 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
         }
 
         toast.success("Account Login successfully", { id: toastId });
-        router.push("/")
+        window.location.href = '/';
       } catch (error) {
         toast.error(
           "Something went wrong. Check your internet connection and try again.",

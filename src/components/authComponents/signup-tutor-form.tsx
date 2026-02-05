@@ -62,7 +62,7 @@ export function SignupTutorForm({
         }
 
         toast.success("Account created successfully!", { id: toastId });
-        router.push('/dashboard')
+        window.location.href='/dashboard'
       } catch (err) {
         toast.error(
           "Something went wrong. Check your internet connection and try again.",

@@ -70,7 +70,7 @@ export default function DashboardPage() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold text-gray-900">Recent Bookings</h2>
           <Link href={"/dashboard/bookings"}>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="hover:cursor-pointer">
               View All
             </Button>
           </Link>
@@ -97,7 +97,10 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-10 text-right">
-                  <StudentFeedback studentId={booking.studentId} tutorId={booking.tutorId} />
+                  {
+                    booking.status === "completed" ? <StudentFeedback studentId={booking.studentId} tutorId={booking.tutorId} /> : ""
+                  }
+                  
                   <div>
                     <p className="text-sm font-medium text-gray-900">
                       {new Date(booking.createdAt).toLocaleDateString()}
@@ -124,8 +127,8 @@ export default function DashboardPage() {
             <p className="text-gray-500">
               No bookings yet. Start learning today!
             </p>
-            <Link href={"/"}>
-              <Button className="mt-4 bg-blue-600 text-white">
+            <Link href={"/find-tutors"}>
+              <Button className="mt-4 bg-blue-600 text-white hover:cursor-pointer">
                 Find a Tutor
               </Button>
             </Link>

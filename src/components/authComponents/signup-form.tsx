@@ -66,7 +66,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       "Account created successfully!",
       { id: toastId }
     );
-
+    window.location.href='/dashboard'
     
   } catch (err) {
    

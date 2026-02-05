@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { useAvailability } from "@/hooks/useAvailability";
 import { toast } from "sonner";
 import { Tutor } from "@/type";
+import { useRouter } from "next/navigation";
 
 // interface Tutor {
 //   id: string;
@@ -76,7 +77,7 @@ export default function BookingWizard({
     tutoravailability?.filter((item) => item.status === "available") ?? [];
 
   const [currentStep, setCurrentStep] = useState(1);
-
+  const router = useRouter()
   const resetWizard = () => {
     setCurrentStep(1);
     setBookingData({
@@ -136,6 +137,7 @@ export default function BookingWizard({
       onClose();
       resetWizard();
       refresh()
+      router.push('/dashboard')
     } catch (error) {
       console.error("Update error:", error);
       toast.error("Something went wrong", { id: toastId });
