@@ -142,7 +142,6 @@ export default function BookingWizard({
       refresh()
       router.push('/dashboard')
     } catch (error) {
-      console.error("Update error:", error);
       toast.error("Something went wrong", { id: toastId });
     }
   };

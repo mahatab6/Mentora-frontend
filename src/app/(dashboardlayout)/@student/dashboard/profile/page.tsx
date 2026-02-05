@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
       toast.success("Profile updated successfully!");
     } catch (error) {
-      console.error(error);
+
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);

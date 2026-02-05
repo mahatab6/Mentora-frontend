@@ -92,7 +92,6 @@ export default function ManageUsersPage() {
       refresh()
       setOpen(false);
     } catch (error) {
-      console.error("Update error:", error);
         toast.error("Something went wrong", { id: toastID });
     }
   };

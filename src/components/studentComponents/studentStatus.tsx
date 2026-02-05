@@ -36,7 +36,6 @@ export default function StudentStatus({ id, refresh }: { id: number, refresh:() 
     toast.success("Booking Cancelled");
       refresh()
     } catch (error) {
-      console.error("Update Error:", error)
        toast.error("Could not cancel the booking. Please try again.")
     } finally {
       setIsLoading(false)

@@ -57,9 +57,7 @@ export function UpdateProfile({ id }: { id: string }) {
 
   const { singleTutor, refresh } = useSingleTutor(id);
 
-  const tutor: Tutor | undefined = singleTutor;
-
-  console.log(tutor?.fullName);
+  const tutor: Tutor | null = singleTutor;
 
   const form = useForm({
     defaultValues: {
@@ -105,7 +103,7 @@ export function UpdateProfile({ id }: { id: string }) {
               .filter(Boolean)
           : [],
 
-        photoUrl: value.photoUrl.trim() || "",
+        photoUrl: value.photoUrl || "",
         introVideoUrl: value.introVideoUrl.trim() || "",
         shortBio: value.shortBio?.trim() || "",
         aboutMe: value.aboutMe.trim(),

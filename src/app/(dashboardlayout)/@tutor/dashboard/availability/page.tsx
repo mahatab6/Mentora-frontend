@@ -50,7 +50,7 @@ export default function TutorAvailabilityPage() {
       setClear(true)
       setRefresh(true)
     } catch (error) {
-      console.error("Availability error:", error);
+    
       toast.error("Something went wrong while saving availability", {
         id: toastId,
       });

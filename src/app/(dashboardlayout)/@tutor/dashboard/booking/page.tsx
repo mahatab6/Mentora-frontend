@@ -26,7 +26,6 @@ export default function TurorBookingPage() {
 
   const bookingInfo: BookingResponse | null = bookings;
 
-  console.log(bookingInfo)
 
   const filerBooking =
     bookingInfo?.data?.result?.filter((S) => {

@@ -16,7 +16,7 @@ export type Tutor = {
   totalLessons: number;
   totalReviews: number;
   averageRating: number;
-  photoUrl: string | StaticImport | undefined;
+  photoUrl: string ;
   introVideoUrl: string;
   isProfileActive: boolean;
   createdAt: string;

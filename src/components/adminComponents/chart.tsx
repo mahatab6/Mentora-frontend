@@ -20,7 +20,6 @@ type Earnig = {
 export default function Chart() {
 
   const { allEarning, loading, error } = useAllEarning();
-console.log(allEarning)
  const chartData = useMemo(() => {
   const safeData: Earnig[] = allEarning ?? [];
 

@@ -58,7 +58,6 @@ export default function CategoriesPage() {
       toast.success("Category deleted successfully", { id: toastID });
       refresh();
     } catch (error) {
-      console.error("Delete error:", error);
       toast.error("Something went wrong while deleting", { id: toastID });
     }
   };

@@ -3,9 +3,9 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { authClient } from "@/lib/auth-client";
-import { env } from "@/env";
 
-const NEXT_PUBLIC_callbackURL = env.NEXT_PUBLIC_callbackURL
+
+
 
 export default function GoogleLogin() {
   const handleGoogleLogin = async () => {
@@ -15,7 +15,7 @@ export default function GoogleLogin() {
         callbackURL: "http://localhost:3000",
       });
     } catch (error) {
-      console.error("Google login failed", error);
+
     }
   };
 

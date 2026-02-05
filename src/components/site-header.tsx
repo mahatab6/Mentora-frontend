@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation"; 
+import { toast } from "sonner";
 
 export function SiteHeader() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export function SiteHeader() {
       router.push("/");
       router.refresh(); 
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast.error("Logout failed:");
     }
   };
 

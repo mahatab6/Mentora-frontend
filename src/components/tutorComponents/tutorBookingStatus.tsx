@@ -36,7 +36,7 @@ export default function TutorBookingStatus({ id, refresh }: { id: number, refres
     toast.success("Booking completed");
       refresh()
     } catch (error) {
-      console.error("Update Error:", error)
+  
        toast.error("Could not completed the booking. Please try again.")
     } finally {
       setIsLoading(false)
