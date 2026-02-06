@@ -1,36 +1,204 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 Mentora — Connect with Expert Tutors, Learn Anything
 
-## Getting Started
+Mentora is a full-stack tutoring platform that connects students with expert tutors for personalized learning. Students can browse tutors, book sessions instantly, and leave reviews. Tutors can manage profiles, availability, and sessions, while admins oversee the entire platform.
 
-First, run the development server:
+🔗 **Live Demo:**
+👉 [https://mentora-nu-vert.vercel.app/]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📂 Repositories
+
+- **Frontend:**
+  👉 [https://github.com/mahatab6/Mentora-frontend]
+- **Backend:**
+  👉 [https://github.com/mahatab6/Mentora-backend]
+
+---
+
+## 🚀 Features
+
+### 🌍 Public Features
+
+- Browse tutors by subject, rating, and price
+- Filter tutors by category
+- View detailed tutor profiles with reviews
+- Landing page with featured tutors
+
+### 🎓 Student Features
+
+- Register and log in as a student
+- Book tutoring sessions instantly
+- View upcoming and past bookings
+- Leave reviews after completed sessions
+- Manage personal profile
+
+### 👨‍🏫 Tutor Features
+
+- Register and log in as a tutor
+- Create and update tutor profile
+- Set availability slots
+- View booked teaching sessions
+- Track ratings and reviews
+- Mark sessions as completed
+
+### 🛡️ Admin Features
+
+- View all users (students & tutors)
+- Ban / unban users
+- View and manage all bookings
+- Manage tutor categories
+
+---
+
+## 👥 Roles & Permissions
+
+| Role    | Description                         | Key Permissions                             |
+| ------- | ----------------------------------- | ------------------------------------------- |
+| Student | Learners who book tutoring sessions | Browse tutors, book sessions, leave reviews |
+| Tutor   | Experts offering tutoring services  | Manage profile, availability, sessions      |
+| Admin   | Platform moderators                 | Manage users, bookings, and categories      |
+
+## 🔄 Booking Status Flow
+
+```
+CONFIRMED (instant)
+     |
+     |—— Tutor marks complete ——▶ COMPLETED
+     |
+     |—— Student cancels ————▶ CANCELLED
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧭 User Journeys
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Student Journey
 
-## Learn More
+```
+Register → Browse Tutors → View Profile → Book Session → Attend → Leave Review
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Tutor Journey
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+Register → Create Profile → Set Availability → View Sessions → Mark Complete
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Frontend
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 16**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS**
+- **Radix UI**
+- **TanStack React Table & Form**
+- **Zod**
+- **Better Auth**
+- **Date-fns**
+- **Recharts**
+- **Swiper**
+- **Sonner (Toast notifications)**
+
+### Backend
+
+- **Node.js**
+- **Express 5**
+- **TypeScript**
+- **Prisma ORM**
+- **PostgreSQL**
+- **Better Auth**
+- **CORS**
+- **Dotenv**
+
+---
+
+## 🔐 Authentication
+
+- Email & password authentication using **Better Auth**
+- Role-based access control (Student / Tutor / Admin)
+- Secure session handling
+
+---
+
+## 🧪 Environment Variables
+
+### Frontend (`.env`)
+
+```env
+BACKEND_URL
+AUTH_URL
+API_URL
+NEXT_PUBLIC_BASE_API
+```
+
+### Backend (`.env`)
+
+```env
+DATABASE_URL
+BETTER_AUTH_SECRET
+BETTER_AUTH_URL
+Server_Port
+App_url
+```
+
+---
+
+## 🏗️ Installation & Setup
+
+### 1️⃣ Clone the repositories
+
+```bash
+git clone https://github.com/mahatab6/Mentora-frontend
+git clone https://github.com/mahatab6/Mentora-backend
+```
+
+### 2️⃣ Install dependencies
+
+**Frontend**
+
+```bash
+cd Mentora-frontend
+npm install
+npm run dev
+```
+
+**Backend**
+
+```bash
+cd Mentora-backend
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run dev
+```
+
+---
+
+## 📊 Database
+
+- PostgreSQL
+- Prisma schema with relations for users, tutors, students, bookings, reviews, and availability slots
+
+---
+
+## 🌱 Future Improvements
+
+- Payment integration (Stripe)
+- Video call integration (Zoom / WebRTC)
+- Tutor verification system
+- Notifications & reminders
+- Admin analytics dashboard
+
+---
+
+## 🙌 Author
+
+**Mahatab**
+Full-Stack Developer (MERN / Next.js)
+
+If you like this project, feel free to ⭐ the repo!
