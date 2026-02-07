@@ -113,6 +113,11 @@ export function UpdateProfile({ id }: { id: string }) {
         category: value.category,
         tutor_id: tutor?.tutor_id
       };
+        const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
       try {
         const res = await fetch(
@@ -120,7 +125,9 @@ export function UpdateProfile({ id }: { id: string }) {
           {
             method: "PATCH",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+             },
             body: JSON.stringify(payload),
           },
         );
@@ -138,7 +145,7 @@ export function UpdateProfile({ id }: { id: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Update Public Profile</Button>
+        <Button className="hover:cursor-pointer">Update Public Profile</Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto p-4">
         <DialogHeader className="p-6 pb-2">
@@ -451,7 +458,7 @@ export function UpdateProfile({ id }: { id: string }) {
             <Button
               type="submit"
               disabled={form.state.isSubmitting}
-              className="bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto px-10"
+              className="bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto px-10hover:cursor-pointer"
             >
               {form.state.isSubmitting ? "Saving Changes..." : "Save Profile"}
             </Button>

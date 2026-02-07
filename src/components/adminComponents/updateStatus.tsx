@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Button } from '../ui/button';
-import { Field, FieldGroup } from '../ui/field';
-import { Label } from '../ui/label';
-import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Field, FieldGroup } from "../ui/field";
+import { Label } from "../ui/label";
+import { toast } from "sonner";
 
 export default function UpdateStatus({ email }: { email: string }) {
   const [status, setStatus] = useState("unban");
@@ -16,32 +25,40 @@ export default function UpdateStatus({ email }: { email: string }) {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const toastID = toast.loading("User status updating....")
+    const toastID = toast.loading("User status updating....");
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/admin/update-status`, {
-        method: 'PATCH',
-        credentials: "include",
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/api/admin/update-status`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            email: email,
+            status: status,
+          }),
         },
-        body: JSON.stringify({ 
-          email: email, 
-          status: status 
-        }),
-      });
+      );
 
-      if (!response.ok){
-        toast.error("New status Creting filed", {id: toastID})
+      if (!response.ok) {
+        toast.error("New status Creting filed", { id: toastID });
       }
 
-      
-      toast.success("Status update done", {id: toastID});
+      toast.success("Status update done", { id: toastID });
 
       setOpen(false);
     } catch (error) {
       console.error("Error:", error);
-      toast.error("New status Creting filed", {id: toastID})
+      toast.error("New status Creting filed", { id: toastID });
     } finally {
       setLoading(false);
     }
@@ -50,9 +67,9 @@ export default function UpdateStatus({ email }: { email: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Change Status</Button>
+        <Button className="" variant="outline">Change Status</Button>
       </DialogTrigger>
-      
+
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleUpdate}>
           <DialogHeader>
@@ -81,12 +98,14 @@ export default function UpdateStatus({ email }: { email: string }) {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="ghost" type="button">Cancel</Button>
+              <Button variant="ghost" type="button">
+                Cancel
+              </Button>
             </DialogClose>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={loading}
-              variant={status === 'ban' ? 'destructive' : 'default'}
+              variant={status === "ban" ? "destructive" : "default"}
             >
               {loading ? "Updating..." : "Save Changes"}
             </Button>

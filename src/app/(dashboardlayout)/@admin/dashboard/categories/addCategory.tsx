@@ -15,10 +15,9 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { env } from "@/env";
 
-
 const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
-export function AddCategory({refresh} :{refresh:() => Promise<void>}) {
+export function AddCategory({ refresh }: { refresh: () => Promise<void> }) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,22 +30,37 @@ export function AddCategory({refresh} :{refresh:() => Promise<void>}) {
     const name = formData.get("name");
     const description = formData.get("description");
 
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
+
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/create-category`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description }),
-      });
+      const response = await fetch(
+        `${NEXT_PUBLIC_BASE_API}/api/admin/create-category`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name, description }),
+        },
+      );
 
       const result = await response.json();
 
       if (response.ok) {
         toast.success("Category added successfully!", { id: toastId });
-        setOpen(false); 
-        refresh(); 
+        setOpen(false);
+        refresh();
       } else {
-        toast.error(result.message || "Failed to add category", { id: toastId });
+        toast.error(result.message || "Failed to add category", {
+          id: toastId,
+        });
       }
     } catch (error: unknown) {
       toast.error("Something went wrong", { id: toastId });
@@ -58,7 +72,7 @@ export function AddCategory({refresh} :{refresh:() => Promise<void>}) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="hover:cursor-pointer">
           <Plus className="h-4 w-4 mr-2" /> Add Category
         </Button>
       </DialogTrigger>
@@ -70,20 +84,30 @@ export function AddCategory({refresh} :{refresh:() => Promise<void>}) {
               Enter the name and description for the new subject category.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Category Name</Label>
-              <Input id="name" name="name" placeholder="e.g. Mathematics" required />
+              <Input
+                id="name"
+                name="name"
+                placeholder="e.g. Mathematics"
+                required
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
-              <Input id="description" name="description" placeholder="Short description..." required />
+              <Input
+                id="description"
+                name="description"
+                placeholder="Short description..."
+                required
+              />
             </div>
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button className="hover:cursor-pointer" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Saving..." : "Save Category"}
             </Button>
           </DialogFooter>

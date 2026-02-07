@@ -51,12 +51,24 @@ export default function SignUpTutor() {
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Creating your tutor account...");
 
+      const data = {
+        email: value.email,
+        password: value.password,
+        name: value.name,
+        role: "TUTOR",
+      };
+
       try {
-        const { error } = await authClient.signUp.email({
-          email: value.email,
-          password: value.password,
-          name: value.name,
-          role: "TUTOR",
+        const { error } = await authClient.signUp.email(data, {
+          onSuccess: (ctx) => {
+            const authToken = ctx.response.headers.get("set-auth-token");
+
+            if (authToken) {
+              localStorage.setItem("authToken", authToken);
+            } else {
+              console.warn("No set-auth-token header found");
+            }
+          },
         });
 
         if (error) {

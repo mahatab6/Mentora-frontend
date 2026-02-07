@@ -15,6 +15,11 @@ export default function StudentStatus({ id, refresh }: { id: number, refresh:() 
   const handleCancel = async () => {
 
     setIsLoading(true)
+      const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
     try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/student/status`, {
@@ -22,6 +27,7 @@ export default function StudentStatus({ id, refresh }: { id: number, refresh:() 
         credentials: "include",
         headers: {
           'Content-Type': 'application/json',
+           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id: id,

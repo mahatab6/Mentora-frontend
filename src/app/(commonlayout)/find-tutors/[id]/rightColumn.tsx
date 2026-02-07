@@ -26,6 +26,7 @@ export default function RightColumn({
   refreshs: boolean;
 }) {
   const { data: session } = authClient.useSession();
+
   const { tutoravailability, loading, refresh } = useAvailability(id);
 
   useEffect(() => {

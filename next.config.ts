@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  async rewrites() {
+async rewrites() {
     return [
       {
         source: "/api/auth/:path*",
@@ -23,8 +23,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
-
 };
 
 export default nextConfig;

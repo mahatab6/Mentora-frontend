@@ -130,7 +130,7 @@ Register → Create Profile → Set Availability → View Sessions → Mark Comp
 ### Frontend (`.env`)
 
 ```env
-BACKEND_URL
+NEXT_PUBLIC_BASE_API
 AUTH_URL
 API_URL
 NEXT_PUBLIC_BASE_API

@@ -45,12 +45,24 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         name: value.name,
         email: value.email,
         password: value.password,
-        image: "https://i.ibb.co.com/wZBN3SbM/Dr-Ayesha-Rahman.jpg"
+        image: "https://i.ibb.co.com/Vck6VPZ6/user.png"
       }
   const toastId = toast.loading("Creating your account...");
 
   try {
-    const { data, error } = await authClient.signUp.email(signupData);
+    const { data, error } = await authClient.signUp.email(signupData, {
+    
+      onSuccess: (ctx) => {
+        const authToken = ctx.response.headers.get("set-auth-token"); 
+
+        if (authToken) {
+          localStorage.setItem("authToken", authToken);  
+  
+        } else {
+          console.warn("No set-auth-token header found");
+        }
+      },
+    });
 
     if (error) {
       

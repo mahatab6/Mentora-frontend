@@ -9,12 +9,17 @@ import { env } from '@/env';
 
 const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
 
-export default function TutorBookingStatus({ id, refresh }: { id: number, refresh:() => Promise<void> }) {
+export default function TutorBookingStatus({ id, refresh }: { id: number,  refresh: () => Promise<void>; }) {
   const [isLoading, setIsLoading] = useState(false)
 
   const handlecompleted = async () => {
 
     setIsLoading(true)
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
     try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/tutor/status`, {
@@ -22,6 +27,7 @@ export default function TutorBookingStatus({ id, refresh }: { id: number, refres
         credentials: "include",
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id: id,
@@ -34,7 +40,7 @@ export default function TutorBookingStatus({ id, refresh }: { id: number, refres
       }
 
     toast.success("Booking completed");
-      refresh()
+      await refresh()
     } catch (error) {
   
        toast.error("Could not completed the booking. Please try again.")

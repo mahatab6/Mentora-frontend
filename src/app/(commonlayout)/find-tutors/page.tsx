@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { useGetCategory } from "@/hooks/useGetCategory";
 
+
 export default function FindTutorspage() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -50,6 +51,7 @@ export default function FindTutorspage() {
   const totalPages = tutor?.data?.meta?.totalPages || 1;
   const currentPage = Number(searchParams.get("page") || "1");
   const categories = category ?? [];
+
 
   return (
     <section className="py-20 lg:py-32 px-4 bg-linear-to-br from-blue-50 to-indigo-50">

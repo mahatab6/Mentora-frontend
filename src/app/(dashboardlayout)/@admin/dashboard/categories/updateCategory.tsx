@@ -36,13 +36,20 @@ export function UpdateCategory({ category, refresh }: UpdateProps) {
     const name = formData.get("name");
     const description = formData.get("description");
 
+     const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
     try {
       const response = await fetch(
         `${NEXT_PUBLIC_BASE_API}/api/admin/update-category`,
         {
           method: "PATCH",
           credentials: "include",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+           },
           body: JSON.stringify({
             id: category.id,
             name,
@@ -74,7 +81,7 @@ export function UpdateCategory({ category, refresh }: UpdateProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="text-muted-foreground hover:text-blue-600"
+          className="text-muted-foreground hover:text-blue-600 hover:cursor-pointer"
         >
           <Edit2 className="h-4 w-4" />
         </Button>
@@ -110,7 +117,7 @@ export function UpdateCategory({ category, refresh }: UpdateProps) {
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="hover:cursor-pointer">
               {isSubmitting ? "Updating..." : "Save Changes"}
             </Button>
           </DialogFooter>

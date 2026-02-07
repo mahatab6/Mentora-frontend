@@ -28,7 +28,13 @@ export default function TutorAvailabilityPage() {
       hours,
     };
     const toastId = toast.loading("Saving availability...");
+     const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
     try {
+
       const res = await fetch(
         `${NEXT_PUBLIC_BASE_API}/api/tutor/manage-availability`,
         {
@@ -36,6 +42,7 @@ export default function TutorAvailabilityPage() {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(payload),
         },

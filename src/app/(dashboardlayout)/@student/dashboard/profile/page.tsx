@@ -33,22 +33,30 @@ export default function ProfilePage() {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
     try {
+      const toastId = toast.loading("updated profile...");
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/student`, {
         method: "PATCH",
         credentials: 'include',
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      toast.success("Profile updated successfully!");
+      toast.success("Profile updated successfully!", { id: toastId});
     } catch (error) {
-
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);

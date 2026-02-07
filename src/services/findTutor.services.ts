@@ -11,6 +11,8 @@ interface BookingFilters {
   role?: string;
 }
 
+
+
 export const findTutor = {
   getAllTutor: async function (queryString = "") {
     const result = await fetch(
@@ -43,7 +45,7 @@ export const findTutor = {
 
   getavailability: async function (id: string) {
     const result = await fetch(
-      `http://localhost:5000/api/tutor/availability/${id}`,
+      `${NEXT_PUBLIC_BASE_API}/api/tutor/availability/${id}`,
       {
         cache: "no-store",
       },
@@ -54,9 +56,17 @@ export const findTutor = {
   },
 
   getBooking: async function () {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
     const result = await fetch(`{NEXT_PUBLIC_BASE_API}/api/bookings`, {
       method: "GET",
       credentials: "include",
+      headers: {
+            Authorization: `Bearer ${token}`,
+          },
       cache: "no-cache",
     });
 

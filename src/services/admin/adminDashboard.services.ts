@@ -1,13 +1,13 @@
 import { env } from "@/env";
 
-const BACKEND_URL = env.BACKEND_URL;
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
 
 
 
 export const adminDashboard = {
   getDashboardCard: async function () {
-    const result = await fetch(`${BACKEND_URL}/api/admin/dashboard-card`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/dashboard-card`, {
       cache: "no-store",
     });
 
@@ -16,7 +16,7 @@ export const adminDashboard = {
   },
 
   getBookingManagement: async function () {
-    const result = await fetch(`${BACKEND_URL}/api/admin/booking-management`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/booking-management`, {
       cache: "no-store",
     });
 
@@ -25,7 +25,7 @@ export const adminDashboard = {
   },
 
   getTutorById: async function (id: string) {
-    const result = await fetch(`${BACKEND_URL}/api/tutor/${id}`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/tutor/${id}`, {
       cache: "no-store",
     });
 

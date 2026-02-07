@@ -93,6 +93,7 @@ export default function BookingsPage() {
           <div className="flex gap-2 flex-wrap">
             {["All", "upcoming", "completed", "cancelled"].map((status) => (
               <Button
+              className="hover:cursor-pointer"
                 key={status}
                 size="sm"
                 variant={statusFilter === status ? "default" : "outline"}

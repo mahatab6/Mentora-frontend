@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { env } from "@/env";
 
-const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
 export default function StudentFeedback({
   studentId,
@@ -33,7 +33,7 @@ export default function StudentFeedback({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (rating === 0) {
       return toast.error("Please select a rating!");
     }
@@ -45,12 +45,20 @@ export default function StudentFeedback({
       tutor_id: tutorId,
       student_id: studentId,
     };
-   
+
     try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        return;
+      }
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/reviews`, {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(payload),
       });
 
@@ -70,22 +78,30 @@ export default function StudentFeedback({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="hover:text-blue-600 transition-colors hover:cursor-pointer">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hover:text-blue-600 transition-colors hover:cursor-pointer"
+        >
           <MessageCircleMore className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-425px rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold">Write a Review</DialogTitle>
+          <DialogTitle className="text-2xl font-bold">
+            Write a Review
+          </DialogTitle>
           <DialogDescription>
-            Share your experience with the tutor. Your feedback helps other students make better choices.
+            Share your experience with the tutor. Your feedback helps other
+            students make better choices.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 pt-4">
-          
           <div className="space-y-3 text-center">
-            <label className="text-sm font-semibold text-gray-700">How was your experience?</label>
+            <label className="text-sm font-semibold text-gray-700">
+              How was your experience?
+            </label>
             <div className="flex items-center justify-center gap-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -101,7 +117,7 @@ export default function StudentFeedback({
                       "h-8 w-8 transition-colors",
                       (hover || rating) >= star
                         ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
+                        : "text-gray-300",
                     )}
                   />
                 </button>
@@ -109,9 +125,10 @@ export default function StudentFeedback({
             </div>
           </div>
 
-     
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-700">Detailed Feedback</label>
+            <label className="text-sm font-semibold text-gray-700">
+              Detailed Feedback
+            </label>
             <Textarea
               placeholder="What did you like or what can be improved?"
               value={reviewContent}
@@ -121,7 +138,6 @@ export default function StudentFeedback({
             />
           </div>
 
-         
           <div className="flex justify-end gap-3 pt-2">
             <Button
               type="button"

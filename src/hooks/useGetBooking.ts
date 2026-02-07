@@ -1,31 +1,75 @@
-import { findTutor } from "@/services/findTutor.services";
 import { BookingResponse } from "@/type";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export const useGetBooking = () => {
-  const [bookings, setBooking] = useState<BookingResponse | null>(null);
+  const [bookings, setBookings] = useState<BookingResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const getTutorData = async () => {
-    setLoading(true);
-    try {
-      const data = await findTutor.getBooking();
-      setBooking(data);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Something went wrong");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  // 🔁 refresh trigger
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refresh = async (): Promise<void> => {
+  setRefreshKey((prev) => prev + 1);
+};
+
 
   useEffect(() => {
-    getTutorData();
-  }, []);
+    let isMounted = true;
 
-  return { bookings, loading, error, refresh:getTutorData };
+    const fetchBookings = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          throw new Error("Unauthorized");
+        }
+
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API}/api/bookings`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            cache: "no-cache",
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch bookings");
+        }
+
+        const data = await res.json();
+
+        if (isMounted) {
+          setBookings(data);
+        }
+      } catch (err: unknown) {
+        if (!isMounted) return;
+
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Something went wrong");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchBookings();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [refreshKey]); 
+
+  return { bookings, loading, error, refresh };
 };

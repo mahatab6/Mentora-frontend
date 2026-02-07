@@ -31,7 +31,15 @@ export default function CategoriesPage() {
   const categories = category ?? [];
 
   const handleDelete = async (id: number) => {
+    
     const toastID = toast.loading("Deleting category...");
+    
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
+
 
     try {
       const response = await fetch(
@@ -40,6 +48,7 @@ export default function CategoriesPage() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           credentials: "include",
           body: JSON.stringify({ id }),
@@ -115,7 +124,7 @@ export default function CategoriesPage() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleDelete(cat.id)}
-                      className="text-muted-foreground hover:text-red-600"
+                      className="text-muted-foreground hover:text-red-600 hover:cursor-pointer"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

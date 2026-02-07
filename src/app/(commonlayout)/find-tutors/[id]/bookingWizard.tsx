@@ -119,12 +119,19 @@ export default function BookingWizard({
       id: bookingData.selectedSlotId,
     };
 
+      const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
+    
     try {
       const res = await fetch(`${NEXT_PUBLIC_BASE_API}/api/bookings`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });

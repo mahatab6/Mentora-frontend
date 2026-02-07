@@ -45,10 +45,9 @@ import UpdateStatus from "@/components/adminComponents/updateStatus";
 
 const PAGE_LIMIT = 10;
 
-const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
 export default function ManageUsersPage() {
- 
   const [searchValue, setSearchValue] = useState("");
   const [filterRole, setFilterRole] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,26 +72,34 @@ export default function ManageUsersPage() {
   };
 
   const handleUpdate = async (email: string) => {
-    const toastID = toast.loading("User role updating....")
-   
+    const toastID = toast.loading("User role updating....");
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/admin/update-role`, {
-        method: "PATCH",
-        headers: { 
-          "Content-Type": "application/json" 
+      const response = await fetch(
+        `${NEXT_PUBLIC_BASE_API}/api/admin/update-role`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, role: newRole }),
         },
-        credentials: "include",
-        body: JSON.stringify({ email, role: newRole })
-      });
+      );
 
       if (!response.ok) {
-        toast.error("New Role Creting filed", {id: toastID})
+        toast.error("New Role Creting filed", { id: toastID });
       }
-      toast.success("Role update done", {id: toastID});
-      refresh()
+      toast.success("Role update done", { id: toastID });
+      refresh();
       setOpen(false);
     } catch (error) {
-        toast.error("Something went wrong", { id: toastID });
+      toast.error("Something went wrong", { id: toastID });
     }
   };
 
@@ -185,13 +192,17 @@ export default function ManageUsersPage() {
                       {new Date(user.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-gray-500 text-sm">
-                      <UpdateStatus email={user.email}/>
+                      <UpdateStatus email={user.email} />
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Dialog open={open} onOpenChange={setOpen}>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="hover:cursor-pointer"
+                            >
                               <Edit2 className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
@@ -200,25 +211,32 @@ export default function ManageUsersPage() {
                               <DialogTitle>Change Role</DialogTitle>
                             </DialogHeader>
                             <Select
+                            
                               value={newRole}
                               onValueChange={(val) => {
                                 setNewRole(val);
                               }}
                             >
-                              <SelectTrigger className="w-180px">
+                              <SelectTrigger className="w-180px hover:cursor-pointer">
                                 <SelectValue placeholder="New role set" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="STUDENT">Student</SelectItem>
-                                <SelectItem value="TUTOR">Tutors</SelectItem>
-                                <SelectItem value="ADMIN">Admins</SelectItem>
+                                <SelectItem className="hover:cursor-pointer" value="STUDENT">Student</SelectItem>
+                                <SelectItem className="hover:cursor-pointer" value="TUTOR">Tutors</SelectItem>
+                                <SelectItem className="hover:cursor-pointer" value="ADMIN">Admins</SelectItem>
                               </SelectContent>
                             </Select>
                             <DialogFooter>
                               <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
+                                <Button
+                                  variant="outline"
+                                  className="hover:cursor-pointer"
+                                >
+                                  Cancel
+                                </Button>
                               </DialogClose>
                               <Button
+                                className="hover:cursor-pointer"
                                 type="submit"
                                 onClick={() => handleUpdate(user.email)}
                               >

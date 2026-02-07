@@ -24,12 +24,19 @@ export default function ReviewReplay({ id }: { id: number }) {
     }
 
     setLoading(true);
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      return;
+    }
 
     try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_API}/api/reviews/replay`, {
         method: "PATCH", 
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+         },
         body: JSON.stringify({
           id: id,
           replay: replayContent,

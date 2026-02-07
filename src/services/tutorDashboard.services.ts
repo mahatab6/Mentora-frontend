@@ -1,11 +1,11 @@
 import { env } from "@/env";
 import { cookies } from "next/headers";
 
-const BACKEND_URL = env.BACKEND_URL;
+const NEXT_PUBLIC_BASE_API = env.NEXT_PUBLIC_BASE_API;
 
 export const tutorDashboard = {
   tutorBio: async function (id: string) {
-    const result = await fetch(`${BACKEND_URL}/api/tutor/${id}`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/tutor/${id}`, {
       cache: "no-store",
     });
 
@@ -14,7 +14,7 @@ export const tutorDashboard = {
   },
 
   getBooking: async function (id: string) {
-    const result = await fetch(`${BACKEND_URL}/api/tutor/booking/${id}`, {
+    const result = await fetch(`${NEXT_PUBLIC_BASE_API}/api/tutor/booking/${id}`, {
       cache: "no-store",
     });
 
@@ -27,7 +27,7 @@ export const tutorDashboard = {
 
     const allCookies = cookieStore.toString();
     const result = await fetch(
-      `${BACKEND_URL}/api/tutor/tutor-metricsgrid/${id}`,
+      `${NEXT_PUBLIC_BASE_API}/api/tutor/tutor-metricsgrid/${id}`,
       {
         headers: {
           Cookie: allCookies,

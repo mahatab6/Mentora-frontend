@@ -48,8 +48,20 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Student login..............");
       try {
-        const { data, error } = await authClient.signIn.email(value);
+        const { data, error } = await authClient.signIn.email(value, {
+    
+      onSuccess: (ctx) => {
+        const authToken = ctx.response.headers.get("set-auth-token"); 
 
+        if (authToken) {
+          localStorage.setItem("authToken", authToken);  
+          console.log("Bearer Token saved:", authToken);
+        } else {
+          console.warn("No set-auth-token header found");
+        }
+      },
+    });
+        
         if (error) {
           toast.error(error.message || "Please try again", { id: toastId });
           return;
