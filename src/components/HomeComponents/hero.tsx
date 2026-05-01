@@ -46,7 +46,7 @@ const Hero = ({
           </p>
           <div className="flex flex-wrap items-start gap-5 lg:w-2/4 lg:gap-7">
             <Link href={"/find-tutors"}>
-              <Button className="bg-black hover:bg-black-700 hover:cursor-pointer text-white px-8 py-6 text-lg rounded-xl shadow-lg transition-all hover:scale-105">
+              <Button className="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer text-white px-8 py-6 text-lg rounded-xl shadow-lg transition-all hover:scale-105">
                 Find a Tutor
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

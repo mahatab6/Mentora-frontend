@@ -15,6 +15,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ModeToggle } from "./HomeComponents/ModeToggle";
 
 interface MenuItem {
   title: string;
@@ -86,30 +87,31 @@ const Navbar = ({ className, id }: NavbarProps) => {
               key={item.title}
               href={item.url}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-orange-500",
-                pathname === item.url ? "text-orange-600" : "text-gray-600"
+                "text-sm font-medium transition-colors hover:text-blue-500",
+                pathname === item.url ? "text-blue-600" : "text-gray-600"
               )}
             >
               {item.title}
             </Link>
           ))}
         </nav>
-
+          
         {/* Auth Buttons */}
         <div className="hidden lg:flex items-center gap-3">
+          <ModeToggle/>
           {!id ? (
             <>
               <Button asChild variant="ghost" className="font-semibold text-gray-600">
                 <Link href="/login">Login</Link>
               </Button>
-              <Button asChild className="bg-orange-500 hover:bg-orange-600 shadow-md shadow-orange-100 rounded-full px-6">
+              <Button asChild className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-orange-100 rounded-full px-6">
                 <Link href="/sign-up">Join Free</Link>
               </Button>
             </>
           ) : (
             <div className="flex items-center gap-4 bg-gray-50 p-3 pr-4 rounded-full border border-gray-100">
               <Link href="/dashboard" className="flex items-center gap-2 group">
-                 <span className="text-sm font-semibold text-gray-700 group-hover:text-orange-600 transition-colors">Dashboard</span>
+                 <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">Dashboard</span>
               </Link>
               <button 
                 onClick={handleLogout}
@@ -125,7 +127,7 @@ const Navbar = ({ className, id }: NavbarProps) => {
         {/* Mobile Menu Trigger */}
         <div className="lg:hidden flex items-center gap-4">
            {id && (
-              <Link href="/dashboard" className="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+              <Link href="/dashboard" className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
                  <LayoutDashboard className="h-4 w-4" />
               </Link>
            )}
@@ -149,19 +151,21 @@ const Navbar = ({ className, id }: NavbarProps) => {
                     href={item.url}
                     className={cn(
                       "text-lg font-semibold p-2 rounded-lg transition-colors",
-                      pathname === item.url ? "bg-orange-50 text-orange-600" : "text-gray-600"
+                      pathname === item.url ? "bg-orange-50 text-blue-600" : "text-gray-600"
                     )}
                   >
                     {item.title}
                   </Link>
                 ))}
+             
+                <ModeToggle/>
                 <hr className="border-gray-100" />
                 {!id ? (
                   <div className="flex flex-col gap-3">
                     <Button asChild variant="outline" className="rounded-xl py-6">
                       <Link href="/login">Login</Link>
                     </Button>
-                    <Button asChild className="bg-orange-500 hover:bg-orange-600 rounded-xl py-6">
+                    <Button asChild className="bg-blue-600 hover:bg-blue-700 rounded-xl py-6">
                       <Link href="/sign-up">Sign Up</Link>
                     </Button>
                   </div>
