@@ -6,6 +6,7 @@ import ForStudentsSection from "@/components/HomeComponents/ForStudentsSection";
 import ForTutorsSection from "@/components/HomeComponents/ForTutorsSection";
 import { Hero } from "@/components/HomeComponents/hero";
 import HowItWorksSection from "@/components/HomeComponents/HowItWorksSection";
+import Newsletter from "@/components/HomeComponents/Newsletter";
 import TestimonialsSection from "@/components/HomeComponents/TestimonialsSection";
 
 
@@ -20,6 +21,7 @@ export default async function Home() {
       <HowItWorksSection/>
       <ForStudentsSection/>
       <ForTutorsSection/>
+      <Newsletter/>
       <TestimonialsSection/>
     </div>
   );

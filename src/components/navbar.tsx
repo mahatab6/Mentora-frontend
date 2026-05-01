@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, LogOut, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,14 +24,13 @@ interface MenuItem {
 
 interface NavbarProps {
   className?: string;
-  id: string | null; 
+  id: string | null;
 }
 
 const Navbar = ({ className, id }: NavbarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,125 +56,155 @@ const Navbar = ({ className, id }: NavbarProps) => {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4",
-        isScrolled 
-          ? "py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100" 
+        isScrolled
+          ? "py-3 backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-b border-gray-100 dark:border-slate-800"
           : "py-5 bg-transparent",
         className
       )}
     >
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className=" p-1.5 rounded-xl group-hover:rotate-6 transition-transform">
+          <div className="p-1.5 rounded-xl transition-transform group-hover:scale-105 group-hover:rotate-3">
             <Image
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               src="https://i.ibb.co.com/QF8TdfMS/mentora.png"
               alt="Mentora Logo"
             />
           </div>
-          <span className="text-xl font-bold tracking-tight text-gray-900">
+          <span className="text-xl font-bold text-gray-900 dark:text-white">
             Mentora
           </span>
         </Link>
 
-      
+        {/* Desktop Menu */}
         <nav className="hidden lg:flex items-center gap-8">
           {menu.map((item) => (
             <Link
               key={item.title}
               href={item.url}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-blue-500",
-                pathname === item.url ? "text-blue-600" : "text-gray-600"
+                "text-sm font-medium relative transition-colors hover:text-blue-500",
+                pathname === item.url
+                  ? "text-blue-600 after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-blue-600"
+                  : "text-gray-600"
               )}
             >
               {item.title}
             </Link>
           ))}
         </nav>
-          
-        {/* Auth Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
-          <ModeToggle/>
+
+        {/* Desktop Right */}
+        <div className="hidden lg:flex items-center gap-4">
+          <ModeToggle />
+
           {!id ? (
             <>
-              <Button asChild variant="ghost" className="font-semibold text-gray-600">
-                <Link href="/login">Login</Link>
-              </Button>
-              <Button asChild className="bg-blue-600 hover:bg-blue-700 shadow-md shadow-orange-100 rounded-full px-6">
-                <Link href="/sign-up">Join Free</Link>
+              <Link
+                href="/login"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600"
+              >
+                Login
+              </Link>
+
+              <Button className="rounded-full px-6 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer">
+                Join Free
               </Button>
             </>
           ) : (
-            <div className="flex items-center gap-4 bg-gray-50 p-3 pr-4 rounded-full border border-gray-100">
-              <Link href="/dashboard" className="flex items-center gap-2 group">
-                 <span className="text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">Dashboard</span>
-              </Link>
-              <button 
-                onClick={handleLogout}
-                className="text-gray-400 hover:text-red-500 transition-colors hover:cursor-pointer"
-                title="Logout"
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium hover:text-blue-600"
               >
-                <LogOut className="h-4 w-4" />
+                Dashboard
+              </Link>
+
+              <button onClick={handleLogout}>
+                <LogOut className="h-4 w-4 text-gray-500 hover:text-red-500" />
               </button>
             </div>
           )}
         </div>
 
-        {/* Mobile Menu Trigger */}
-        <div className="lg:hidden flex items-center gap-4">
-           {id && (
-              <Link href="/dashboard" className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                 <LayoutDashboard className="h-4 w-4" />
-              </Link>
-           )}
-           <Sheet>
+        {/* Mobile */}
+        <div className="lg:hidden flex items-center gap-3">
+          {id && (
+            <Link
+              href="/dashboard"
+              className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+            </Link>
+          )}
+
+          <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="hover:bg-orange-50">
+              <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6 text-gray-700" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <SheetHeader className="text-left">
-                <SheetTitle className="flex items-center gap-2">
-                  <Image width={24} height={24} src="https://i.ibb.co.com/QF8TdfMS/mentora.png" alt="Logo" />
-                  Mentora
+
+            <SheetContent className="flex flex-col w-[300px] sm:w-[360px]">
+              <SheetHeader>
+                <SheetTitle className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      width={24}
+                      height={24}
+                      src="https://i.ibb.co.com/QF8TdfMS/mentora.png"
+                      alt="Logo"
+                    />
+                    Mentora
+                  </div>
+
+                  <ModeToggle />
                 </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-6 mt-10">
+
+              {/* Menu */}
+              <div className="flex flex-col gap-3 mt-8">
                 {menu.map((item) => (
                   <Link
                     key={item.title}
                     href={item.url}
                     className={cn(
-                      "text-lg font-semibold p-2 rounded-lg transition-colors",
-                      pathname === item.url ? "bg-orange-50 text-blue-600" : "text-gray-600"
+                      "text-lg font-semibold py-3 px-3 rounded-xl transition-all",
+                      pathname === item.url
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-gray-700 hover:bg-gray-100"
                     )}
                   >
                     {item.title}
                   </Link>
                 ))}
-             
-                <ModeToggle/>
-                <hr className="border-gray-100" />
+              </div>
+
+              {/* Bottom Section */}
+              <div className="mt-auto pt-6 border-t">
                 {!id ? (
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline" className="rounded-xl py-6">
+                    <Button asChild className="w-full py-6 rounded-xl">
                       <Link href="/login">Login</Link>
                     </Button>
-                    <Button asChild className="bg-blue-600 hover:bg-blue-700 rounded-xl py-6">
+
+                    <Button
+                      asChild
+                      className="w-full py-6 rounded-xl bg-blue-600 hover:bg-blue-700"
+                    >
                       <Link href="/sign-up">Sign Up</Link>
                     </Button>
                   </div>
                 ) : (
-                  <Button 
+                  <Button
                     onClick={handleLogout}
-                    variant="destructive" 
-                    className="rounded-xl py-6 gap-2"
+                    variant="destructive"
+                    className="w-full py-6 rounded-xl"
                   >
-                    <LogOut className="h-4 w-4" /> Logout
+                    Logout
                   </Button>
                 )}
               </div>
