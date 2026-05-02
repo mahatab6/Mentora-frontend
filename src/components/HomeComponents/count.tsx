@@ -18,7 +18,7 @@ export default function CountPage() {
     <section 
       className={cn(
         "py-16 sm:py-20 lg:py-28 px-4 transition-colors duration-300",
-        "bg-[#F0F6FF] dark:bg-slate-900/40"
+        "bg-[#F0F6FF] dark:bg-slate-950"
       )}
     >
       <div className="container mx-auto">

@@ -73,7 +73,7 @@ const Footer = ({
   className,
 }: Footer7Props) => {
   return (
-    <footer className={cn("bg-background border-t py-20 px-4", className)}>
+    <footer className={cn("bg-background dark:bg-slate-950 border-t py-20 px-4", className)}>
       <div className="container mx-auto">
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
       
