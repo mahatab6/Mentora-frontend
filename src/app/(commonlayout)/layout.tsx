@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { userServices } from "@/services/users.services";
 import { ReactNode } from "react";
+import ChatbotWidget from "@/components/chatbot/ChatbotWidget";
 
 export default async function Commonlayout({
   children,
@@ -22,7 +23,15 @@ export default async function Commonlayout({
         disableTransitionOnChange
       >
         <Navbar id={id} />
-        {children}
+        
+
+        <main className="min-h-screen">
+          {children}
+        </main>
+
+     
+        <ChatbotWidget />
+
         <Toaster />
         <Footer />
       </ThemeProvider>

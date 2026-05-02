@@ -34,7 +34,7 @@ const ScrollToTop = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-8 right-8 z-50 transition-all duration-500",
+        "fixed bottom-6 right-24 z-50 transition-all duration-500",
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-10 pointer-events-none",
@@ -44,7 +44,7 @@ const ScrollToTop = () => {
         variant="outline"
         size="icon"
         onClick={scrollToTop}
-        className="relative h-12 w-12 rounded-full shadow-lg dark:bg-slate-900 border-gray-200 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800 hover:cursor-pointer"
+        className="relative h-14 w-14 rounded-full shadow-lg dark:bg-slate-900 border-gray-200 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800 hover:cursor-pointer"
       >
         <div className="relative flex items-center justify-center w-full h-full">
           <ChevronUp className="w-5 h-5 relative z-10" />
