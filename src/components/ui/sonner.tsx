@@ -24,6 +24,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
         error: <OctagonXIcon className="size-4" />,
         loading: <Loader2Icon className="size-4 animate-spin" />,
       }}
+      toastOptions={{
+        classNames: {
+          toast: "group toast group-[.toaster]:bg-white group-[.toaster]:dark:bg-slate-900 group-[.toaster]:text-slate-900 group-[.toaster]:dark:text-slate-50 group-[.toaster]:border-slate-200 group-[.toaster]:dark:border-slate-800 group-[.toaster]:shadow-lg",
+          description: "group-[.toast]:text-slate-500 group-[.toast]:dark:text-slate-400",
+          actionButton: "group-[.toast]:bg-slate-900 group-[.toast]:text-slate-50 group-[.toast]:dark:bg-slate-50 group-[.toast]:dark:text-slate-900",
+          cancelButton: "group-[.toast]:bg-slate-100 group-[.toast]:text-slate-500 group-[.toast]:dark:bg-slate-800 group-[.toast]:dark:text-slate-400",
+        },
+      }}
       style={
         {
           "--normal-bg": "var(--popover)",

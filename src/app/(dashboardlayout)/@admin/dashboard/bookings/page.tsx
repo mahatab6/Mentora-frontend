@@ -74,9 +74,9 @@ export default function BookingsPage() {
         </p>
       </div>
 
-      <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-xl border dark:border-slate-800 shadow-sm overflow-hidden">
         {/* Filters */}
-        <div className="p-4 border-b flex flex-wrap gap-4 items-center">
+        <div className="p-4 border-b dark:border-slate-800 flex flex-wrap gap-4 items-center">
           <form
             className="relative flex-1 min-w-220px"
             onSubmit={handleSearchSubmit}
@@ -109,7 +109,7 @@ export default function BookingsPage() {
         {/* Table area */}
         <div className="relative min-h-300px">
           {(loading || isPending) && (
-            <div className="absolute inset-0 bg-white/60 flex items-center justify-center z-10">
+            <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/60 flex items-center justify-center z-10">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
@@ -172,7 +172,7 @@ export default function BookingsPage() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="p-4 border-t">
+          <div className="p-4 border-t dark:border-slate-800">
             <Pagination>
               <PaginationContent>
                 <PaginationItem>

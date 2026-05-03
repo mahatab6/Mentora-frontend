@@ -89,7 +89,7 @@ export default function CategoriesPage() {
       </div>
 
       {/* Card */}
-      <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-xl border dark:border-slate-800 shadow-sm overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>

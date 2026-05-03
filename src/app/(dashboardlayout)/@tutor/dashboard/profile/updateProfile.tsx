@@ -458,7 +458,7 @@ export function UpdateProfile({ id }: { id: string }) {
             <Button
               type="submit"
               disabled={form.state.isSubmitting}
-              className="bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto px-10hover:cursor-pointer"
+              className="bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto px-10 hover:cursor-pointer"
             >
               {form.state.isSubmitting ? "Saving Changes..." : "Save Profile"}
             </Button>

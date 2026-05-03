@@ -106,16 +106,16 @@ export default function ManageUsersPage() {
   return (
     <div className="space-y-8 p-4">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-        <p className="text-gray-500">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">User Management</h1>
+        <p className="text-slate-500 dark:text-slate-400">
           Manage students, tutors, and administrators.
         </p>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-        <div className="p-4 border-b border-gray-100 flex flex-col md:flex-row gap-4 justify-between">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
+        <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row gap-4 justify-between">
           <div className="relative max-w-md w-full">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 dark:text-slate-500" />
             <Input
               placeholder="Search by email..."
               className="pl-9"
@@ -148,7 +148,7 @@ export default function ManageUsersPage() {
         {/* Table Area */}
         <div className="relative">
           {loading && (
-            <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
+            <div className="absolute inset-0 bg-white/50 dark:bg-slate-900/50 flex items-center justify-center z-10">
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
             </div>
           )}
@@ -171,12 +171,12 @@ export default function ManageUsersPage() {
                   <TableRow key={user.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-xs">
+                        <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold text-xs">
                           {user.name?.charAt(0) || "U"}
                         </div>
                         <div>
-                          <p className="font-medium">{user.name}</p>
-                          <p className="text-xs text-gray-500">{user.email}</p>
+                          <p className="font-medium text-slate-900 dark:text-white">{user.name}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
                         </div>
                       </div>
                     </TableCell>
@@ -188,10 +188,10 @@ export default function ManageUsersPage() {
                         status={user.emailVerified ? "Verified" : "Pending"}
                       />
                     </TableCell>
-                    <TableCell className="text-gray-500 text-sm">
+                    <TableCell className="text-slate-500 dark:text-slate-400 text-sm">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="text-gray-500 text-sm">
+                    <TableCell className="text-slate-500 dark:text-slate-400 text-sm">
                       <UpdateStatus email={user.email} />
                     </TableCell>
                     <TableCell className="text-right">
@@ -253,7 +253,7 @@ export default function ManageUsersPage() {
                 <TableRow>
                   <TableCell
                     colSpan={5}
-                    className="text-center py-8 text-gray-500"
+                    className="text-center py-8 text-slate-500 dark:text-slate-400"
                   >
                     {loading ? "Loading users..." : "No users found"}
                   </TableCell>

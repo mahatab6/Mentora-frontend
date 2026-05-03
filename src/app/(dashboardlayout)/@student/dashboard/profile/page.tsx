@@ -70,17 +70,17 @@ export default function ProfilePage() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Account Settings</h1>
-        <p className="text-gray-500">Update your profile information and how others see you.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Account Settings</h1>
+        <p className="text-slate-500 dark:text-slate-400">Update your profile information and how others see you.</p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <form onSubmit={handleUpdateProfile} className="divide-y divide-gray-100">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+        <form onSubmit={handleUpdateProfile} className="divide-y divide-slate-100 dark:divide-slate-800">
           
        
-          <div className="p-8 flex flex-col sm:flex-row items-center gap-6 bg-gray-50/50">
+          <div className="p-8 flex flex-col sm:flex-row items-center gap-6 bg-slate-50/50 dark:bg-slate-800/50">
             <div className="relative group">
-              <div className="h-24 w-24 rounded-full border-4 border-white shadow-md overflow-hidden bg-blue-100 flex items-center justify-center">
+              <div className="h-24 w-24 rounded-full border-4 border-white dark:border-slate-800 shadow-md overflow-hidden bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
                 {formData.image ? (
                   <Image 
                     src={formData.image} 
@@ -94,14 +94,14 @@ export default function ProfilePage() {
                   </span>
                 )}
               </div>
-              <button type="button" className="absolute bottom-0 right-0 p-1.5 bg-white rounded-full shadow-sm border border-gray-200 text-gray-600 hover:text-blue-600 transition-colors">
+              <button type="button" className="absolute bottom-0 right-0 p-1.5 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-600 cursor-pointer transition-colors">
                 <Camera className="h-4 w-4" />
               </button>
             </div>
             
             <div className="text-center sm:text-left">
-              <h3 className="text-xl font-bold text-gray-900">{session?.user?.name}</h3>
-              <p className="text-sm text-gray-500 font-medium">Student Account</p>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">{session?.user?.name}</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Student Account</p>
               <div className="mt-2 inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-green-50 text-green-700 text-xs font-bold">
                 <CheckCircle2 className="h-3 w-3" /> Verified Learner
               </div>
@@ -113,48 +113,48 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 ml-1">
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
                   <input
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     type="text"
                     placeholder="Enter your name"
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-gray-900"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-900 outline-none transition-all text-slate-900 dark:text-white"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-700 ml-1">
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">
                   Profile Image URL
                 </label>
                 <div className="relative">
-                  <Camera className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Camera className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
                   <input
                     value={formData.image}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                     type="text"
                     placeholder="https://image-link.com"
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-gray-900"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-900 outline-none transition-all text-slate-900 dark:text-white"
                   />
                 </div>
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <label className="text-sm font-semibold text-gray-700 ml-1">
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1">
                   Email Address (Read Only)
                 </label>
                 <div className="relative opacity-60">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
                   <input
                     value={session?.user?.email || ""}
                     disabled
                     type="email"
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl cursor-not-allowed text-gray-600"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl cursor-not-allowed text-slate-600 dark:text-slate-400"
                   />
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function ProfilePage() {
           </div>
 
       
-          <div className="p-8 bg-gray-50/50 flex justify-end">
+          <div className="p-8 bg-slate-50/50 dark:bg-slate-800/50 flex justify-end">
             <Button
               disabled={loading}
               type="submit"

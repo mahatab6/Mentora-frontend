@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { userServices } from "@/services/users.services";
 import React from "react";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default async function Dashboardlayout({
   children,
