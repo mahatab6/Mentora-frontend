@@ -94,63 +94,72 @@ export default function Blogpage() {
   ];
 
   return (
-    <section className="py-24 px-4 bg-background">
+    <section className="py-24 px-4 bg-white dark:bg-slate-950 transition-colors duration-300">
       <div className="container mx-auto">
-        <div className="text-center gap-6 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4 text-foreground">
-            Mentora Education Blog
+      
+        <div className="max-w-2xl mb-16">
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-slate-900 dark:text-white">
+            Education <span className="text-blue-600 dark:text-blue-400">Insights</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Expert advice, study tips, and the latest in educational technology
-            to help you excel.
+          <p className="text-slate-600 dark:text-slate-400 text-lg">
+            Expert advice, study tips, and the latest in educational technology 
+            to help you excel in your learning journey.
           </p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+     
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {posts.map((post) => (
             <Card
               key={post.id}
-              className="group flex flex-col h-full overflow-hidden transition-all duration-300 hover:border-primary/50"
+              className="group flex flex-col h-full overflow-hidden transition-all duration-300 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-500/50 dark:hover:border-blue-400/40 hover:shadow-xl hover:shadow-blue-500/10"
             >
-              <div className="relative aspect-4/3 w-full overflow-hidden">
+             
+              <div className="relative aspect-16/10 w-full overflow-hidden">
                 <Image
                   src={post.image}
                   alt={post.title}
-                  width={500}
-                  height={500}
-                  className=" object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm">
+                <div className="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md shadow-lg">
                   {post.label}
                 </div>
               </div>
 
               <CardHeader className="p-5 pb-2">
-                <div className="flex items-center gap-2 text-[12px] text-muted-foreground mb-3">
-                  <Calendar className="size-3" />
+                <div className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+                  <Calendar className="size-3 text-blue-600 dark:text-blue-400" />
                   <span>{post.published}</span>
                 </div>
-                <h3 className="text-lg font-bold leading-tight line-clamp-2 transition-colors group-hover:text-primary">
+                <h3 className="text-lg font-bold leading-tight line-clamp-2 text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {post.title}
                 </h3>
               </CardHeader>
 
               <CardContent className="p-5 pt-0 flex-grow">
-                <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
                   {post.summary}
                 </p>
               </CardContent>
 
-              <CardFooter className="p-5 pt-0 mt-auto flex items-center justify-between border-t border-muted/30 pt-4">
-                <div className="flex items-center gap-2">
-                  <div className="size-7 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-[10px]">
+              <CardFooter className="p-5 pt-4 mt-auto flex items-center justify-between border-t border-slate-100 dark:border-slate-800/50">
+                <div className="flex items-center gap-2.5">
+                  <div className="size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs ring-2 ring-white dark:ring-slate-900">
                     {post.author.charAt(0)}
                   </div>
-                  <span className="text-xs font-medium text-foreground">
-                    {post.author}
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-[12px] font-semibold text-slate-900 dark:text-slate-200">
+                      {post.author}
+                    </span>
+                    <span className="text-[10px] text-slate-500">Author</span>
+                  </div>
                 </div>
-                <button className="text-primary hover:text-primary/80 transition-colors">
+                
+                <button 
+                  className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white transition-all shadow-sm"
+                  title="Read More"
+                >
                   <BookOpen className="size-4" />
                 </button>
               </CardFooter>

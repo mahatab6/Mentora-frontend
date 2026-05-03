@@ -9,6 +9,7 @@ import RightColumn from "./rightColumn";
 import Loading from "../../loading";
 import BookingWizard from "./bookingWizard";
 import { Tutor } from "@/type";
+import RelatedMentors from "./relatedMentors";
 
 
 export default function TutorSinglePage({
@@ -28,13 +29,21 @@ export default function TutorSinglePage({
   const tutor: Tutor | null = singleTutor;
 
   return (
-    <div className="container mx-auto py-20 px-4">
+    <div className="min-h-screen bg-background">
       <TutorProfile tutor={tutor} setOpen={setOpen} />
 
 
-      <div className="grid lg:grid-cols-3 gap-12 py-4">
-        <LeftColumn tutor={tutor} />
-        <RightColumn id={id} setOpen={setOpen} refreshs={refreshs}/>
+      <div className="container mx-auto py-12 px-4">
+        <div className="grid lg:grid-cols-3 gap-12">
+          <LeftColumn tutor={tutor} />
+          <aside>
+            <RightColumn id={id} setOpen={setOpen} refreshs={refreshs}/>
+          </aside>
+        </div>
+
+        {/* AI Recommendations */}
+        <hr className="my-16 border-border" />
+        <RelatedMentors category={tutor?.category ?? ""} currentId={id} />
       </div>
       <BookingWizard
         isOpen={open}

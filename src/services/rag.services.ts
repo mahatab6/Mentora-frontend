@@ -16,6 +16,7 @@ export interface IRagSource {
   sourceType: string;
   sourceLabel: string;
   similarity: number;
+  photoUrl?: string;
   profileLink?: string;
   content?: string;
 }
