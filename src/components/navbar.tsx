@@ -43,6 +43,7 @@ const Navbar = ({ className, id }: NavbarProps) => {
   const menu: MenuItem[] = [
     { title: "Home", url: "/" },
     { title: "Find Tutors", url: "/find-tutors" },
+    { title: "About", url: "/about" },
     { title: "Blog", url: "/blog" },
   ];
 

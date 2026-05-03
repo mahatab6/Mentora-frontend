@@ -1,84 +1,103 @@
-import { BadgeCheck, GraduationCap, Languages, Star, Clock } from "lucide-react";
+"use client";
+
+import { BadgeCheck, GraduationCap, Languages, Star, Play } from "lucide-react";
 import { Button } from "../ui/button";
 import { Tutor } from "@/type";
-import { TutorHoverPreview } from "./TutorHoverPreview";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 
 export const TutorCard = ({ tutor }: { tutor: Tutor | null }) => {
-  if (!tutor) return <div className="h-72 w-full bg-gray-100 animate-pulse rounded-2xl" />;
+  if (!tutor) {
+    return <div className="h-[420px] w-full bg-gray-100 dark:bg-slate-800 animate-pulse rounded-2xl" />;
+  }
 
   return (
-    <TutorHoverPreview tutor={tutor}>
-      <Link 
-        href={`/find-tutors/${tutor.tutor_id}`} 
-        className="group relative bg-white border border-gray-200 rounded-2xl p-4 md:p-5 flex flex-col md:flex-row gap-4 md:gap-6 hover:border-blue-500 hover:shadow-xl transition-all duration-300 cursor-pointer min-h-[18rem] md:h-72"
-      >
-       
-        <div className="relative w-full md:w-48 h-80 md:h-full shrink-0">
-          <Image
-            fill
-            src={tutor.photoUrl ?? ''}
-            alt={tutor.fullName ?? 'Tutor'}
-            className="rounded-xl object-cover"
-          />
-        </div>
-
-
-        <div className="flex-1 flex flex-col">
-          <div className="flex items-center justify-between md:justify-start gap-2 mb-2">
-            <h3 className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition-colors">
-              {tutor.fullName}
-            </h3>
-            <BadgeCheck className="w-5 h-5 text-blue-500" />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-y-2 gap-x-4 mb-4">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <GraduationCap className="h-4 w-4 text-gray-400 shrink-0" />
-              <span className="truncate">{tutor.education}</span>
-            </div>
-            
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Languages className="h-4 w-4 text-gray-400 shrink-0" />
-              <span className="truncate">{tutor.languages.join(", ")}</span>
-            </div>
-          </div>
-
-          <p className="text-sm text-gray-500 line-clamp-2 italic mb-4 md:mb-0">
-            &quot;{tutor.shortBio}&quot;
-          </p>
-
-          <div className="mt-auto hidden md:flex flex-wrap gap-1">
-            {tutor.subjects.slice(0, 3).map((subject) => (
-              <Badge key={subject} variant="secondary" className="text-[10px] bg-blue-50 text-blue-700 border-none hover: ">
-                {subject}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
+    <div className="group relative bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-2xl dark:hover:shadow-blue-900/20 transition-all duration-300 flex flex-col h-full">
       
-        <div className="flex flex-row md:flex-col items-center md:items-end justify-between pt-4 md:pt-0 md:pl-6 border-t md:border-t-0 md:border-l border-gray-100">
-          <div className="text-left md:text-right">
-            <div className="flex items-baseline md:flex-col gap-1 md:gap-0">
-              <span className="text-2xl font-black text-gray-900">${tutor.hourlyRate}</span>
-              <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">/ hr</span>
-            </div>
-            <div className="hidden md:flex items-center justify-end gap-1 mt-1 text-xs text-gray-500">
-              <Clock className="w-3 h-3" />
-              <span>{tutor.lessonDuration}m lesson</span>
-            </div>
+      {/* Top Image & Video Intro Section */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <Image
+          fill
+          src={tutor.photoUrl ?? ''}
+          alt={tutor.fullName ?? 'Tutor'}
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        
+        {/* Cinematic Video Overlay */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 scale-90 group-hover:scale-100 transition-transform">
+            <Play className="text-white fill-white w-5 h-5 ml-1" />
           </div>
+          <span className="absolute bottom-3 left-3 text-[10px] text-white bg-black/60 backdrop-blur-sm px-2 py-1 rounded font-bold uppercase tracking-widest">
+            Watch Intro
+          </span>
+        </div>
 
+        {/* Price Badge on Image */}
+        <div className="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm border border-gray-100 dark:border-slate-700">
+          <span className="text-sm font-black text-gray-900 dark:text-white">${tutor.hourlyRate}</span>
+          <span className="text-[10px] text-gray-500 dark:text-slate-400 font-bold ml-1">/hr</span>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-5 flex flex-col flex-1">
+        <div className="flex items-center gap-2 mb-3">
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            {tutor.fullName}
+          </h3>
+          <BadgeCheck className="w-4 h-4 text-blue-500 shrink-0" />
+          
+          <div className="ml-auto flex items-center gap-1">
+            <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+            <span className="text-xs font-bold dark:text-slate-300">{Number(tutor.averageRating).toFixed(1)}</span>
+          </div>
+        </div>
+
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-slate-400">
+            <GraduationCap className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+            <span className="truncate">{tutor.education}</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-slate-400">
+            <Languages className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+            <span className="truncate">{tutor.languages.slice(0, 2).join(", ")}</span>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-500 dark:text-slate-400 line-clamp-2 italic mb-4">
+          &quot;{tutor.shortBio}&quot;
+        </p>
+
+        {/* Subjects */}
+        <div className="flex flex-wrap gap-1.5 mb-5">
+          {tutor.subjects.slice(0, 2).map((subject) => (
+            <Badge 
+              key={subject} 
+              variant="secondary" 
+              className="text-[9px] bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-none px-2 py-0"
+            >
+              {subject}
+            </Badge>
+          ))}
+          {tutor.subjects.length > 2 && (
+            <span className="text-[9px] text-gray-400">+{tutor.subjects.length - 2} more</span>
+          )}
+        </div>
+
+        {/* Action Button */}
+        <div className="mt-auto pt-4 border-t border-gray-100 dark:border-slate-800">
           <Button 
-            className="bg-blue-600 hover:bg-blue-700 text-white cursor-pointer px-6 md:w-full font-bold transition-transform active:scale-95"
+            asChild
+            className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-bold transition-all active:scale-95"
           >
-            Book Trial
+            <Link href={`/find-tutors/${tutor.tutor_id}`}>
+              Book Trial
+            </Link>
           </Button>
         </div>
-      </Link>
-    </TutorHoverPreview>
+      </div>
+    </div>
   );
 };
