@@ -38,8 +38,8 @@ const defaultSections = [
     title: "COMPANY",
     links: [
       { name: "Blog", href: "/blog" },
-      { name: "About Us", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "About Us", href: "/about" },
+      { name: "Contact", href: "/contact" },
     ],
   },
   {
