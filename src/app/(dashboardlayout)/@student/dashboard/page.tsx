@@ -26,49 +26,49 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">
+      <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">
         Welcome back, {session?.user?.name}
       </h1>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-          <div className="bg-blue-100 p-3 rounded-full text-blue-600">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+          <div className="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full text-blue-600 dark:text-blue-400">
             <Calendar className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Upcoming Sessions</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-sm text-slate-500 dark:text-slate-400">Upcoming Sessions</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">
               {bookings?.data.upcomingSessions}
             </p>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-          <div className="bg-green-100 p-3 rounded-full text-green-600">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+          <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded-full text-green-600 dark:text-green-400">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Completed Lessons</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-sm text-slate-500 dark:text-slate-400">Completed Lessons</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">
               {bookings?.data.totalSessions}
             </p>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-          <div className="bg-orange-100 p-3 rounded-full text-orange-600">
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-4">
+          <div className="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-full text-orange-600 dark:text-orange-400">
             <DollarSign className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Total Spent</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-sm text-slate-500 dark:text-slate-400">Total Spent</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">
               {bookings?.data.totalSpend}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6  mb-8">
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6  mb-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900">Recent Bookings</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Recent Bookings</h2>
           <Link href={"/dashboard/bookings"}>
             <Button variant="outline" size="sm" className="hover:cursor-pointer">
               View All
@@ -81,17 +81,17 @@ export default function DashboardPage() {
             {filter?.slice(0, 5)?.map((booking) => (
               <div
                 key={booking.id}
-                className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-800 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <div className="flex items-center gap-4">
-                  <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg text-blue-600 dark:text-blue-400">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
                       {booking.subject}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
                       with {booking.tutor.fullName}
                     </p>
                   </div>
@@ -102,16 +102,16 @@ export default function DashboardPage() {
                   }
                   
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">
                       {new Date(booking.createdAt).toLocaleDateString()}
                     </p>
                     <span
                       className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
                         booking.status === "upcoming"
-                          ? "bg-blue-100 text-blue-700"
+                          ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
                           : booking.status === "completed"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-700"
+                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                            : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
                       }`}
                     >
                       {booking.status.charAt(0).toUpperCase() +
@@ -124,7 +124,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500">
+            <p className="text-slate-500 dark:text-slate-400">
               No bookings yet. Start learning today!
             </p>
             <Link href={"/find-tutors"}>

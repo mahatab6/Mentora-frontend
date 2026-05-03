@@ -85,9 +85,9 @@ export default function SignUpTutor() {
   });
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center bg-muted/40 p-6 md:p-10">
+    <div className="flex min-h-svh w-full items-center justify-center bg-white dark:bg-slate-950 p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <Card className="shadow-xl border-none">
+        <Card className="shadow-xl border-none bg-white dark:bg-slate-900">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
               <div className="bg-primary/10 p-2 rounded-full">
@@ -187,7 +187,7 @@ export default function SignUpTutor() {
               >
                 {([canSubmit, isSubmitting]) => (
                   <Button
-                    className="w-full mt-2"
+                    className="w-full mt-2 cursor-pointer"
                     type="submit"
                     disabled={!canSubmit || isSubmitting}
                   >

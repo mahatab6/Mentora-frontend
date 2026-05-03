@@ -24,9 +24,9 @@ export default function Reviews() {
   const reviews = review?.data ?? [];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-orange-500" />
           Recent Feedback ({reviews.length})
         </h2>
@@ -37,11 +37,11 @@ export default function Reviews() {
           reviews?.slice(0, 3).map((item) => (
             <div
               key={item.id}
-              className="group border-b border-gray-50 last:border-0 pb-6 last:pb-0"
+              className="group border-b border-slate-50 dark:border-slate-800 last:border-0 pb-6 last:pb-0"
             >
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="relative h-10 w-10 rounded-full overflow-hidden border border-gray-100">
+                  <div className="relative h-10 w-10 rounded-full overflow-hidden border border-slate-100 dark:border-slate-700">
                     <Image
                       src={item.tutor?.photoUrl || "/placeholder-avatar.png"}
                       alt={item.tutor?.fullName}
@@ -50,7 +50,7 @@ export default function Reviews() {
                     />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900 leading-none mb-1">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-none mb-1">
                       {item.tutor?.fullName}
                     </h4>
                     <div className="flex items-center gap-1">
@@ -61,35 +61,35 @@ export default function Reviews() {
                             "w-3 h-3",
                             i < item.rating
                               ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-200",
+                              : "text-slate-200 dark:text-slate-700",
                           )}
                         />
                       ))}
                     </div>
                   </div>
                 </div>
-                <span className="text-[10px] text-gray-400 flex items-center gap-1 uppercase font-semibold">
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 flex items-center gap-1 uppercase font-semibold">
                   <Calendar className="w-3 h-3" />
                   {formatDate(item.createdAt)}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center bg-gray-50/50 rounded-lg p-3 ml-13 ">
-                <p className="text-sm text-gray-700 italic">
+              <div className="flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50 rounded-lg p-3 ml-13 ">
+                <p className="text-sm text-slate-700 dark:text-slate-300 italic">
                   {item.reviewContent}
                 </p>
                 <ReviewReplay id={item.id} />
               </div>
               {item.replyContent && (
                 <div className="mt-3 ml-8 flex gap-3 items-start">
-                  <CornerDownRight className="w-4 h-4 text-gray-300 mt-1" />
-                  <div className="flex-1 bg-blue-50/50 border border-blue-100 rounded-lg p-3">
+                  <CornerDownRight className="w-4 h-4 text-slate-300 dark:text-slate-600 mt-1" />
+                  <div className="flex-1 bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">
+                      <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                         Tutors Response
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700">{item.replyContent}</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">{item.replyContent}</p>
                   </div>
                 </div>
               )}
@@ -97,7 +97,7 @@ export default function Reviews() {
           ))
         ) : (
           <div className="text-center py-10">
-            <p className="text-gray-400 text-sm">No feedback found yet.</p>
+            <p className="text-slate-400 dark:text-slate-500 text-sm">No feedback found yet.</p>
           </div>
         )}
       </div>

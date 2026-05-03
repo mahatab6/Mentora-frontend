@@ -1,5 +1,13 @@
 "use client";
 
+import React from "react";
+import * as z from "zod";
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+
 import {
   Card,
   CardContent,
@@ -16,27 +24,18 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import * as z from "zod";
-import { useForm } from "@tanstack/react-form";
-import { toast } from "sonner";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-
-
-
+import { Button } from "@/components/ui/button";
+import GoogleLogin from "./gooleLogin";
 
 
 const formSchema = z.object({
-  email: z.email("Please enter a valid email address"),
-
+  email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const router = useRouter();
   
-  const router = useRouter()
   const form = useForm({
     defaultValues: {
       email: "",
@@ -46,75 +45,82 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      const toastId = toast.loading("Student login..............");
+      const toastId = toast.loading("Verifying credentials...");
       try {
-        const { data, error } = await authClient.signIn.email(value, {
-    
-      onSuccess: (ctx) => {
-        const authToken = ctx.response.headers.get("set-auth-token"); 
+        const { error } = await authClient.signIn.email(value, {
+          onSuccess: (ctx) => {
+            const authToken = ctx.response.headers.get("set-auth-token");
+            if (authToken) {
+              localStorage.setItem("authToken", authToken);
+            }
+          },
+        });
 
-        if (authToken) {
-          localStorage.setItem("authToken", authToken);  
-          console.log("Bearer Token saved:", authToken);
-        } else {
-          console.warn("No set-auth-token header found");
-        }
-      },
-    });
-        
         if (error) {
-          toast.error(error.message || "Please try again", { id: toastId });
+          toast.error(error.message || "Invalid email or password", { id: toastId });
           return;
         }
 
-        toast.success("Account Login successfully", { id: toastId });
-        window.location.href = '/';
-      } catch (error) {
-        toast.error(
-          "Something went wrong. Check your internet connection and try again.",
-          { id: toastId },
-        );
+        toast.success("Welcome back!", { id: toastId });
+        router.push("/");
+        router.refresh();
+      } catch (err) {
+        toast.error("Connection failed. Please try again.", { id: toastId });
       }
     },
   });
 
   return (
-    <Card {...props}>
-      <CardHeader className="text-center">
-        <CardTitle>Welcome Back</CardTitle>
-        <CardDescription>Login to continue learning</CardDescription>
+    <Card className="w-full max-w-md mx-auto border-none bg-white dark:bg-slate-900 shadow-xl" {...props}>
+      <CardHeader className="space-y-1 text-center">
+        <CardTitle className="text-2xl font-bold tracking-tight">Welcome Back</CardTitle>
+        <CardDescription>
+          Choose your preferred login method
+        </CardDescription>
       </CardHeader>
-      <CardContent>
+      
+      <CardContent className="grid gap-6">
+        {/* Social Login Section */}
+        <GoogleLogin />
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-muted" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">
+              Or continue with email
+            </span>
+          </div>
+        </div>
+
+        {/* Credentials Form */}
         <form
-          id="sign-up-form"
+          id="login-form"
+          className="space-y-4"
           onSubmit={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             form.handleSubmit();
           }}
         >
-          <FieldGroup>
+          <FieldGroup className="space-y-4">
             <form.Field name="email">
               {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
+                const isInvalid = field.state.meta.isTouched && field.state.meta.errors.length > 0;
                 return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel>Email</FieldLabel>
+                  <Field>
+                    <FieldLabel className="text-foreground">Email</FieldLabel>
                     <Input
                       id={field.name}
-                      name={field.name}
                       type="email"
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="you@example.com"
-                      autoComplete="email"
+                      placeholder="name@example.com"
+                      className="bg-background border-input focus:ring-primary"
                     />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError className="text-destructive text-xs mt-1" errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -122,26 +128,25 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
 
             <form.Field name="password">
               {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
+                const isInvalid = field.state.meta.isTouched && field.state.meta.errors.length > 0;
                 return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel>Password</FieldLabel>
+                  <Field>
+                    <div className="flex items-center justify-between">
+                      <FieldLabel className="text-foreground">Password</FieldLabel>
+                      <Link href="#" className="text-xs text-primary hover:underline">
+                        Forgot password?
+                      </Link>
+                    </div>
                     <Input
                       id={field.name}
-                      name={field.name}
                       type="password"
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
                       placeholder="••••••••"
-                      autoComplete="new-password"
+                      className="bg-background border-input"
                     />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
+                    {isInvalid && <FieldError className="text-destructive text-xs mt-1" errors={field.state.meta.errors} />}
                   </Field>
                 );
               }}
@@ -149,17 +154,22 @@ export function LoginForm({ ...props }: React.ComponentProps<typeof Card>) {
           </FieldGroup>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col space-y-4">
+
+      <CardFooter className="flex flex-col gap-4">
         <Button
-          form="sign-up-form"
+          form="login-form"
           type="submit"
-          className="w-full hover:cursor-pointer"
+          className="w-full font-semibold transition-all active:scale-95 cursor-pointer hover:cursor-pointer"
         >
-          Submit
+          Sign In
         </Button>
-        <FieldDescription className="px-6 text-center">
-          Do not have an account? <Link href="/sign-up">Sign up</Link>
-        </FieldDescription>
+        
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="font-medium text-primary hover:underline underline-offset-4">
+            Create an account
+          </Link>
+        </p>
       </CardFooter>
     </Card>
   );

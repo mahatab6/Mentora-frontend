@@ -55,7 +55,7 @@ export default function TutorBookingStatus({ id, refresh }: { id: number,  refre
       size="sm"
       onClick={handlecompleted}
       disabled={isLoading}
-      className='hover:cursor-pointer hover:bg-white bg-green-100 text-green-800'
+      className='hover:cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
     >
       {isLoading ? (
         <>

@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import GoogleLogin from "./gooleLogin";
 
 const formSchema = z.object({
   name: z.string().min(3, "Full name must be at least 3 characters"),
@@ -90,11 +91,12 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 }});
 
   return (
-    <Card {...props}>
+    <Card className="border-none bg-white dark:bg-slate-900 shadow-xl" {...props}>
       <CardHeader>
         <CardTitle className="text-center">Create Student Account</CardTitle>
       </CardHeader>
       <CardContent>
+        <GoogleLogin />
         <form
           id="sign-up-form"
           onSubmit={(e) => {
@@ -188,7 +190,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        <Button form="sign-up-form" type="submit" className="w-full hover:cursor-pointer">
+        <Button form="sign-up-form" type="submit" className="w-full cursor-pointer hover:cursor-pointer">
           Submit
         </Button>
         <FieldDescription className="px-6 text-center">

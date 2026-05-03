@@ -3,44 +3,51 @@ import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { userServices } from "@/services/users.services";
 import React from "react";
 import { Toaster } from "sonner";
 
-
 export default async function Dashboardlayout({
   children,
   student,
   tutor,
-  admin
+  admin,
 }: {
-  children: React.ReactNode,
-  tutor: React.ReactNode,
-  admin: React.ReactNode,
-  student: React.ReactNode,
+  children: React.ReactNode;
+  tutor: React.ReactNode;
+  admin: React.ReactNode;
+  student: React.ReactNode;
 }) {
-
-  const session = await userServices.getSession()
+  const session = await userServices.getSession();
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
     >
-      <AppSidebar role={session?.user?.role} variant="inset" /> 
-      <SidebarInset>
-        <SiteHeader />
-        {
-          session?.user?.role === "ADMIN" ? admin : session?.user?.role === "TUTOR" ? tutor : student
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "calc(var(--spacing) * 72)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
         }
-      
-      </SidebarInset>
-      <Toaster />
-    </SidebarProvider>
+      >
+        <AppSidebar role={session?.user?.role} variant="inset" />
+        <SidebarInset>
+          <SiteHeader />
+          {session?.user?.role === "ADMIN"
+            ? admin
+            : session?.user?.role === "TUTOR"
+              ? tutor
+              : student}
+        </SidebarInset>
+        <Toaster />
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }

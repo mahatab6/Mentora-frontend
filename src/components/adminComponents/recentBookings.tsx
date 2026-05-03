@@ -27,14 +27,14 @@ export default async function RecentBookings() {
   const generateBookings: Booking[] = data?.data?.bookings
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-bold text-gray-900">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
           Recent Bookings
         </h2>
         <Link href={"/dashboard/bookings"}>
-        <Button variant="ghost" size="sm" className="text-blue-600">
+        <Button variant="ghost" size="sm" className="text-blue-600 hover:cursor-pointer">
           View All
         </Button>
         </Link>

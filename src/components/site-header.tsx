@@ -6,6 +6,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation"; 
 import { toast } from "sonner";
+import { ModeToggle } from "./HomeComponents/ModeToggle";
 
 export function SiteHeader() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export function SiteHeader() {
         />
         
         <div className="ml-auto flex items-center gap-2">
-
+          <ModeToggle />
           <Button 
             variant="ghost" 
             size="sm" 

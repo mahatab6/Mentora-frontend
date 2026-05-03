@@ -45,9 +45,9 @@ export default function Chart() {
 
     if ( loading) {
     return (
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
-        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
-        <div className="h-[300px] flex items-center justify-center text-gray-400">
+      <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border dark:border-slate-800">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-slate-400 dark:text-slate-500">
           Loading chart...
         </div>
       </div>
@@ -56,9 +56,9 @@ export default function Chart() {
 
   if (error) {
     return (
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
-        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
-        <div className="h-[300px] flex items-center justify-center text-red-500">
+      <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border dark:border-slate-800">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-red-500 dark:text-red-400">
           {error}
         </div>
       </div>
@@ -67,9 +67,9 @@ export default function Chart() {
 
   if (!chartData.length) {
     return (
-      <div className="lg:col-span-2 bg-white p-6 rounded-xl border">
-        <h2 className="text-lg font-semibold mb-4">Revenue Overview</h2>
-        <div className="h-[300px] flex items-center justify-center text-gray-400">
+      <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border dark:border-slate-800">
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Revenue Overview</h2>
+        <div className="h-[300px] flex items-center justify-center text-slate-400 dark:text-slate-500">
           No revenue data found
         </div>
       </div>
@@ -78,7 +78,7 @@ export default function Chart() {
 
 
   return (
-    <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+    <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800">
 
 
   <div className="h-[350px]">
