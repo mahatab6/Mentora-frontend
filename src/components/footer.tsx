@@ -30,8 +30,8 @@ const defaultSections = [
     title: "FOR TUTORS",
     links: [
       { name: "Become a tutor", href: "/become-a-tutor" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
+      { name: "Privacy", href: "/privacy" },
+      { name: "Terms", href: "/terms" },
     ],
   },
   {
